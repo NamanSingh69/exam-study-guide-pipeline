@@ -102,7 +102,8 @@ def internal_leaks(work: Path):
     return out
 
 
-NUM = re.compile(r"-?\d+(?:\.\d+)?")
+NUM = re.compile(r"(?:(?<![\w)\]}])-)?\d+(?:\.(\d+))?")    # a minus right after a symbol (S-1) is binary
+GROUPED = re.compile(r"(?<![\d,])(?:\d{1,3}(?:,\d{3})+|\d{1,3}(?:,\d{2})+,\d{3})(?!\d)")   # 75,000 / 1,88,000
 
 
 def answers_vs_checks(work: Path, outs: dict):
@@ -126,20 +127,23 @@ def answers_vs_checks(work: Path, outs: dict):
         lines = [l for l in out.strip().splitlines() if l.strip()]
 
         def nums(s):
+            """[(value, decimals printed)]"""
             s = s.replace("{,}", "").replace(chr(92) + ",", "")        # LaTeX decimal comma / thin space
-            s = re.sub(r"(?<=\d),(?=\d{3}\b)", "", s)                   # thousands separators
-            return [float(x) for x in NUM.findall(s)]
+            s = GROUPED.sub(lambda m: m.group(0).replace(",", ""), s)   # western and Indian digit grouping
+            return [(float(m.group(0)), len(m.group(1) or "")) for m in NUM.finditer(s)]
         want = [x for l in lines for x in nums(l)]                       # checks often print several results
         if not want:
             continue
         got = [x for a in answers for x in nums(a)]
 
-        def close(a, b):
-            if a == int(a) and b == int(b):
+        def close(w, g):
+            (a, da), (b, db) = w, g
+            if da == 0 and db == 0:
                 return a == b                      # counts, sequence numbers, bytes: exact
-            return abs(a - b) <= max(1e-9, 1e-3 * max(abs(a), abs(b)))   # printed decimals are rounded
+            # both sides are rounded to the decimals they print: allow half a unit of each
+            return abs(a - b) <= 0.5 * 10 ** -da + 0.5 * 10 ** -db + 1e-9
         if got and not any(close(w, g) for w in want for g in got):
-            bad.append(f"{qid}: check prints {lines[-1].strip()[:40]}, printed answer(s) {', '.join(a[:30] for a in answers[:3])}")
+            bad.append(f"{qid}: check prints {lines[-1].strip()[:70]}, printed answer(s) {', '.join(a[:30] for a in answers[:3])}")
     return bad
 
 

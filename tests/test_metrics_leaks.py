@@ -88,5 +88,35 @@ check("answers: the match may be on any output line", not any("ES2022-1e" in b f
 check("answers: thousands separators", not any("ES2022-1g" in b for b in bad), bad)
 check("answers: LaTeX thin spaces inside a number", not any("ES2023-2a" in b for b in bad), bad)
 
+# real shapes from the 2026-11-10 rebuild (all six verified correct by hand): Indian digit grouping (EE),
+# answers rounded to their printed precision (HPC), a symbolic answer whose minus is binary (CN)
+(work / "chapters" / "702_pyq_misc.tex").write_text(
+    "\\begin{question}{2023 Q3(b)}{5}\nNew sales?\n\\end{question}\\label{q:ES2023SP-3b}\n"
+    "\\begin{solution}\\answer{1,88,000 cars per week}\\end{solution}\n"
+    "\\begin{question}{2024 Q1(f)}{2}\nInstalment?\n\\end{question}\\label{q:ES2024-1f}\n"
+    "\\begin{solution}\\answer{Rs 8,31,181.69 per year}\\end{solution}\n"
+    "\\begin{question}{2022 Q1(a)}{1}\nSpeed-up?\n\\end{question}\\label{q:HP2022-1a}\n"
+    "\\begin{solution}\\answer{1.18}\\end{solution}\n"
+    "\\begin{question}{2024 Q1(b)}{1}\nClock?\n\\end{question}\\label{q:HP2024-1b}\n"
+    "\\begin{solution}\\answer{4.25 GHz}\\end{solution}\n"
+    "\\begin{question}{2022 Q1(f)}{1}\nLast in window?\n\\end{question}\\label{q:GB2022-1f}\n"
+    "\\begin{solution}\\answer{$M+S-1$}\\end{solution}\n"
+    "\\begin{question}{2022 Q2(c)}{1}\nRounded too far?\n\\end{question}\\label{q:RD2022-2c}\n"
+    "\\begin{solution}\\answer{1.17}\\end{solution}\n", "utf-8")
+outs = {"ES2023SP-3b": "change in sales = -6%; new sales = 188000 cars/week\n",
+        "ES2024-1f": "instalment = Rs 831181.69\n",
+        "HP2022-1a": "speed-up 1.1765\n",
+        "HP2024-1b": "f(B) = 4.255 GHz\n",
+        "GB2022-1f": "last sequence number in sender's window = M + S - 1  (e.g. S=4, M=10 -> 13)\n",
+        "RD2022-2c": "ratio = 1.1765\n"}
+bad = metrics.answers_vs_checks(work, outs)
+check("answers: Indian digit grouping 1,88,000 = 188000", not any("ES2023SP-3b" in b for b in bad), bad)
+check("answers: Indian digit grouping with decimals", not any("ES2024-1f" in b for b in bad), bad)
+check("answers: 1.18 is 1.1765 at the printed precision", not any("HP2022-1a" in b for b in bad), bad)
+check("answers: 4.25 is 4.255 (3-dp print of 4.2545) at the printed precision", not any("HP2024-1b" in b for b in bad), bad)
+check("answers: the minus in M+S-1 is not a sign", not any("GB2022-1f" in b for b in bad), bad)
+check("answers: 1.17 for 1.1765 is still flagged (off by more than half a printed unit)",
+      any("RD2022-2c" in b for b in bad), bad)
+
 print("ALL OK" if not fails else f"{fails} FAILED")
 sys.exit(1 if fails else 0)
