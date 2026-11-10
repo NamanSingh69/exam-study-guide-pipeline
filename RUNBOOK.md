@@ -18,7 +18,7 @@ Measured on the 2026-11 runs (`docs/COST.md`): the usage limit is spent on **con
    assignment, targets, conventions and the cited corpus pages.
 4. **No image reads unless a check flagged the page.** `build.py --render` runs `layout_check.py` and draws contact
    sheets only for flagged pages (about 9% of pages). PYQ page images are read only by the transcriber.
-5. **Batched builds:** writers build all their atoms in one call (`--atom a,b,c --both`).
+5. **Batched builds:** writers build all their atoms in one call (`--atom a,b,c --render`; print only, no phone edition since 2026-11-10).
 6. **Model tiers.** Pass `model:` explicitly on every Agent call, or use the project agents in
    `Study Prep/.claude/agents/` (copies in `_pipeline/agents/`): `pyq-transcriber` (sonnet), `guide-fixer` (sonnet),
    `pipeline-checker` (haiku). Do not set `CLAUDE_CODE_SUBAGENT_MODEL`: it overrides every agent's own model.
@@ -57,7 +57,7 @@ py _pipeline/tools/run_subject.py <S> --scope <sc> --phase ingest  # exit 1 = in
      (pyq-full also `04_important_questions.md`). Write every solve atom and chapter it lists. Report ≤ 12 lines."
    - Merge reported conventions into `conventions.json`; one-line fixes via SendMessage (the writer keeps its context).
    - Copy each writer's doubts and assumptions into `work/<sc>/reviews/writer_notes.md`: the reviewer starts there.
-6. `py _pipeline/tools/run_subject.py <S> --scope <sc> --phase post` (guide, phone, flashcards, web, metrics, layout
+6. `py _pipeline/tools/run_subject.py <S> --scope <sc> --phase post` (guide, flashcards, web, metrics, layout; `--phone` only if the user asks for a phone edition
    summary). Every hard gate must be 0 and `pyq_gate` 1.
 7. **Review** (main model, one agent, wrote nothing): `prompts/06_review.md` + `08_answerability.md`, planted
    defects as in `00_orchestrator.md` Phase F. It looks at the flagged pages plus a sample of 8 figure pages.

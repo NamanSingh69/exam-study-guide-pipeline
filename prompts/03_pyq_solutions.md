@@ -82,7 +82,7 @@ includes archive questions and short answers: `numericals_without_check` is coun
 answer must match the check.
 
 **Self-check:**
-- all your solve atoms in ONE call: `--atom solve/C01,solve/C05,... --both --render`
+- all your solve atoms in ONE call: `--atom solve/C01,solve/C05,... --render`
 - each `pyq_full` chapter, and `62_older_ideas`: `--chapter <stem> --render`
 - the printed `\answer{}` under each `\label{q:<qid>}` must contain the number its check prints
   (`answers_vs_checks` in metrics)

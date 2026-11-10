@@ -56,8 +56,13 @@ logs = list((work / "logs").glob("run_gate*.log")) if (work / "logs").exists() e
 check("gate: full log written", bool(logs) and "receipts" in logs[0].read_text("utf-8"), logs)
 
 rc, out = run("--phase", "post", "--dry-run")
-check("post dry-run: guide, phone, flashcards, web, metrics",
-      all(s in out for s in ("guide", "phone", "flashcards", "web", "metrics")), out)
+check("post dry-run: guide, flashcards, web, metrics",
+      all(s in out for s in ("guide", "flashcards", "web", "metrics")), out)
+# the user dropped the phone edition (2026-11-10): it is built only on request
+check("post dry-run: no phone build by default", "--phone" not in out, out)
+check("post dry-run: lint_tex runs first", out.strip().splitlines()[0].startswith("STEP lint") and "lint_tex.py" in out, out)
+rc, out = run("--phase", "post", "--dry-run", "--phone")
+check("post dry-run --phone: the phone build is added", "build phone" in out and "--phone" in out, out)
 
 sys.path.insert(0, str(PIPE / "tools"))
 import run_subject  # noqa: E402

@@ -14,7 +14,7 @@ You fix an existing study guide in `<SUBJ>/work/<scope>/`. Your brief lists the 
 - `LAYOUT` fixes: `outside` → narrower figure/table or `\allowbreak`; `overlap`/`on_line` → move the label
   (`above`/`below`, `fill=white`); `tiny` → draw the figure at its real width with a smaller font instead of
   scaling it down.
-- Rebuild the atoms you touched in one call (`build.py <S> --scope <sc> --atom a,b --both --render`), look at a
+- Rebuild the atoms you touched in one call (`build.py <S> --scope <sc> --atom a,b --render`), look at a
   contact sheet only for a page that is still flagged, then run
   `py _pipeline/tools/run_subject.py <S> --scope <sc> --phase post`.
 - Report in 12 lines or fewer: each defect → fixed / not fixed (why), final gate line.

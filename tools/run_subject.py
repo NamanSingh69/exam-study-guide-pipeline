@@ -1,11 +1,12 @@
 """Run a deterministic phase for one subject: one command for the main session instead of ~40 turns.
 
-    py _pipeline/tools/run_subject.py <SUBJ> --scope S --phase ingest|gate|post [--dry-run] [--interactive]
+    py _pipeline/tools/run_subject.py <SUBJ> --scope S --phase ingest|gate|post [--dry-run] [--interactive] [--phone]
 
   ingest  ingest.py                                   (shared work/, both scopes)
   gate    receipts.py -> verify_pyqs.py -> score.py   (after the bank is transcribed and merged)
-  post    build guide -> build phone -> flashcards.py -> web.py -> metrics.py -> layout summary
-          (after the writers; --interactive adds the interactive edition after the phone build)
+  post    lint_tex.py -> build guide -> flashcards.py -> web.py -> metrics.py -> layout summary
+          (after the writers; --phone adds the phone edition, which the user dropped on 2026-11-10;
+          --interactive adds the interactive edition)
 
 Each step runs to its gate (exit 0 and, where the tool prints one, `RESULT PASS` / `STATUS OK`); the ledger
 (state.py) gets ok/failed with a one-line note; the first failure stops the phase. The console gets at most
@@ -25,7 +26,7 @@ from workdir import resolve, setup_stdout  # noqa: E402
 TOOLS = Path(__file__).resolve().parent
 
 
-def steps(phase, subj, scope, interactive=False):
+def steps(phase, subj, scope, interactive=False, phone=False):
     sc = ["--scope", scope]
     if phase == "ingest":
         return [("ingest", "all", "ingest", ["ingest.py", subj])]
@@ -34,8 +35,10 @@ def steps(phase, subj, scope, interactive=False):
                 ("gate", "verify", "verify", ["verify_pyqs.py", subj] + sc),
                 ("score", "all", "score", ["score.py", subj] + sc)]
     if phase == "post":
-        s = [("build", "guide", "build guide", ["build.py", subj] + sc),
-             ("build", "phone", "build phone", ["build.py", subj] + sc + ["--phone"])]
+        s = [("lint", "all", "lint", ["lint_tex.py", subj] + sc),    # 1 s; catches traps before a 5-min build
+             ("build", "guide", "build guide", ["build.py", subj] + sc)]
+        if phone:   # the user dropped the phone edition (2026-11-10): only on request
+            s.append(("build", "phone", "build phone", ["build.py", subj] + sc + ["--phone"]))
         if interactive:
             s.append(("build", "interactive", "build interactive", ["build.py", subj] + sc + ["--interactive"]))
         return s + [("flashcards", "all", "flashcards", ["flashcards.py", subj] + sc),
@@ -76,9 +79,10 @@ def main():
     ap.add_argument("--phase", required=True)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--interactive", action="store_true")
+    ap.add_argument("--phone", action="store_true", help="also build the phone edition (off by default since 2026-11-10)")
     a = ap.parse_args()
     subj_dir, shared, work = resolve(a.subject, a.scope)
-    plan = steps(a.phase, a.subject, work.name, a.interactive)
+    plan = steps(a.phase, a.subject, work.name, a.interactive, a.phone)
     if plan is None:
         print(f"unknown phase {a.phase!r}: ingest | gate | post", file=sys.stderr)
         sys.exit(2)
@@ -120,7 +124,7 @@ def main():
     if a.phase == "post":
         try:
             import layout_check
-            for suffix in ("_Guide.pdf", "_Guide_Phone.pdf"):
+            for suffix in ("_Guide.pdf",) + (("_Guide_Phone.pdf",) if a.phone else ()):
                 pdf = next(iter(sorted(subj_dir.glob(f"*_{work.name.capitalize()}{suffix}"))), None)
                 if pdf:
                     pages = sorted({f["page"] for f in layout_check.check(pdf)})

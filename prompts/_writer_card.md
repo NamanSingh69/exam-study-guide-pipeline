@@ -16,6 +16,8 @@ colours. Never rename a stem or edit another writer's file.
   `Variant of <qid>`, never a year. Only in-window papers exist (`out_of_window_in_chapters` is a hard gate).
 - Every printed number has `work/<scope>/checks/<id>.py` that prints it (ids: qid, `<Cid>_variant`,
   `<Tid>_ex_<name>`, `mock_Q<n>`, `drill_<n>`); run it; the boxed answer equals its output. State assumptions.
+  Create check ids only for the topics, ideas and papers your pack assigns; never overwrite another writer's check
+  (to reuse its number, import or run it). A shared helper module gets your writer id in its name (`_notesA_util.py`).
 - Follow the pack's conventions exactly. A new ambiguity: choose, say it in an `examtip`, report it. Apply a
   convention's rule in words; never print its id (`convention \texttt{ack\_number}` is the `internal_leaks` hard gate).
 - No unsupported statistics or examiner claims. Banned: "similarly", "left as an exercise", "refer to previous".
@@ -37,15 +39,16 @@ labels), but use `[!htbp]`, never `[H]` or `\tiny`. Width ≤ `\linewidth`, labe
 node distance ≥ 8 mm, ≤ 2 frames per row. Inside boxes no floats: `\stepanim*`, `\captionof`. Draw a shared figure
 only if you own it (pack lists yours); otherwise `\ref{fig:..}`.
 
-**Phone and web traps.** No `\answer{}` in a `\caption`; atom macros use `\providecommand`; no `multicols` or
+**Build and web traps.** No `\answer{}` in a `\caption`; atom macros use `\providecommand`; no `multicols` or
 `\columnbreak` inside boxes (two `minipage`s); no `\textcolor` in TikZ node text (`text=<colour>`); split long
-inline maths or add `\allowbreak` (the phone column is 94 mm).
+inline maths or add `\allowbreak`. There is no phone edition (dropped 2026-11-10): build and check print only.
 
 **Recall.** Every topic atom ends with 2–5 `\flashcard`s (back ≤ 25 words, no figures or refs).
 
 **Self-check, cheaply (this is where most tokens went before).**
-1. Write all your files first. Then ONE build call for all of them, print and phone:
-   `py _pipeline/tools/build.py <SUBJ> --scope <scope> --atom notes/T01,notes/T02,solve/C05 --both --render`
+1. Write all your files first. Lint them (1 s): `py _pipeline/tools/lint_tex.py <SUBJ> --scope <scope> --files <a.tex,b.tex>`
+   and fix every error. Then ONE build call for all of them (print only; never `--both` or `--phone`):
+   `py _pipeline/tools/build.py <SUBJ> --scope <scope> --atom notes/T01,notes/T02,solve/C05 --render`
 2. Fix every `LINT`/`ERROR` line and every `LAYOUT p<N> <kind>` line (outside, overlap, on_line, tiny); rebuild
    only the failing atoms. Read a contact sheet image only for a page that `FLAGGED` lists, once, then fix.
    Do not render or read images of pages that are not flagged. Do not re-read PYQ page images (the bank is gated).
