@@ -301,7 +301,10 @@
 \newtcolorbox{solution}[1][]{sgbase,colback=white,colframe=sgteal,boxrule=0.6pt,
   title={Solution\ifstrempty{#1}{}{ — #1}}}
 % final answer highlight usable in text and math
-\newcommand{\answer}[1]{\tcbox[on line,colback=sgamber!12,colframe=sgamber,boxrule=0.6pt,
+% Print edition: a painless break before the box (the phone wrapper above adds its own), else a justified line
+% that cannot fit the box leaves it running into the margin (ML endsem 2026-11-10: 6 overfull, up to 129 pt)
+\newcommand{\answer}[1]{\ifsg@phone\else\ifmmode\else\hfil\penalty\z@\hfilneg\fi\fi
+  \tcbox[on line,colback=sgamber!12,colframe=sgamber,boxrule=0.6pt,
   arc=1.5pt,left=2pt,right=2pt,top=1pt,bottom=1pt]{#1}}
 
 % ---------------------------------------------------------------- tables
