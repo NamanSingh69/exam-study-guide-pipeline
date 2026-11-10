@@ -25,6 +25,7 @@ HARD GATES (must be 0, or pyq_gate must be 1; any failure -> exit 1):
                      "(convention ack_number)": students must see the rule, never our internal name (2026-11-10)
 TRACKED (lower is better unless noted):
   answers_vs_checks  checks/<qid>.py whose number appears in none of the \\answer{} boxes under \\label{q:<qid>}
+  numbers_without_checks  \\answer{} boxes printing a number that no checks/<qid>.py (or <Cid>*.py for atom files) backs
   lint_issues, layout_warnings (TOC-based half-empty pages), overfull_boxes
   over_budget_pages  unit pages over important_questions.json targets.notes_pages[<unit>] (R4), else 1.5/lecture + 1
   iq_count_vs_target         {count, target, missing, extra}: iq: labels in 60_important_questions vs targets.iq_clusters
@@ -106,6 +107,46 @@ NUM = re.compile(r"(?:(?<![\w)\]}])-)?\d+(?:\.(\d+))?")    # a minus right after
 GROUPED = re.compile(r"(?<![\d,])(?:\d{1,3}(?:,\d{3})+|\d{1,3}(?:,\d{2})+,\d{3})(?!\d)")   # 75,000 / 1,88,000
 
 
+def nums(s):
+    """[(value, decimals printed)]"""
+    s = s.replace("{,}", "").replace(chr(92) + ",", "")        # LaTeX decimal comma / thin space
+    s = GROUPED.sub(lambda m: m.group(0).replace(",", ""), s)   # western and Indian digit grouping
+    return [(float(m.group(0)), len(m.group(1) or "")) for m in NUM.finditer(s)]
+
+
+ANSWER_BOX = re.compile(r"\\answer\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}")
+LABELS = re.compile(r"(?<![A-Za-z])[A-Za-z]+\d[\w-]*|\((?:[ivxIVX]+|[A-Za-z]|\d+)\)"      # Q5, MS2022-5a, (iii), (b), (2)
+                    r"|(?i:paper|exam|midsem|endsem|year)\W{0,3}\d{4}")                     # "Paper 2024"
+
+
+def numbers_without_checks(work: Path, names: set):
+    """['<file>:<line> <owner>: \\answer{..}'] for \\answer{} boxes that print a number although no check backs them.
+    Owner = nearest preceding \\label{q:<qid>} in the file (check <qid>), else the file stem (atoms/solve/<Cid>.tex:
+    check <Cid> or <Cid>_*). Option labels, Q5, paper years and ids do not count as numbers. None without checks/."""
+    if not (work / "checks").exists():
+        return None
+    out = []
+    for p in all_sources(work):
+        if "cheatsheet" in p.stem or "night" in p.stem:     # formula reminders, not computed results
+            continue
+        text = build.strip_comments(p.read_text("utf-8", errors="replace"))
+        labels = [(m.start(), m.group(1), m.group(2)) for m in re.finditer(r"\\label\{(q|iq):([^}]+)\}", text)]
+        for m in ANSWER_BOX.finditer(text):
+            body = re.sub(r"\b\d+\s*-{1,3}\s*[ivxlcdmIVXLCDM]+\b", " ", m.group(1))    # matching "1--x, 2--ix"
+            if not nums(LABELS.sub(" ", body)):
+                continue
+            kind, q = next(((k, l) for pos, k, l in reversed(labels) if pos < m.start()), (None, None))
+            if kind == "iq":                                 # important question: backed by checks/<Cid>*.py
+                backed = q in names or any(n.startswith(q + "_") for n in names)
+                q = "iq:" + q
+            else:
+                pre = [p.stem + "_"] + (["mock_"] if "mock" in p.stem else []) + (["drill_"] if "drill" in p.stem else [])
+                backed = (q in names) if q else (p.stem in names or any(n.startswith(x) for n in names for x in pre))
+            if not backed:
+                out.append(f"{p.relative_to(work).as_posix()}:{build.line_of(text, m.start())} {q or p.stem}: {m.group(0)[:40]}")
+    return out
+
+
 def answers_vs_checks(work: Path, outs: dict):
     """['<qid>: check prints <n>, printed answer(s) <a>'] where a checks/<qid>.py's number appears in none of the
     \\answer{} boxes printed under \\label{q:<qid>} (up to the next question). Questions whose answer lives
@@ -121,16 +162,10 @@ def answers_vs_checks(work: Path, outs: dict):
         rest = text[m.end():m.end() + 8000]
         stop = re.search(r"\\begin\{question\}|\\label\{q:", rest)
         region = rest[:stop.start()] if stop else rest
-        answers = re.findall(r"\\answer\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}", region)
+        answers = ANSWER_BOX.findall(region)
         if not answers:
             continue
         lines = [l for l in out.strip().splitlines() if l.strip()]
-
-        def nums(s):
-            """[(value, decimals printed)]"""
-            s = s.replace("{,}", "").replace(chr(92) + ",", "")        # LaTeX decimal comma / thin space
-            s = GROUPED.sub(lambda m: m.group(0).replace(",", ""), s)   # western and Indian digit grouping
-            return [(float(m.group(0)), len(m.group(1) or "")) for m in NUM.finditer(s)]
         want = [x for l in lines for x in nums(l)]                       # checks often print several results
         if not want:
             continue
@@ -399,6 +434,7 @@ def compute(subject: str, scope: str, gate_fn=None, checks_fn=None):
     m["checks_run"], m["checks_failed"] = n_checks, failed
     m["answers_vs_checks"] = answers_vs_checks(work, dict(CHECK_OUT)) if checks_fn is None else None
     m["internal_leaks"] = internal_leaks(work)
+    m["numbers_without_checks"] = numbers_without_checks(work, names)
 
     # ---- backtest
     iq = build.load_json(work / "important_questions.json")
@@ -456,6 +492,11 @@ def main():
         if isinstance(v, dict) and "target" in v:   # iq_count_vs_target / cheatsheet_pages_vs_target
             v = f"{v.get('count', v.get('pages'))}/{v['target']}"
         print(f"{tag}{k:28s} {_count(v)}")
+    nwc = m.get("numbers_without_checks") or []
+    for loc in nwc[:10]:
+        print(f"  numbers_without_checks: {loc}")
+    if len(nwc) > 10:
+        print(f"  numbers_without_checks: ... {len(nwc) - 10} more (see metrics.jsonl)")
     bad = gates(m)
     print("RESULT PASS" if not bad else "RESULT BLOCKED: " + "; ".join(bad))
     sys.exit(1 if bad else 0)
