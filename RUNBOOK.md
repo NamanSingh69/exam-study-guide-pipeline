@@ -27,8 +27,8 @@ Measured on the 2026-11 runs (`docs/COST.md`): the usage limit is spent on **con
 | model | agents | why it is safe |
 |---|---|---|
 | `haiku` | file/log searches, "did X build" checks, smoke tests | a script checks the result |
-| `sonnet` | PYQ transcriber (`verify_pyqs` gates it), fixer (`metrics` + `layout_check` gate it), scaffolding | each output has a gate |
-| main model | blueprint/merge (clustering is judgment), writers (until the A/B below says otherwise), reviewer | judgment is the product |
+| `sonnet` | PYQ transcriber (`verify_pyqs` gates it), writers (A/B 2026-11-10: Sonnet won 4-1-1), fixer (`metrics` + `layout_check` gate it), scaffolding | each output has a gate or the review |
+| main model | blueprint/merge (clustering is judgment), reviewer | judgment is the product |
 
 7. **Never** publish, upload, post or message anyone; the user does that. Commits to `_pipeline` carry no AI
    attribution trailer. `_publish/` belongs to another session.
@@ -44,19 +44,19 @@ py _pipeline/tools/run_subject.py <S> --scope <sc> --phase ingest  # exit 1 = in
    An endsem after a midsem reuses the midsem blueprint (`00_orchestrator.md` "Endsem reuse").
 3. `py _pipeline/tools/run_subject.py <S> --scope <sc> --phase gate` (receipts → verify_pyqs `RESULT PASS` → score).
    A bank that passed is frozen: new papers are only added.
-4. **Assignments** (you): write `assignments.json` as in `00_orchestrator.md` Phase C (`writers`, `atoms`, `chapters`,
-   `solve_owners`, `figures`), `"one_pdf": true`, and `"updates_url"` if the user shared a folder.
-5. **Packs and writers** (two agents in ONE message, main model):
-   ```
-   py _pipeline/tools/pack.py <S> --scope <sc> --role notes
-   py _pipeline/tools/pack.py <S> --scope <sc> --role pyq
-   ```
-   - Notes writer: "Read `<S>/work/<sc>/packs/notes.md` (its WRITER CARD is binding) and `_pipeline/prompts/02_unit_notes.md`.
-     Write every notes atom and unit chapter it lists; then the Q1 drill and night-before sheet (`07_recall.md`) and
-     the cheatsheet (`05_cheatsheet.md`). Report ≤ 12 lines."
-   - PYQ writer: "Read `<S>/work/<sc>/packs/pyq.md` (WRITER CARD binding) and `_pipeline/prompts/03_pyq_solutions.md`,
-     `04_important_questions.md`. Write every solve atom and chapter it lists. Report ≤ 12 lines."
+4. **Assignments:** `py _pipeline/tools/assign.py <S> --scope <sc>` writes `assignments.json` (Phase C: `writers`,
+   `atoms`, `chapters`, `solve_owners`, `figures`, `"one_pdf": true`). The lean split: notes-A/notes-B (contiguous
+   units, split only above 24 topics), pyq-full (the 3 newest in-window papers of the scope's exam + important
+   questions + mock), pyq-older-A/B (≤ 10 older papers each). Add `"updates_url"` if the user shared a folder.
+5. **Packs and writers** (Sonnet, all writers in ONE message): `py _pipeline/tools/pack.py <S> --scope <sc> --writer <id>`
+   for each writer in `assignments.json`.
+   - Notes writer: "Read `<S>/work/<sc>/packs/<id>.md` (its WRITER CARD is binding) and `_pipeline/prompts/02_unit_notes.md`.
+     Write every notes atom and unit chapter it lists (the last notes writer also does the Q1 drill and night-before
+     sheet, `07_recall.md`, and the cheatsheet, `05_cheatsheet.md`). Report ≤ 12 lines."
+   - PYQ writer: "Read `<S>/work/<sc>/packs/<id>.md` (WRITER CARD binding) and `_pipeline/prompts/03_pyq_solutions.md`
+     (pyq-full also `04_important_questions.md`). Write every solve atom and chapter it lists. Report ≤ 12 lines."
    - Merge reported conventions into `conventions.json`; one-line fixes via SendMessage (the writer keeps its context).
+   - Copy each writer's doubts and assumptions into `work/<sc>/reviews/writer_notes.md`: the reviewer starts there.
 6. `py _pipeline/tools/run_subject.py <S> --scope <sc> --phase post` (guide, phone, flashcards, web, metrics, layout
    summary). Every hard gate must be 0 and `pyq_gate` 1.
 7. **Review** (main model, one agent, wrote nothing): `prompts/06_review.md` + `08_answerability.md`, planted
@@ -67,11 +67,10 @@ py _pipeline/tools/run_subject.py <S> --scope <sc> --phase ingest  # exit 1 = in
    `iq_count_vs_target`), layout flags left, review score, what is unverified. Then
    `py _pipeline/tools/usage_report.py --since <today>` and add a row to `docs/COST.md`.
 
-## First subject after 2026-11-10: the writer A/B (once)
-Have the notes writer on Sonnet write ONE unit, and the main model write the same unit into a copy
-(`pairs.py` makes blind X/Y pairs). Have the reviewer judge the pair blind (`06_review.md` pairwise). If Sonnet is equal
-or better on correctness and pedagogy, writers move to Sonnet: update the table above and `docs/COST.md`. Otherwise
-keep the main model and record the result. Either way, journal it as an AIDE² node.
+## Writer A/B (done 2026-11-10, ML endsem U7)
+Sonnet and the main model each wrote ML U7 (T33-T38); `pairs.py` made 6 blind pairs; the main-model reviewer judged
+them (`ML/work/endsem/reviews/ab/verdict.json`): Sonnet 4, main 1, tie 1; 3 small errors each, no wrong final
+answer. Writers run on Sonnet. Re-run the A/B (same recipe) if review scores drop on Sonnet-written subjects.
 
 ## Gates (never weakened)
 - PYQs are never invented: the bank is transcribed from page images; `verify_pyqs.py` must print `RESULT PASS`.

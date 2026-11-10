@@ -23,11 +23,23 @@ have checked. Another reviewer works on the same guide independently; do not try
 **Do not score them, and do not spend time on them.** You judge what code cannot: **correctness and
 pedagogy.** Mention a mechanical defect only if you trip over it, under `notes`.
 
+## Start here (the riskiest places first; your context grows with every file you open)
+1. **`reviews/writer_notes.md`**: every doubt and assumption the writers reported (illegible paper text, a
+   reading they chose, slide typos, textbook content beyond the notes). Settle each one and record it in
+   `writer_doubts` (`{item, verdict: ok|wrong|unclear, why}`). A wrong reading of a printed question is critical.
+2. **Unbacked numbers:** the last line of `metrics.jsonl` → `numbers_without_checks` locations. No script backs
+   these, so re-solve every one.
+3. **Tier A/B clusters** (`important_questions.json`): every numerical and every answer box in their solve atoms.
+4. **The rest:** re-solve at least 1 in 3 of the remaining numericals (every solve atom gets at least one).
+   Say in `notes` how many you re-solved out of how many.
+Open files one at a time and only the parts you need. Read a page image only when the OCR is POOR or a doubt
+names it.
+
 ## Checks
 1. **Correctness.**
-   - **Numericals:** re-solve every numerical in the solve atoms (`atoms/solve/`), the PYQ short answers, the
-     Q1 drill answers and the mock key yourself, from scratch, in `py`. Do not read the writer's check script
-     first. Record each one in `verified_numericals`.
+   - **Numericals:** re-solve the numericals that "Start here" selects (solve atoms, PYQ short answers, the
+     Q1 drill and the mock key) yourself, from scratch, in `py`. Do not read the writer's check script first.
+     Record each one in `verified_numericals`.
    - **Theory:** check at least 10 theory claims against the instructor's notes, reading the page **images**
      when the OCR is POOR: definitions, formula forms, protocol steps, standard values. Record each in
      `notes_claims_checked` with its page.

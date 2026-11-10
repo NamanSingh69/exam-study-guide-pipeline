@@ -29,7 +29,7 @@ Per subject (rough, excluding tool development): **~250–350 M input-side token
 | writer card + `pack.py` | contract + JSON + whole-corpus reads | start context ~10–30 k (CN unit pack 29 KB, CN notes 84 KB, SE notes 113 KB, PYQ packs ~24 KB) |
 | `--atom a,b,c --both` | ~1,100 build turns | one build call per writer pass, print and phone |
 | `run_subject.py` | ~40 main-session turns per subject, log reading | 3 commands per subject, ≤ 15 lines each |
-| model tiers | main-model transcriber and fixer | Sonnet for gated mechanical work; writers pending the A/B |
+| model tiers | main-model transcriber, fixer and writers | Sonnet for gated mechanical work; writers on Sonnet since the 2026-11-10 blind A/B (Sonnet 4, main 1, tie 1; `ML/work/endsem/reviews/ab/verdict.json`) |
 | lean mode (2026-11-08) | ~20 agents per subject | ~6 agents per subject |
 
 **Target:** ≤ 100 M input-side tokens per subject at the same gates and review scores.
