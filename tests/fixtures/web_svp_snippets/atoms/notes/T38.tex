@@ -1,0 +1,38 @@
+\section{Active shape model}\label{sec:T38}
+% verbatim from SVP/work/endsem/atoms/notes/T38.tex lines 32-64 (2026-11-06): a \providecommand whose body
+% holds a TikZ scope, used inside a \stepanim. web.py used to split the definition from its body
+% (fallbacks "missing argument" + "unknown environment scope", 2 render failures).
+
+% ellipse-like shape with 8 landmarks: centre (#1,#2), half-axes #3 and #4, rotation #5 degrees, style #6
+\providecommand{\svpUVshape}[6]{\begin{scope}[shift={(#1,#2)},rotate=#5]
+  \draw[#6] (0,0) ellipse ({#3} and {#4});
+  \foreach \t in {0,45,...,315} \fill[#6] ({#3*cos(\t)},{#4*sin(\t)}) circle (1.5pt);\end{scope}}
+\stepanim{4}{2}{0.48\linewidth}{Active shape model: landmarks, alignment, the PDM (mean $\pm3\sqrt{\lambda_1}$ along
+mode 1), then fitting by moving landmarks along their normals to the image edge.}{%
+  \path[use as bounding box] (0,-0.05) rectangle (6.8,3.55);
+  \ifcase\f\or
+    \svpUVshape{1.2}{1.6}{0.9}{0.6}{0}{sgnavy}
+    \svpUVshape{3.4}{1.9}{1.15}{0.68}{25}{info}
+    \svpUVshape{5.6}{1.45}{0.7}{0.55}{-20}{hl}
+    \node[note] at (2.3,1.6) {1}; \draw[muted] (2.18,1.6) -- (2.12,1.6);
+    \node[note] at (3.4,0.25) {$N$ training shapes, $n=8$ landmarks each};
+  \or
+    \svpUVshape{3.4}{1.65}{1.2}{0.8}{0}{sgnavy}
+    \svpUVshape{3.4}{1.65}{1.35}{0.75}{4}{info}
+    \svpUVshape{3.4}{1.65}{1.05}{0.86}{-4}{hl}
+    \node[note] at (3.4,0.25) {Procrustes: translate, scale, rotate onto the mean};
+  \or
+    \svpUVshape{3.4}{1.65}{1.55}{0.68}{0}{muted,dashed}
+    \svpUVshape{3.4}{1.65}{0.85}{0.92}{0}{muted,dashed}
+    \svpUVshape{3.4}{1.65}{1.2}{0.8}{0}{ok,line width=1pt}
+    \node[note] at (5.55,2.25) {$+3\sqrt{\lambda_1}$}; \node[note] at (3.4,2.85) {$-3\sqrt{\lambda_1}$};
+    \node[note] at (3.4,0.25) {PDM $\mathbf{x}=\bar{\mathbf{x}}+P\mathbf{b}$: mean (green), mode 1};
+  \or
+    \draw[black!35,line width=2.4pt] (3.5,1.6) ellipse (1.6 and 0.72);
+    \svpUVshape{3.25}{1.75}{1.1}{0.85}{0}{ok}
+    \foreach \t in {0,45,...,315}
+      \draw[arrhl] ({3.25+1.1*cos(\t)},{1.75+0.85*sin(\t)}) -- ({3.5+1.6*cos(\t)},{1.6+0.72*sin(\t)});
+    \node[note,anchor=west] at (5.25,2.6) {image edge};
+    \node[note] at (3.4,0.25) {search normals, move points, update pose and $\mathbf{b}$};
+  \fi
+}

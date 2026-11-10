@@ -1,0 +1,677 @@
+{
+ "MS2024B-1a": {
+  "page": 1,
+  "rect": [
+   70.0,
+   328.0,
+   510.0,
+   351.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     328.0,
+     510.0,
+     351.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | State the main stages of a closed-loop feedback controller. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-1b": {
+  "page": 1,
+  "rect": [
+   70.0,
+   349.5,
+   510.0,
+   373.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     349.5,
+     510.0,
+     373.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | Why does gradient descent become unstable when the step size is too large? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-1c": {
+  "page": 1,
+  "rect": [
+   70.0,
+   371.0,
+   510.0,
+   394.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     371.0,
+     510.0,
+     394.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "c | Name the smallest network depth that can separate the XOR pattern. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-1d": {
+  "page": 1,
+  "rect": [
+   70.0,
+   392.5,
+   510.0,
+   416.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     392.5,
+     510.0,
+     416.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "d | Why are smooth squashing functions chosen as the activation in a layered model? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-1e": {
+  "page": 1,
+  "rect": [
+   70.0,
+   414.0,
+   510.0,
+   453.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     414.0,
+     510.0,
+     453.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "e | A set is given as A={0.2/1, 0.4/2, 0.5/4, 0.9/5, 0.3/6, 0.5/7}. State whether it is convex. Justify. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-2": {
+  "page": 1,
+  "rect": [
+   70.0,
+   451.0,
+   510.0,
+   708.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     451.0,
+     510.0,
+     708.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "2 | Consider a universe X of ages X = {5, 15, 25, 35, 45, 55, 65, 75, 85}.  Answer the following 1. Build the sets named young, adult and senior over X. 2. Give the support of each set. 3. What is the width of the set young? 4. Is the set adult normal or subnormal? 5. What is the core of the set senior? | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-3": {
+  "page": 2,
+  "rect": [
+   70.0,
+   58.0,
+   510.0,
+   159.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     58.0,
+     510.0,
+     159.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "3 | Let M be a set describing how mature a person is at a given age. Its membership rule is $\\mu_M(x) = \\begin{cases}0, if\\ x \\leq 5\\\\\\left(\\frac{x-5}{20}\\right)^2, if\\ 5 < x \\leq 25\\\\1, if\\ x > 25\\end{cases}$ The universe is X={3, 8, 10, 12, 15, 18, 20, 24, 27, 32}. Find the alpha-cut and the strong alpha-cut for alpha=0.4. | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-4a": {
+  "page": 2,
+  "rect": [
+   70.0,
+   157.0,
+   510.0,
+   180.5
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     157.0,
+     510.0,
+     180.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | Sketch the block model of a single artificial unit and mark every unknown parameter. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-4b": {
+  "page": 2,
+  "rect": [
+   70.0,
+   178.5,
+   510.0,
+   270.5
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     178.5,
+     510.0,
+     270.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | A two-class training set is listed below. Find the weights after the first iteration, starting from W=[1 -0.5].  | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-5a": {
+  "page": 2,
+  "rect": [
+   70.0,
+   268.5,
+   510.0,
+   292.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     268.5,
+     510.0,
+     292.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | Write down the learning rule of a linear adaptive unit. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-5b": {
+  "page": 2,
+  "rect": [
+   70.0,
+   290.0,
+   510.0,
+   329.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     290.0,
+     510.0,
+     329.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | With starting weights W=[0.2, 0.3], update the weights for the input X=[-1 -1] when the target is d=-1. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-6a": {
+  "page": 2,
+  "rect": [
+   70.0,
+   327.0,
+   510.0,
+   366.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     327.0,
+     510.0,
+     366.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | How does a radial basis layer turn a nonlinearly separable task into a linearly separable one? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-6b": {
+  "page": 2,
+  "rect": [
+   70.0,
+   364.0,
+   510.0,
+   387.5
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     364.0,
+     510.0,
+     387.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | Use the XOR function with Gaussian basis functions to illustrate your answer. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-7a": {
+  "page": 2,
+  "rect": [
+   70.0,
+   385.5,
+   510.0,
+   409.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     385.5,
+     510.0,
+     409.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | What is meant by the cooperation step in a self organising map? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2024B-7b": {
+  "page": 2,
+  "rect": [
+   70.0,
+   407.0,
+   510.0,
+   477.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     407.0,
+     510.0,
+     477.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | A map has two inputs and two output units with initial weights $W = \\begin{bmatrix}0.2 & 0.3\\\\0.7 & 0.4\\end{bmatrix}$ Find the output unit closest to the input [0.4 0.3] and update its weights with a learning rate of 0.5. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-1a": {
+  "page": 1,
+  "rect": [
+   70.0,
+   328.0,
+   510.0,
+   351.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     328.0,
+     510.0,
+     351.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | Compare a living nerve cell with a model unit. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-1b": {
+  "page": 1,
+  "rect": [
+   70.0,
+   349.5,
+   510.0,
+   373.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     349.5,
+     510.0,
+     373.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | How can the behaviour of a model unit be written down mathematically? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-1c": {
+  "page": 1,
+  "rect": [
+   70.0,
+   371.0,
+   510.0,
+   394.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     371.0,
+     510.0,
+     394.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "c | What does the winner-takes-all learning rule do? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-1d": {
+  "page": 1,
+  "rect": [
+   70.0,
+   392.5,
+   510.0,
+   416.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     392.5,
+     510.0,
+     416.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "d | Which kind of learning does vector coding by prototypes use? | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-1e": {
+  "page": 1,
+  "rect": [
+   70.0,
+   414.0,
+   510.0,
+   453.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     414.0,
+     510.0,
+     453.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "e | Draw a fuzzy set to describe the statement the room is warm, over a continuous temperature axis. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-2": {
+  "page": 1,
+  "rect": [
+   70.0,
+   451.0,
+   510.0,
+   521.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     451.0,
+     510.0,
+     521.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "2 | Two sets are given as P = ((x1, 0.1), (x2, 0.2), (x3, 0.7), (x4, 0.5), (x5, 0.4)) and Q = ((x1, 0.9), (x2, 0.6), (x3, 0.3), (x4, 0.2), (x5, 0.8)). Determine the following. i) $P_{0.2}$ and $Q_{0.3}$ ii) The support of each set iii) The core of set P iv) Convexity of set Q v) Normality of set P | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-3": {
+  "page": 1,
+  "rect": [
+   70.0,
+   519.0,
+   510.0,
+   573.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     519.0,
+     510.0,
+     573.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "3 | Take the sets L = {(low,1),(medium,0.2),(high,0.5)} and K = {(positive,0.9),(zero,0.4),(negative,0.9)}. Form the product relation R = L x K and then the diagonal of $R\\circ R^{T}$. | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-4a": {
+  "page": 1,
+  "rect": [
+   70.0,
+   571.5,
+   510.0,
+   595.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     571.5,
+     510.0,
+     595.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "a | A single linear unit cannot split classes that are not linearly separable. Justify this. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-4b": {
+  "page": 1,
+  "rect": [
+   70.0,
+   593.0,
+   510.0,
+   632.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     593.0,
+     510.0,
+     632.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "b | Train the OR function (binary inputs and targets) on one unit with one neuron for one epoch, with initial weights and bias w1=0.1, w2=-0.5, b=0.1 and learning rate 0.5. | CO3",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-5": {
+  "page": 1,
+  "rect": [
+   70.0,
+   630.0,
+   510.0,
+   669.0
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     630.0,
+     510.0,
+     669.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "5 | Train the AND function (bipolar inputs and targets) on a two-input one-output adaptive unit from w1=0.2, w2=0.2, b=0.2 for one epoch with learning rate 0.5. | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-6": {
+  "page": 1,
+  "rect": [
+   70.0,
+   667.0,
+   510.0,
+   721.5
+  ],
+  "parts": [
+   {
+    "page": 1,
+    "rect": [
+     70.0,
+     667.0,
+     510.0,
+     721.5
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "6 | Design a radial basis network for a classification task and show that the problem becomes linearly separable in the hidden space, taking the XOR function as the example. | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ },
+ "MS2025-7": {
+  "page": 2,
+  "rect": [
+   70.0,
+   58.0,
+   510.0,
+   181.0
+  ],
+  "parts": [
+   {
+    "page": 2,
+    "rect": [
+     70.0,
+     58.0,
+     510.0,
+     181.0
+    ]
+   }
+  ],
+  "match": 1.0,
+  "method": "manual",
+  "ocr_text": "7 | The output layer of a map is a ring of six nodes A to F (dashed links A-B-C-D-E-F-A). Each node has two inputs x1 and x2 (not shown). The initial weights are  a) Find the winning node for the input x = [2, -4]. b) Adjust the winning node's weights with a learning rate of 0.5. | CO2",
+  "ocr_method": "region-ocr-psm6",
+  "ocr_is_ocr": true
+ }
+}

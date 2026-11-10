@@ -1,0 +1,1169 @@
+\chapter{Important questions, ranked by expected marks}
+\label{ch:iq}
+Each question idea (a \emph{cluster} of past questions that test the same skill) is grouped by tier (from its chance $P$ of appearing: A $\ge60\%$, B 35--59\%, C 15--34\%, D never asked) and ranked by expected value \ev{x.x} $=P\times$ typical marks $\times$ choice factor within each tier, as built in the Exam Radar (Chapter~\ref{ch:radar}).
+Tier A and B ideas get a \emph{fresh variant} (new numbers or a twist), a full exam-ready answer and an answer plan; the original past paper question is solved verbatim in the PYQ chapter (page given).
+Tier C gets an outline, the wildcards get a short answer, and the last section is a one-page checklist for the night before.
+
+% =====================================================================
+\section{Tier A: must do}
+
+% ---------------------------------------------------------------------
+\subsection{Go-Back-N: count transmissions when every $k$-th packet is lost}\label{iq:C25}
+\tier{A} \prob{79} \ev{1.58} \asked{MS2022 Q1(a), MS2024 Q4(b), MS2025 Q3(b)} \src{N_Network_Systems_compressed p66-68}
+
+\textbf{Why it is likely:} asked in 3 of 3 papers (latest 2025, 2 marks with a ``transition diagram''); 1.5 lectures on GBN; on the seniors' list (``packet loss and retransmission question, vv imp''). Original PYQs solved on pages~\pageref{q:MS2025-3b}, \pageref{q:MS2024-4b} and~\pageref{q:MS2022-1a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-3b}{2}
+Station A sends a message of 10 packets to station B using a sliding window of size 3 and Go-Back-N error control. All packets are ready at the start. If every 6th packet that A transmits is lost (ACKs from B are never lost), how many packets will A transmit in total? Explain with a transition diagram.
+\end{question}
+\begin{solution}[15 transmissions]
+\textbf{Assumptions} (state them in the exam): ``every 6th transmission'' counts retransmissions too; ACKs are cumulative and arrive before the next send, so the window slides after every good packet; after a loss the sender still sends the rest of its window (the receiver discards them as out of order), then times out and goes back to the lost packet.
+
+\textbf{Trace} (transmission number: packet; $\times$ lost, (d) discarded):\\
+1--5: packets 1--5 delivered; 6: \textbf{6}$\times$; 7, 8: 7(d), 8(d) $\Rightarrow$ timeout, go back to 6;\\
+9--11: 6, 7, 8 delivered; 12: \textbf{9}$\times$; 13: 10(d) $\Rightarrow$ timeout, go back to 9;\quad 14, 15: 9, 10 delivered.\\
+Total transmissions $= 8 + 5 + 2 = \answer{15}$ (10 new packets + 5 retransmissions).
+\end{solution}
+
+\stepanim{4}{2}{0.48\linewidth}{GBN transition diagram for the variant (window 3, every 6th transmission lost). Cell = one transmission, number inside = packet, small number = transmission count. Green delivered, red lost, grey discarded by the receiver.}{%
+  \path[use as bounding box] (-0.4,-1.45) rectangle (7.5,0.75);
+  \ifcase\f\or\def\lim{5}\or\def\lim{8}\or\def\lim{13}\or\def\lim{15}\fi
+  \foreach \p/\s [count=\i] in {1/cellok,2/cellok,3/cellok,4/cellok,5/cellok,6/cellbad,7/celldim,8/celldim,6/cellok,7/cellok,8/cellok,9/cellbad,10/celldim,9/cellok,10/cellok}{
+    \ifnum\i>\lim\relax\else
+      \node[\s,minimum width=4.4mm,minimum height=6mm,font=\scriptsize] at (\i*0.48-0.2,0) {\p};
+      \node[font=\scriptsize,text=muted] at (\i*0.48-0.2,-0.52) {\i};
+    \fi}
+  \ifcase\f\or
+    \node[note] at (3.5,-1.05) {tx 1--5: packets 1--5 delivered};
+  \or
+    \node[note,text=bad] at (3.5,-1.05) {tx 6 lost; 7, 8 discarded $\Rightarrow$ timeout};
+  \or
+    \node[note] at (3.5,-1.05) {resend 6, 7, 8; tx 12 (pkt 9) lost, 10 discarded};
+  \or
+    \node[note,text=ok] at (3.5,-1.05) {resend 9, 10: total \textbf{15} transmissions};
+  \fi
+}
+
+\begin{answerplan}[2 marks]
+\stepno{1} State the 3 assumptions (every $k$-th \emph{transmission}, ACKs safe, window keeps sending) \quad
+\stepno{2} Draw the cell diagram, marking each lost packet and the go-back point \quad
+\stepno{3} Count: new packets + retransmissions $=$ \keyword{total transmissions}.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{DNS names and records: FQDN vs PQDN, CNAME, A, NS, MX}\label{iq:C17}
+\tier{A} \prob{72} \ev{0.72} \asked{MS2022 Q1(d), MS2024 Q1(a), MS2025 Q1(e)} \src{N_Network_Systems_compressed p52-59}
+
+\textbf{Why it is likely:} asked as a 1-mark Q1 part in 3 of 3 papers (latest 2025); DNS gets a full lecture; seniors' topic list item 5 (``HTTP and DNS working''). Original PYQs solved on pages~\pageref{q:MS2025-1e}, \pageref{q:MS2024-1a} and~\pageref{q:MS2022-1d}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-1e}{1}
+Classify each name as FQDN or PQDN: (i) \texttt{cse.example.edu.} \quad (ii) \texttt{cse}. Which resource record would a resolver look up to find (iii) the canonical name of the alias \texttt{www.example.edu}, and (iv) the mail server of \texttt{example.edu}?
+\end{question}
+\begin{solution}
+\textbf{FQDN} (fully qualified): the full path from the host label up to the root, ending with a dot (null root label). \textbf{PQDN} (partially qualified): does not reach the root; the resolver completes it by appending a suffix (for example \texttt{.example.edu.}).
+(i) \answer{FQDN} \quad (ii) \answer{PQDN} \quad (iii) \answer{CNAME} record \quad (iv) \answer{MX} record.
+\end{solution}
+
+\begin{table}[H]\centering\small\zebra
+\begin{tabularx}{\linewidth}{L{17mm}YL{50mm}}\toprule
+\thead{Record} & \thead{Holds} & \thead{Example}\\\midrule
+A & IPv4 address of a host name & \texttt{www.example.edu} $\to$ 32-bit address\\
+AAAA & IPv6 address of a host name & 128-bit address\\
+NS & name of the authoritative name server of a zone & \texttt{example.edu} $\to$ \texttt{ns1.example.edu}\\
+CNAME & canonical (real) name for an alias & \texttt{www} alias $\to$ real host name\\
+MX & mail exchanger (mail server) of a domain & \texttt{example.edu} $\to$ mail host\\
+PTR & host name for an IP address (reverse lookup) & address $\to$ name\\
+SOA & start of authority: primary server and zone timers & one per zone\\\bottomrule
+\end{tabularx}
+\caption{DNS resource-record types worth one mark each. FQDN ends with a dot; PQDN does not.}\end{table}
+
+\begin{answerplan}[1 mark]
+One line per term with the \keyword{root dot} rule, then name the record type: \keyword{CNAME} for alias, \keyword{A} for address, \keyword{NS} for name server, \keyword{MX} for mail.
+\end{answerplan}
+
+% =====================================================================
+\section{Tier B: likely}
+
+% ---------------------------------------------------------------------
+\subsection{TCP sequence numbering: numbers consumed by SYN, ACK, FIN and data}\label{iq:C29}
+\tier{B} \prob{36} \ev{1.27} \asked{MS2024 Q1(e), Q5(a)} \src{N_Network_Systems_compressed p76-77}
+
+\textbf{Why it is likely:} asked twice in the 2024 paper (Q1(e) and Q5(a), 3.5 marks in total); the byte-numbering example is worked in the notes; seniors' expected questions 10 and 12. Original PYQs solved on pages~\pageref{q:MS2024-1e} and~\pageref{q:MS2024-5a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-5a}{2.5}
+(a) How many sequence numbers are consumed by each of these TCP segments: SYN, SYN+ACK, a pure ACK, FIN, and a data segment carrying 500 bytes?
+(b) The initial sequence number of a client is 14,522. The client opens the connection, sends two data segments carrying 800 and 1,200 bytes, and closes the connection. Give the sequence number of the SYN, of each data segment and of the FIN. What acknowledgment number does the server send in reply to the FIN?
+\end{question}
+\begin{solution}
+\textbf{Rule:} TCP numbers \keyword{bytes}, not segments. The sequence number of a segment is the number of its first byte. SYN and FIN carry no data but each \keyword{consumes one} sequence number; a pure ACK consumes none.
+
+(a) SYN \answer{1}, SYN+ACK \answer{1}, pure ACK \answer{0}, FIN \answer{1}, data \answer{500} (one per byte).
+
+(b) \begin{tabular}[t]{@{}ll@{}}
+SYN & seq $=\answer{14522}$ (ISN; consumes 14522)\\
+Data 1 (800 B) & seq $=\answer{14523}$, bytes 14523--15322\\
+Data 2 (1200 B) & seq $=\answer{15323}$, bytes 15323--16522\\
+FIN & seq $=\answer{16523}$\\
+Server's ACK of the FIN & ack $=16523+1=\answer{16524}$
+\end{tabular}
+
+The third handshake segment (pure ACK) also carries seq 14523 but consumes nothing, so the first data segment reuses 14523.
+\end{solution}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \draw[fill=hl!20,draw=hl] (0,0) rectangle (1.4,0.8) node[midway,font=\scriptsize\bfseries]{SYN};
+  \draw[fill=sgtint,draw=sgnavy] (1.4,0) rectangle (5.4,0.8) node[midway,font=\scriptsize]{data 1: 800 B};
+  \draw[fill=sgtint,draw=sgnavy] (5.4,0) rectangle (11.4,0.8) node[midway,font=\scriptsize]{data 2: 1200 B};
+  \draw[fill=hl!20,draw=hl] (11.4,0) rectangle (12.8,0.8) node[midway,font=\scriptsize\bfseries]{FIN};
+  \node[note,below] at (0.7,0) {14522};
+  \node[note,below] at (3.4,0) {14523--15322};
+  \node[note,below] at (8.4,0) {15323--16522};
+  \node[note,below] at (12.1,0) {16523};
+  \node[note,above] at (0.7,0.8) {1 number};
+  \node[note,above] at (3.4,0.8) {800 numbers};
+  \node[note,above] at (8.4,0.8) {1200 numbers};
+  \node[note,above] at (12.1,0.8) {1 number};
+  \draw[arrok] (12.8,0.4) -- (14.2,0.4) node[right,note,text=ok,align=left]{ACK\\16524};
+\end{tikzpicture}
+\caption{Sequence-number space used by the client in the variant. SYN and FIN each take one number; data takes one per byte \src{N_Network_Systems_compressed p77}.}\end{figure}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} State the rule: bytes are numbered, SYN/FIN consume 1, ACK 0 \quad \stepno{2} Table of segment $\to$ seq (and byte range) \quad \stepno{3} Final ACK $=$ last consumed number $+1$.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Bandwidth-delay product and link utilisation for stop-and-wait vs a window}\label{iq:C23}
+\tier{B} \prob{58} \ev{1.19} \asked{MS2022 Q3(b) [2nd Q3], MS2025 Q4(a)} \src{N_Network_Systems_compressed p65, p90}
+
+\textbf{Why it is likely:} asked in 2 of 3 papers with the same numbers both times (latest 2025, 3 marks); stop-and-wait gets 1.5 lectures; seniors' expected question 6 (planet link). Original PYQs solved on pages~\pageref{q:MS2025-4a} and~\pageref{q:MS2022-3Bb}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-4a}{3}
+In a stop-and-wait ARQ system the bandwidth of the line is 5 Mbps and 1 bit takes 40 ms to make a round trip. Find the bandwidth-delay product. If data packets are 4,000 bits long, find the link utilisation for stop-and-wait. If a Go-Back-N style protocol may send up to 25 packets before waiting for an ACK, find the utilisation. What window would keep the link fully busy?
+\end{question}
+\begin{solution}
+\textbf{BDP} (bits the link holds in one round trip): $R\times\text{RTT}=5\times10^{6}\times0.04=\answer{200{,}000 bits}$ $=50$ packets' worth.
+
+\textbf{Utilisation} (notes' formula): $d_{trans}=L/R=4000/(5\times10^{6})=0.8$ ms, $d_{prop}=\text{RTT}/2=20$ ms, $a=d_{prop}/d_{trans}=25$.
+\[ U_{SW}=\frac{1}{1+2a}=\frac{1}{51}=\answer{1.96\%}, \qquad U_{25}=\min\!\Big(1,\frac{W}{1+2a}\Big)=\frac{25}{51}=\answer{49.0\%}. \]
+\textbf{Full utilisation} needs $W\ge1+2a=\answer{51 packets}$.
+\textit{BDP intuition:} one 4000-bit packet fills $4000/200000=2\%$ of the pipe and 25 packets fill 50\%; the exact values are slightly lower because the packet's own $d_{trans}$ is part of each cycle.
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.62\linewidth,height=4.2cm,xlabel={Window size $W$ (packets)},ylabel={Utilisation (\%)},
+  grid=major,grid style={sggrid},xmin=0,xmax=62,ymin=0,ymax=110,
+  every axis plot/.append style={line width=1pt}]
+  \addplot[sgnavy,domain=1:62,samples=124] {min(100,100*x/51)};
+  \addplot[only marks,mark=*,mark size=2.2pt,color=hl] coordinates {(1,1.96)(25,49.02)(51,100)};
+  \node[elabel,anchor=west] at (axis cs:3,10) {stop-and-wait: 1.96\%};
+  \node[elabel,anchor=west] at (axis cs:27,45) {$W=25$: 49\%};
+  \node[elabel,anchor=north] at (axis cs:51,96) {$W=1+2a=51$};
+\end{axis}
+\end{tikzpicture}
+\caption{Utilisation grows linearly with the window, $U=\min\left(1,\frac{W}{1+2a}\right)$, until the pipe is full \src{N_Network_Systems_compressed p90}.}\end{figure}
+
+\begin{examtip}
+For the PYQ numbers the formula gives $1/21=4.76\%$; the textbook's BDP shortcut gives the round 5\%. Write the formula answer and add the BDP line as a check.
+\end{examtip}
+\begin{answerplan}[3 marks]
+\stepno{1} BDP $=R\times$RTT with units \quad \stepno{2} $a$, then $U=1/(1+2a)$ and $U=\min(1,W/(1+2a))$ \quad \stepno{3} Window for 100\%; one line on the BDP intuition.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{TCP congestion control: slow start, congestion avoidance, fast recovery}\label{iq:C36}
+\tier{B} \prob{55} \ev{1.03} \asked{MS2022 Q4(c), MS2025 Q5(iii)} \src{N_Network_Systems_compressed p87-89}
+
+\textbf{Why it is likely:} a short-note option in 2 of 3 papers (latest 2025); a full lecture (lecture 21); seniors' expected question 2 (``congestion control techniques used in TCP''). Original PYQs solved on pages~\pageref{q:MS2025-5iii} and~\pageref{q:MS2022-4c}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-5iii}{2.5}
+Write a short note on TCP congestion control. A TCP Reno sender starts with cwnd $=1$ MSS and ssthresh $=8$ MSS. Three duplicate ACKs arrive when cwnd reaches 12 MSS, and a timeout occurs later when cwnd reaches 9 MSS. Show cwnd for each RTT and mark the phases.
+\end{question}
+\begin{solution}
+\textbf{Congestion window (cwnd):} the sender may have $\min(\text{rwnd},\text{cwnd})$ unacknowledged bytes; cwnd is TCP's guess of what the \emph{network} can carry. \textbf{Congestion detection:} a \keyword{timeout} means severe congestion; \keyword{three duplicate ACKs} mean mild congestion (one segment lost, later ones still arriving).
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item \keyword{Slow start (exponential increase):} cwnd starts at 1 MSS and grows by 1 MSS per ACK, so it \emph{doubles} every RTT ($1\to2\to4\to8$) until it reaches ssthresh.
+\item \keyword{Congestion avoidance (additive increase):} from ssthresh on, cwnd grows by 1 MSS per RTT ($8\to9\to10\to\dots$).
+\item \keyword{Multiplicative decrease:} on any congestion event ssthresh $=$ cwnd$/2$.
+\item \keyword{Fast recovery (Reno, 3 dup ACKs):} ssthresh $=$ cwnd$/2$; while duplicate ACKs keep arriving cwnd $=$ ssthresh $+3$ MSS ($+1$ per further dup ACK); when the new ACK arrives cwnd $=$ ssthresh and congestion avoidance resumes (no return to 1).
+\item \keyword{Timeout} (Tahoe and Reno): ssthresh $=$ cwnd$/2$, cwnd $=1$ MSS, slow start again.
+\end{enumerate}
+\textbf{Trace} (one value per RTT, taken after recovery; slow start is capped at ssthresh):
+\begin{center}\footnotesize\setlength{\tabcolsep}{3pt}
+\begin{tabular}{l*{18}{c}}\toprule
+RTT & 1&2&3&4&5&6&7&8&9&10&11&12&13&14&15&16&17&18\\
+cwnd & 1&2&4&8&9&10&11&\textbf{12}&6&7&8&\textbf{9}&1&2&4&5&6&7\\
+ssthresh & 8&8&8&8&8&8&8&8&6&6&6&6&4&4&4&4&4&4\\\bottomrule
+\end{tabular}\end{center}
+3 dup ACKs at cwnd 12: ssthresh $=\answer{6}$; cwnd $=6+3=9$ during fast recovery, then $\answer{6}$ (= ssthresh) when the new ACK arrives, and it grows by 1 per RTT. Timeout at cwnd 9: ssthresh $=\lfloor 9/2\rfloor=\answer{4}$, cwnd $=1$.
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.8\linewidth,height=4.8cm,xlabel={Transmission round (RTT)},ylabel={cwnd (MSS)},
+  grid=major,grid style={sggrid},xmin=0,xmax=19,ymin=0,ymax=15,xtick={1,...,18},
+  every axis plot/.append style={line width=1pt}]
+  \addplot[sgnavy,mark=*,mark size=1.6pt] coordinates {(1,1)(2,2)(3,4)(4,8)(5,9)(6,10)(7,11)(8,12)(9,6)(10,7)(11,8)(12,9)(13,1)(14,2)(15,4)(16,5)(17,6)(18,7)};
+  \addplot[sgred,dashed,line width=0.8pt] coordinates {(0.5,8)(8.5,8)};
+  \addplot[sgred,dashed,line width=0.8pt] coordinates {(8.5,6)(12.5,6)};
+  \addplot[sgred,dashed,line width=0.8pt] coordinates {(12.5,4)(18.5,4)};
+  \node[elabel,text=sgred,anchor=south] at (axis cs:2.2,8.2) {ssthresh 8};
+  \node[elabel,anchor=south west] at (axis cs:8.2,12.1) {3 dup ACKs};
+  \node[elabel,anchor=south] at (axis cs:12,9.3) {timeout};
+  \node[elabel,text=info] at (axis cs:2.2,6.5) {slow start};
+  \node[elabel,text=info] at (axis cs:5.2,12.6) {cong.\ avoidance};
+  \node[elabel,text=info,align=center] at (axis cs:10.5,2.9) {cong.\ avoidance\\after fast recovery};
+  \node[elabel,text=info] at (axis cs:16.6,1.6) {slow start again};
+\end{axis}
+\end{tikzpicture}
+\caption{cwnd trace for the variant (TCP Reno), one point per RTT after recovery (the brief $+3$ inflation inside RTT 8--9 is not plotted). Dashed red: ssthresh \src{N_Network_Systems_compressed p87-89}.}\end{figure}
+
+\begin{examtip}
+The notes teach slow start, additive increase and multiplicative decrease; fast recovery is the textbook (Reno) addition. One-liner: ``after fast recovery cwnd $=$ ssthresh''. Some books skip the $+3$ inflation and set cwnd $=$ ssthresh at once; the RTT trace is the same.
+\end{examtip}
+\begin{answerplan}[2.5 marks]
+\stepno{1} Define cwnd and the two congestion signals \quad \stepno{2} Slow start / AI / MD / fast recovery, one line each with the numbers $1\to2\to4$ and $+1$ \quad \stepno{3} Draw the sawtooth graph with ssthresh marked.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{TCP connection establishment, data transfer and termination}\label{iq:C32}
+\tier{B} \prob{42} \ev{0.94} \asked{MS2025 Q3(a)} \src{N_Network_Systems_compressed p80-83}
+
+\textbf{Why it is likely:} 3 marks in 2025; a full lecture with timing diagrams; seniors' expected question 7(b) (``3-way handshake through the timing diagram''). Original PYQ solved on page~\pageref{q:MS2025-3a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-3a}{3}
+A client with ISN 8,000 connects to a server with ISN 15,000, sends 200 bytes of data and then closes the connection. With a timing diagram explain connection establishment, data transfer and connection termination, showing the flags, sequence number and acknowledgment number of every segment.
+\end{question}
+\begin{solution}
+\textbf{Connection establishment (three-way handshake):} the server does a \keyword{passive open} (LISTEN); the client does an \keyword{active open}.
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item Client $\to$ server: \textbf{SYN}, seq $=8000$. Consumes 1 sequence number; no data.
+\item Server $\to$ client: \textbf{SYN+ACK}, seq $=15000$, ack $=8001$. Acknowledges the SYN and sends the server's own ISN.
+\item Client $\to$ server: \textbf{ACK}, seq $=8001$, ack $=15001$. Consumes no sequence number; the connection is ESTABLISHED.
+\end{enumerate}
+\textbf{Data transfer:} \stepno{4} client sends 200 bytes, seq $=8001$ (bytes 8001--8200), ack $=15001$; \stepno{5} server acknowledges, ack $=\answer{8201}$ (the next byte it expects). Data can flow both ways and ACKs can be piggybacked on data.
+
+\textbf{Connection termination (three-way):} \stepno{6} client sends \textbf{FIN}, seq $=8201$ (consumes 1); \stepno{7} server sends \textbf{FIN+ACK}, seq $=15001$, ack $=\answer{8202}$; \stepno{8} client sends \textbf{ACK}, seq $=8202$, ack $=\answer{15002}$ and waits in TIME-WAIT before closing. (If the server still has data, it sends ACK first and FIN later: the \keyword{half-close}, giving four segments.)
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1]
+  \node[blk] at (0,0) {Client}; \node[blk] at (7.6,0) {Server};
+  \draw[lifeline] (0,0.4) -- (0,9.0); \draw[lifeline] (7.6,0.4) -- (7.6,9.0);
+  \draw[msg] (0,0.8) -- node[elabel,above,sloped]{SYN, seq=8000} (7.6,1.35);
+  \draw[msgok] (7.6,1.75) -- node[elabel,above,sloped]{SYN+ACK, seq=15000, ack=8001} (0,2.3);
+  \draw[msg] (0,2.7) -- node[elabel,above,sloped]{ACK, seq=8001, ack=15001} (7.6,3.25);
+  \draw[msg,line width=1.1pt] (0,3.9) -- node[elabel,above,sloped]{data 200 B, seq=8001, ack=15001} (7.6,4.45);
+  \draw[msgok] (7.6,4.85) -- node[elabel,above,sloped]{ACK, seq=15001, ack=8201} (0,5.4);
+  \draw[msg] (0,6.05) -- node[elabel,above,sloped]{FIN, seq=8201, ack=15001} (7.6,6.6);
+  \draw[msgok] (7.6,7.0) -- node[elabel,above,sloped]{FIN+ACK, seq=15001, ack=8202} (0,7.55);
+  \draw[msg] (0,7.95) -- node[elabel,above,sloped]{ACK, seq=8202, ack=15002} (7.6,8.5);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,0.7) -- node[left=5pt,note,text=info]{establish} (-0.15,3.35);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,3.8) -- node[left=5pt,note,text=info]{data} (-0.15,5.5);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,5.95) -- node[left=5pt,note,text=info]{terminate} (-0.15,8.6);
+  \node[note,right] at (7.7,0.8) {LISTEN};
+  \node[note,right] at (7.7,3.3) {ESTABLISHED};
+  \node[note,right] at (7.7,8.6) {CLOSED};
+  \node[note,left] at (-0.1,8.95) {TIME-WAIT};
+\end{tikzpicture}
+\caption{Timing diagram for the variant: three-way open, one data segment, three-way close. Time runs downward \src{N_Network_Systems_compressed p80-83}.}\end{figure}
+
+\begin{answerplan}[3 marks]
+\stepno{1} Timing diagram with SYN / SYN+ACK / ACK, data, FIN / FIN+ACK / ACK (this earns most marks) \quad \stepno{2} seq and ack on every arrow \quad \stepno{3} 3--4 lines: passive/active open, SYN and FIN consume 1, half-close, TIME-WAIT.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Justify TCP vs UDP for an application (data transfer, DNS)}\label{iq:C19}
+\tier{B} \prob{51} \ev{0.89} \asked{MS2022 Q3(a), MS2025 Q1(b)} \src{N_Network_Systems_compressed p72-77}
+
+\textbf{Why it is likely:} asked in 2 of 3 papers (latest 2025, Q1); seniors' topic list item 2 (``UDP and TCP difference''). Original PYQs solved on pages~\pageref{q:MS2025-1b} and~\pageref{q:MS2022-3a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-3a}{2.5}
+An online examination portal (i) uploads each student's answer file to the server and (ii) streams live proctoring video. Its name lookups go through DNS. Which transport protocol suits each of these three, and why? When does DNS switch from UDP to TCP?
+\end{question}
+\begin{solution}
+\begin{itemize}
+\item \textbf{Answer-file upload $\Rightarrow$ TCP.} Every byte must arrive, in order, exactly once: \keyword{connection-oriented}, \keyword{reliable} (ACK, retransmission), with \keyword{flow} and \keyword{congestion control}.
+\item \textbf{Live proctoring video $\Rightarrow$ UDP.} Timeliness beats completeness: a late frame is useless, so retransmission only adds delay; no handshake, 8-byte header, a few lost frames are tolerated.
+\item \textbf{DNS query $\Rightarrow$ UDP (port 53).} One short request and reply: a handshake would add a round trip; the resolver simply re-asks.
+\item \textbf{DNS uses TCP} for responses over 512 bytes and for \keyword{zone transfers} between primary and secondary servers.
+\end{itemize}
+\end{solution}
+
+\begin{table}[H]\centering\small\zebra
+\begin{tabularx}{\linewidth}{L{30mm}YY}\toprule
+\thead{Property} & \thead{TCP} & \thead{UDP}\\\midrule
+Connection & connection-oriented (3-way handshake) & connectionless\\
+Reliability & ACK, retransmission, in-order delivery & best effort, no ACK\\
+Flow / congestion control & yes (rwnd, cwnd) & none\\
+Header & 20--60 bytes & 8 bytes\\
+Delivery unit & byte stream (segments) & message (user datagram)\\
+Typical use & file transfer, HTTP, SMTP, DNS zone transfer & DNS query, video/voice, SNMP, TFTP\\\bottomrule
+\end{tabularx}
+\caption{TCP vs UDP: write the comparison as rows, then name the application \src{N_Network_Systems_compressed p72-77}.}\end{table}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} For each application: protocol $+$ the one property that decides it (reliability vs timeliness) \quad \stepno{2} 4-row TCP/UDP table \quad \stepno{3} DNS: UDP for queries, TCP for $>$512 B and zone transfer.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{TCP header format, with an urgent-pointer numerical}\label{iq:C30}
+\tier{B} \prob{46} \ev{0.86} \asked{MS2022 Q2(a), MS2024 Q3(b)} \src{N_Network_Systems_compressed p78-79}
+
+\textbf{Why it is likely:} asked in 2 of 3 papers (2022 with an urgent-pointer numerical, 2024 as a diagram question); seniors' topic list item 3 (``TCP header format''). Original PYQs solved on pages~\pageref{q:MS2024-3b} and~\pageref{q:MS2022-2a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-2a}{2.5}
+Draw the TCP header and explain its fields. A TCP segment is 1,500 bytes long, its header-length field is 7, its sequence number is 25,000, URG $=1$ and the urgent pointer is 100. How many bytes are header, data and urgent data? Give the sequence numbers of the urgent bytes.
+\end{question}
+\begin{solution}
+\textbf{Fields} (20-byte fixed part plus up to 40 bytes of options):
+\begin{multicols}{2}\small
+\begin{itemize}
+\item \textbf{Source / destination port} (16 bits each): the sending and receiving processes.
+\item \textbf{Sequence number} (32): number of the first data byte in this segment.
+\item \textbf{Acknowledgment number} (32): next byte expected from the other side (valid when ACK $=1$).
+\item \textbf{HLEN} (4): header length in 4-byte words, 5--15 (20--60 bytes).
+\item \textbf{Reserved} (6): for future use.
+\item \textbf{Flags} (6), \keyword{U A P R S F}: urgent, ACK valid, push, reset, SYN, FIN.
+\item \textbf{Window size} (16): receive window rwnd in bytes (flow control).
+\item \textbf{Checksum} (16): over header, data and pseudoheader; compulsory in TCP.
+\item \textbf{Urgent pointer} (16): valid when URG $=1$; marks where the urgent data ends.
+\item \textbf{Options} (0--40 bytes): for example MSS, window scale, timestamps.
+\end{itemize}
+\end{multicols}
+\textbf{Numerical.}
+Header $= \text{HLEN}\times4 = 7\times4 = \answer{28 bytes}$ (20 fixed $+$ 8 of options); data $=1500-28=\answer{1472 bytes}$.
+The notes define the urgent pointer as the offset where \emph{non-urgent} data begins \src{N_Network_Systems_compressed p79}, so the urgent bytes are the first 100 data bytes:
+\[ \text{urgent bytes} = 25000 \ldots 25000+100-1 = \answer{25000 to 25099} \;(100 \text{ bytes}). \]
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[x=0.375cm,y=0.75cm]
+  \foreach \b in {0,4,10,16,31}{\node[font=\scriptsize,text=muted] at (\b+0.5,0.38) {\b};}
+  \draw[fill=sgtint,draw=sgnavy] (0,0) rectangle (16,-1) node[midway,font=\scriptsize]{Source port address (16)};
+  \draw[fill=sgtint,draw=sgnavy] (16,0) rectangle (32,-1) node[midway,font=\scriptsize]{Destination port address (16)};
+  \draw[fill=sgtint,draw=sgnavy] (0,-1) rectangle (32,-2) node[midway,font=\scriptsize]{Sequence number (32)};
+  \draw[fill=sgtint,draw=sgnavy] (0,-2) rectangle (32,-3) node[midway,font=\scriptsize]{Acknowledgment number (32)};
+  \draw[fill=hl!15,draw=sgnavy] (0,-3) rectangle (4,-4) node[midway,font=\scriptsize]{HLEN};
+  \draw[fill=sgtint,draw=sgnavy] (4,-3) rectangle (10,-4) node[midway,font=\scriptsize]{Reserved};
+  \foreach \l [count=\i from 0] in {U,A,P,R,S,F}{
+    \draw[fill=info!15,draw=sgnavy] (10+\i,-3) rectangle (11+\i,-4) node[midway,font=\scriptsize\bfseries]{\l};}
+  \draw[fill=sgtint,draw=sgnavy] (16,-3) rectangle (32,-4) node[midway,font=\scriptsize]{Window size (16)};
+  \draw[fill=sgtint,draw=sgnavy] (0,-4) rectangle (16,-5) node[midway,font=\scriptsize]{Checksum (16)};
+  \draw[fill=hl!15,draw=sgnavy] (16,-4) rectangle (32,-5) node[midway,font=\scriptsize]{Urgent pointer (16)};
+  \draw[fill=black!4,draw=sgnavy,dashed] (0,-5) rectangle (32,-6.2) node[midway,font=\scriptsize]{Options and padding (up to 40 bytes)};
+  \draw[decorate,decoration={brace,amplitude=5pt}] (32.4,0) -- node[right=6pt,note,align=left]{20 bytes\\(fixed)} (32.4,-5);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (32.4,-5) -- node[right=6pt,note]{0--40 B} (32.4,-6.2);
+\end{tikzpicture}
+\caption{TCP segment header, 32 bits per row. Flags U A P R S F occupy bits 10--15 \src{N_Network_Systems_compressed p78-79}.}\end{figure}
+
+\begin{examtip}
+Forouzan's textbook (following RFC 1122) defines the urgent pointer as the value that, added to the sequence number, gives the \emph{last} urgent byte: 25000--25100 (101 bytes). Write the notes' answer (100 bytes) and mention the other reading in one line.
+\end{examtip}
+\begin{answerplan}[2.5 marks]
+\stepno{1} Draw the 32-bit-wide header (diagram carries about half the marks) \quad \stepno{2} One line per field with bit sizes \quad \stepno{3} HLEN$\times$4, data $=$ total $-$ header, urgent range from the sequence number.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{DNS lookup: iterative and recursive resolution}\label{iq:C18}
+\tier{B} \prob{38} \ev{0.85} \asked{MS2025 Q2(a)} \src{N_Network_Systems_compressed p52-59}
+
+\textbf{Why it is likely:} 3 marks in 2025; DNS gets a full lecture; seniors' topic list item 5 (``HTTP and DNS working''). Original PYQ solved on page~\pageref{q:MS2025-2a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-2a}{3}
+A student on the campus network types \texttt{www.other.example.org} into a browser. Explain, with a diagram, how the IP address is obtained when the local DNS server uses \emph{iterative} resolution. How would \emph{recursive} resolution differ?
+\end{question}
+\begin{solution}
+DNS maps a domain name to an IP address using a distributed, hierarchical database of name servers (root, top-level domain, authoritative); queries normally use \keyword{UDP port 53}.
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item The browser and OS check their caches (and the hosts file). On a miss, the host's \keyword{resolver} sends a \keyword{recursive query} for \texttt{www.other.example.org} to the \keyword{local DNS server} (Example).
+\item The local server (cache miss) asks a \keyword{root server}. The root does not know the address but returns a \keyword{referral}: the name servers for the \texttt{.in} TLD.
+\item The local server asks the \texttt{.in} \keyword{TLD server}, which returns a referral to the name server for \texttt{other.example.org} (via \texttt{ac.in}).
+\item The local server asks the \keyword{authoritative server} of \texttt{other.example.org}, which returns the \keyword{A record} (IP address).
+\item The local server \keyword{caches} the answer for its TTL and returns it to the host; the browser now opens a TCP connection to that IP (port 80/443).
+\end{enumerate}
+\textbf{Iterative vs recursive:} in iterative resolution every server answers the local server directly with the best referral it has, so the local server does all the asking. In \keyword{recursive} resolution each server asks the next one on behalf of the previous one (local $\to$ root $\to$ TLD $\to$ authoritative) and the answer travels back along the same chain; the load moves onto the upper servers, so roots normally refuse recursion.
+\end{solution}
+
+\stepanim{4}{2}{0.48\linewidth}{Iterative DNS resolution of \texttt{www.other.example.org}. Orange = the step happening now, grey = done. The host-to-local query is recursive; the local server iterates \src{N_Network_Systems_compressed p55-57}.}{%
+  \path[use as bounding box] (-0.2,-1.3) rectangle (7.6,2.75);
+  \tikzset{p1/.style={arr,color=muted},p2/.style={arr,color=muted},p3/.style={arr,color=muted},p4/.style={arr,color=muted}}
+  \ifcase\f\or\tikzset{p1/.style={arrhl}}\or\tikzset{p2/.style={arrhl}}\or\tikzset{p3/.style={arrhl}}\or\tikzset{p4/.style={arrhl}}\fi
+  \node[blk,font=\scriptsize,minimum width=11mm] (h) at (0.8,0) {Host};
+  \node[blk,font=\scriptsize,minimum width=14mm] (l) at (3.9,0) {Local DNS\\(Example)};
+  \node[blk,font=\scriptsize,minimum width=11mm] (r) at (0.9,2.05) {Root};
+  \node[blk,font=\scriptsize,minimum width=11mm] (t) at (3.9,2.05) {.in TLD};
+  \node[blk,font=\scriptsize,minimum width=14mm] (a) at (6.5,2.05) {other.example.org\\authoritative};
+  \draw[p1] (h) to[bend left=18] node[stepbubble]{1} (l);
+  \ifnum\f>1 \draw[p2] (l) to[bend left=12] node[stepbubble]{2} (r); \draw[p2] (r) to[bend left=12] (l);\fi
+  \ifnum\f>2 \draw[p3] (l) to[bend left=18] node[stepbubble]{3} (t); \draw[p3] (t) to[bend left=18] (l);\fi
+  \ifnum\f>3 \draw[p4] (l) to[bend left=12] node[stepbubble]{4} (a); \draw[p4] (a) to[bend left=12] (l);
+             \draw[p4] (l) to[bend left=18] node[stepbubble]{5} (h);\fi
+  \ifcase\f\or
+    \node[note] at (3.7,-1.0) {host's resolver sends a recursive\\query to the local server};
+  \or
+    \node[note] at (3.7,-1.0) {root: ``I don't know, ask the .in TLD\\servers'' (a referral)};
+  \or
+    \node[note] at (3.7,-1.0) {TLD: referral to the name\\server of other.example.org};
+  \or
+    \node[note] at (3.7,-1.0) {authoritative server returns the A record;\\local server caches it and answers the host};
+  \fi
+}
+
+\begin{answerplan}[3 marks]
+\stepno{1} Diagram: host, local server, root, TLD, authoritative with numbered arrows \quad \stepno{2} 5 numbered steps using \keyword{referral}, \keyword{A record}, \keyword{cache/TTL}, \keyword{UDP 53} \quad \stepno{3} Two lines contrasting iterative and recursive.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{How SMTP delivers a mail: commands and the three phases}\label{iq:C16}
+\tier{B} \prob{42} \ev{0.78} \asked{MS2025 Q5(ii)} \src{N_Network_Systems_compressed p47-51}
+
+\textbf{Why it is likely:} a 2025 short-note option; a full lecture on e-mail; seniors' expected question 7(a) (``how SMTP sends your email to your friend's mailbox''). Original PYQ solved on page~\pageref{q:MS2025-5ii}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-5ii}{2.5}
+Explain in detail how SMTP sends your e-mail from \texttt{alice@example.edu} to your friend's mailbox \texttt{bob@gmail.com}. Show the commands and responses of the three mail-transfer phases.
+\end{question}
+\begin{solution}
+\textbf{Path of the mail:} Alice's user agent (UA) $\xrightarrow{\text{SMTP}}$ Example mail server (MTA client) $\xrightarrow{\text{SMTP over the Internet}}$ Gmail's mail server (MTA server), which stores it in Bob's \keyword{mailbox}. Bob later \emph{pulls} it with a message access agent (\keyword{POP3} or \keyword{IMAP}); SMTP itself is a \keyword{push} protocol.
+
+\textbf{SMTP facts:} client--server, \keyword{TCP port 25}, commands are ASCII text and replies are 3-digit codes; the body is 7-bit ASCII, so attachments need \keyword{MIME}.
+
+\textbf{Three phases} (after the TCP connection to port 25 is open):
+\begin{enumerate}[label=\textbf{\arabic*.}]
+\item \textbf{Connection establishment:} server sends \texttt{220 service ready}; client sends \texttt{HELO example.edu}; server replies \texttt{250 OK}.
+\item \textbf{Mail transfer:} \texttt{MAIL FROM:<alice@example.edu>} $\to$ \texttt{250}; \texttt{RCPT TO:<bob@gmail.com>} $\to$ \texttt{250} (repeat for each recipient); \texttt{DATA} $\to$ \texttt{354 start mail input}; header lines, a blank line, the body, and a line with a single ``.'' $\to$ \texttt{250 OK}.
+\item \textbf{Connection termination:} client sends \texttt{QUIT}; server replies \texttt{221 service closing} and the TCP connection is released.
+\end{enumerate}
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1]
+  \node[blk] at (0,0) {SMTP client (Example MTA)}; \node[blk] at (7.2,0) {SMTP server (Gmail MTA)};
+  \draw[lifeline] (0,0.4) -- (0,7.4); \draw[lifeline] (7.2,0.4) -- (7.2,7.4);
+  \foreach \t/\d [count=\i from 0] in {
+     {220 service ready}/l, {HELO example.edu}/r, {250 OK}/l,
+     {MAIL FROM: <alice@example.edu>}/r, {250 OK}/l, {RCPT TO: <bob@gmail.com>}/r, {250 OK}/l,
+     {DATA}/r, {354 start mail input}/l, {header, blank line, body, ``.''}/r, {250 OK}/l,
+     {QUIT}/r, {221 service closing}/l}{
+    \pgfmathsetmacro{\ya}{0.8+\i*0.5}\pgfmathsetmacro{\yb}{\ya+0.3}
+    \if\d r\draw[msg] (0,\ya) -- node[elabel,above,sloped]{\texttt{\t}} (7.2,\yb);
+    \else\draw[msgok] (7.2,\ya) -- node[elabel,above,sloped]{\texttt{\t}} (0,\yb);\fi}
+  \draw[decorate,decoration={brace,amplitude=4pt},color=info] (7.35,0.7) -- node[right=5pt,note,text=info,align=left]{connection\\establishment} (7.35,2.1);
+  \draw[decorate,decoration={brace,amplitude=4pt},color=info] (7.35,2.25) -- node[right=5pt,note,text=info,align=left]{mail\\transfer} (7.35,6.1);
+  \draw[decorate,decoration={brace,amplitude=4pt},color=info] (7.35,6.25) -- node[right=5pt,note,text=info]{termination} (7.35,7.2);
+\end{tikzpicture}
+\caption{SMTP command/response exchange between the two mail servers over a TCP connection to port 25 \src{N_Network_Systems_compressed p49-50}.}\end{figure}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} One line on the path UA $\to$ MTA $\to$ MTA $\to$ mailbox $\to$ POP3/IMAP (push vs pull) \quad \stepno{2} The command ladder (diagram) \quad \stepno{3} Name the three phases with their commands and reply codes.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Network topologies: types with advantages and disadvantages}\label{iq:C05}
+\tier{B} \prob{38} \ev{0.71} \asked{MS2025 Q5(i)} \src{N_Network_Systems_compressed p12-20}
+
+\textbf{Why it is likely:} a 2025 short-note option; the only Unit 1 idea with marks in the last paper; seniors' topic list item 8 (``topology advantage and disadvantage''). Original PYQ solved on page~\pageref{q:MS2025-5i}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-5i}{2.5}
+Write a short note on network topologies. An office wants to connect 8 computers in a full mesh: how many cables and how many I/O ports are needed? Compare mesh, star, bus and ring.
+\end{question}
+\begin{solution}
+\textbf{Topology:} the geometric arrangement of the links and devices (nodes) of a network.
+\textbf{Mesh of $n=8$:} every device has a dedicated point-to-point link to every other.
+\[ \text{links} = \frac{n(n-1)}{2} = \frac{8\times7}{2} = \answer{28}, \qquad \text{I/O ports} = n-1 = 7 \text{ per device}, \;\; 8\times7=\answer{56 in total}. \]
+\begin{itemize}
+\item \textbf{Mesh:} dedicated, robust, private, easy fault isolation; but many cables and ports, costly.
+\item \textbf{Star:} one link per device to a hub; cheap, easy to install; but the hub is a \keyword{single point of failure}.
+\item \textbf{Bus:} one backbone with drop lines; least cable; but a backbone fault stops all traffic, needs terminators.
+\item \textbf{Ring:} each device links to two neighbours, signal passes around (token); easy fault detection; one break disables it unless dual ring.
+\end{itemize}
+\end{solution}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[dot/.style={circ,minimum size=3.6mm,inner sep=0pt}]
+  \begin{scope}
+    \foreach \k in {1,...,5}{\node[dot] (m\k) at ({90+72*\k}:0.85) {};}
+    \foreach \a/\b in {1/2,1/3,1/4,1/5,2/3,2/4,2/5,3/4,3/5,4/5}{\draw[sgslate] (m\a) -- (m\b);}
+    \node[note] at (0,-1.35) {Mesh: $n(n-1)/2$ links};
+  \end{scope}
+  \begin{scope}[xshift=3.6cm]
+    \node[blkhl,minimum width=8mm,minimum height=5mm,font=\scriptsize] (hub) at (0,0) {Hub};
+    \foreach \k in {1,...,5}{\node[dot] (s\k) at ({90+72*\k}:0.95) {}; \draw[sgslate] (hub) -- (s\k);}
+    \node[note] at (0,-1.35) {Star: $n$ links, hub};
+  \end{scope}
+  \begin{scope}[xshift=6.6cm]
+    \draw[line width=1.2pt,sgnavy] (0,-0.2) -- (3,-0.2);
+    \foreach \x in {0.4,1.15,1.9,2.65}{\node[dot] at (\x,0.55) {}; \draw[sgslate] (\x,0.37) -- (\x,-0.2);}
+    \foreach \x in {0,3}{\draw[line width=2pt,bad] (\x,-0.35) -- (\x,-0.05);}
+    \node[note] at (1.5,-1.35) {Bus: backbone $+$ drops};
+  \end{scope}
+  \begin{scope}[xshift=11.8cm]
+    \foreach \k in {1,...,5}{\node[dot] (r\k) at ({90+72*\k}:0.85) {};}
+    \foreach \a/\b in {1/2,2/3,3/4,4/5,5/1}{\draw[arr] (r\a) -- (r\b);}
+    \node[note] at (0,-1.35) {Ring: $n$ links};
+  \end{scope}
+\end{tikzpicture}
+\caption{The four basic topologies with 5 (or 4) devices. Red bars on the bus are terminators \src{N_Network_Systems_compressed p12-20}.}\end{figure}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} Define topology; draw the four sketches \quad \stepno{2} Mesh formula $n(n-1)/2$ and $n-1$ ports with the numbers \quad \stepno{3} One advantage and one disadvantage for each type.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Total time for a file transfer with RTT waits and an initial handshake}\label{iq:C02}
+\tier{B} \prob{36} \ev{0.68} \asked{MS2024 Q3(a)} \src{N_Network_Systems_compressed p90-91}
+
+\textbf{Why it is likely:} 2.5 marks in 2024; seniors' expected question 4 is this exact PYQ and their list puts ``question on delay'' first (``vv imp''). Original PYQ solved on page~\pageref{q:MS2024-3a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-3a}{2.5}
+State the four kinds of delay in a packet network and say which are constant and which vary. Then find the total time to transfer a 1 MB file when the bandwidth is 4 Mbps, the RTT is 50 ms, the packet size is 1 KB of data, there is an initial 2$\times$RTT of handshaking, and after sending each packet we must wait one RTT before sending the next.
+\end{question}
+\begin{solution}
+\textbf{Delays} \src{N_Network_Systems_compressed p91}: $d_{total}=d_{proc}+d_{queue}+d_{trans}+d_{prop}$.
+\begin{itemize}
+\item \keyword{Processing} (examine the header, check errors, choose the output link): small, roughly constant per router.
+\item \keyword{Queuing} (wait in the output buffer): \textbf{variable}, depends on the traffic load.
+\item \keyword{Transmission} $d_{trans}=L/R$: \textbf{constant} for a given packet size and link rate.
+\item \keyword{Propagation} $d_{prop}=D/S$: \textbf{constant} for a given link length and medium.
+\end{itemize}
+\textbf{Numerical} (1 MB $=2^{20}$ B, 1 KB $=1024$ B, 4 Mbps $=4\times10^{6}$ bps):
+\begin{align*}
+N &= 2^{20}/2^{10} = 1024 \text{ packets}, \qquad d_{trans} = \frac{1024\times8}{4\times10^{6}} = 2.048 \text{ ms per packet}\\
+T &= \underbrace{2\,\text{RTT}}_{\text{handshake}} + \underbrace{N\,d_{trans}}_{\text{send all}} + \underbrace{(N-1)\,\text{RTT}}_{\text{waits}} + \underbrace{\text{RTT}/2}_{\text{last packet arrives}}\\
+  &= 0.1 + 2.097 + 1023\times0.05 + 0.025 = \answer{53.37 s}.
+\end{align*}
+\textit{Other conventions:} with 1 MB $=10^{6}$ B and 1 KB $=1000$ B, $N=1000$ and $T=52.08$ s; counting a full RTT wait after every packet (and no final half RTT) gives 53.40 s. The waits dominate: about 96\% of the time is idle.
+\end{solution}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1.6cm]
+  \draw[fill=muted!30,draw=sgslate] (0,0) rectangle (2,0.6) node[midway,font=\scriptsize]{2 RTT handshake};
+  \draw[fill=ok!25,draw=sgslate] (2,0) rectangle (2.45,0.6) node[midway,font=\scriptsize]{$d_t$};
+  \draw[fill=hl!20,draw=sgslate] (2.45,0) rectangle (3.5,0.6) node[midway,font=\scriptsize]{RTT wait};
+  \draw[fill=ok!25,draw=sgslate] (3.5,0) rectangle (3.95,0.6) node[midway,font=\scriptsize]{$d_t$};
+  \draw[fill=hl!20,draw=sgslate] (3.95,0) rectangle (5.0,0.6) node[midway,font=\scriptsize]{RTT wait};
+  \node at (5.4,0.3) {$\cdots$};
+  \draw[fill=ok!25,draw=sgslate] (5.8,0) rectangle (6.25,0.6) node[midway,font=\scriptsize]{$d_t$};
+  \draw[fill=info!20,draw=sgslate] (6.25,0) rectangle (7.0,0.6) node[midway,font=\scriptsize]{RTT/2};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (2,-0.1) -- node[below=5pt,note]{$N=1024$ packets, $N-1=1023$ waits} (6.25,-0.1);
+  \draw[arr] (0,-0.9) -- node[elabel,pos=0.97,above]{time} (7.1,-0.9);
+\end{tikzpicture}
+\caption{Time line of the transfer (not to scale): handshake, then packet / wait / packet \dots, then the last packet's propagation.}\end{figure}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} Four delays with formulas, constant vs variable \quad \stepno{2} State the units convention, find $N$ and $d_{trans}$ \quad \stepno{3} Sum the four terms of $T$ and box the result; give the other convention in one line.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Window-size limits: GBN $2^m-1$ and SR $2^{m-1}$}\label{iq:C26}
+\tier{B} \prob{36} \ev{0.68} \asked{MS2024 Q4(a)} \src{N_Network_Systems_compressed p66-71}
+
+\textbf{Why it is likely:} 2.5 marks in 2024 with ``a neat diagram''; seniors' expected question 5 (``why the sender window must be less than $2^m$ for Go-Back-N''). Original PYQ solved on page~\pageref{q:MS2024-4a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-4a}{2.5}
+Derive the relationship between window size and sequence-number bits for Go-Back-N and Selective Repeat. With 5-bit sequence numbers find the maximum window for each. Using $m=2$, show with a diagram what goes wrong if the GBN window is 4 and the SR window is 3.
+\end{question}
+\begin{solution}
+Sequence numbers are taken modulo $2^m$ (for $m=2$: $0,1,2,3,0,1,\dots$). The window must be small enough that the receiver can tell a \emph{new} packet from a \emph{retransmitted old} one when all ACKs of a window are lost.
+\begin{itemize}
+\item \textbf{GBN} (receive window $=1$): after receiving packets $0,\dots,S_{size}-1$ the receiver expects $S_{size} \bmod 2^m$. If $S_{size}=2^m$ it expects $0$ again, so a resent old packet 0 is \textbf{accepted as new} (duplicate). With $S_{size}=2^m-1$ it expects $2^m-1\neq0$ and discards the old copy. Hence $S_{size}\le \answer{$2^m-1$}$.
+\item \textbf{SR} ($R_{size}=S_{size}=W$): after receiving $0,\dots,W-1$ the receive window is $W,\dots,2W-1$ (mod $2^m$). It must not overlap the old window $0,\dots,W-1$, so $2W\le2^m$, giving $W\le\answer{$2^{m-1}$}$.
+\end{itemize}
+\textbf{For $m=5$:} sequence numbers 0--31; GBN $S_{size}=2^5-1=\answer{31}$ ($R_{size}=1$); SR $S_{size}=R_{size}=2^4=\answer{16}$.
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1]
+  \begin{scope}
+    \node[font=\scriptsize\bfseries] at (1.7,-0.35) {GBN, $m=2$, window 4 (too big)};
+    \node[blk,font=\scriptsize,minimum width=12mm] at (0,0.15) {Sender}; \node[blk,font=\scriptsize,minimum width=12mm] at (3.4,0.15) {Receiver};
+    \draw[lifeline] (0,0.5) -- (0,5.0); \draw[lifeline] (3.4,0.5) -- (3.4,5.0);
+    \foreach \p [count=\i from 0] in {0,1,2,3}{\draw[msg] (0,0.7+0.35*\i) -- node[elabel,pos=0.8]{\p} (3.4,1.0+0.35*\i);}
+    \node[note,right] at (3.45,1.6) {next $=0$};
+    \draw[msglost] (3.4,2.3) -- (1.8,2.6); \node[bad,font=\bfseries] at (1.7,2.62) {$\times$};
+    \node[note,text=bad] at (1.7,2.95) {all ACKs lost};
+    \draw[timeout] (-0.15,0.7) -- node[left=4pt,note,text=bad]{timeout} (-0.15,3.5);
+    \draw[msg] (0,3.6) -- node[elabel,pos=0.6,above,sloped]{0 (old copy)} (3.4,3.95);
+    \node[note,text=bad,right,align=left] at (3.45,4.1) {accepted\\as NEW: error};
+  \end{scope}
+  \begin{scope}[xshift=8.4cm]
+    \node[font=\scriptsize\bfseries] at (1.7,-0.35) {SR, $m=2$, window 3 (too big)};
+    \node[blk,font=\scriptsize,minimum width=12mm] at (0,0.15) {Sender}; \node[blk,font=\scriptsize,minimum width=12mm] at (3.4,0.15) {Receiver};
+    \draw[lifeline] (0,0.5) -- (0,5.0); \draw[lifeline] (3.4,0.5) -- (3.4,5.0);
+    \foreach \p [count=\i from 0] in {0,1,2}{\draw[msg] (0,0.7+0.35*\i) -- node[elabel,pos=0.8]{\p} (3.4,1.0+0.35*\i);}
+    \node[note,right,align=left] at (3.45,1.5) {window\\$\{3,0,1\}$};
+    \draw[msglost] (3.4,2.3) -- (1.8,2.6); \node[bad,font=\bfseries] at (1.7,2.62) {$\times$};
+    \node[note,text=bad] at (1.7,2.95) {all ACKs lost};
+    \draw[timeout] (-0.15,0.7) -- node[left=4pt,note,text=bad]{timeout} (-0.15,3.5);
+    \draw[msg] (0,3.6) -- node[elabel,pos=0.6,above,sloped]{0 (old copy)} (3.4,3.95);
+    \node[note,text=bad,right,align=left] at (3.45,4.1) {0 is in window:\\accepted, error};
+  \end{scope}
+\end{tikzpicture}
+\caption{Why the limits exist ($m=2$). With GBN window 3 the receiver would expect 3 and discard the old 0; with SR window 2 the receive window would be $\{2,3\}$, which excludes 0 \src{N_Network_Systems_compressed p68, p71}.}\end{figure}
+
+\begin{answerplan}[2.5 marks]
+\stepno{1} Modulo-$2^m$ argument for GBN $\Rightarrow 2^m-1$ \quad \stepno{2} Non-overlapping windows for SR $\Rightarrow 2^{m-1}$ \quad \stepno{3} Numbers for the given $m$, and the two failure diagrams.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Persistent vs non-persistent HTTP with timeline diagrams}\label{iq:C11}
+\tier{B} \prob{44} \ev{0.67} \asked{MS2025 Q2(b)} \src{N_Network_Systems_compressed p38-41}
+
+\textbf{Why it is likely:} 2 marks in 2025; HTTP is the topic with marks in all 3 papers ($P=84\%$); seniors' topic list item 13. Original PYQ solved on page~\pageref{q:MS2025-2b}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-2b}{2}
+A web page consists of a base HTML file and 3 JPEG images, all on the same server. Draw timelines for non-persistent and persistent HTTP. How many TCP connections and how many RTTs does each need? (Ignore transmission times; requests are serial unless pipelined.)
+\end{question}
+\begin{solution}
+\textbf{Non-persistent} (HTTP/1.0 default): a new TCP connection for \emph{each} object; the server closes it after sending the response. Each object costs 2 RTT (1 for the handshake, 1 for request and response, the request riding on the third handshake segment).
+\[ 4 \text{ objects} \Rightarrow \answer{4 connections}, \; 4\times2 = \answer{8 RTT}. \]
+\textbf{Persistent} (HTTP/1.1 default): the server leaves the connection open, and all objects go over \answer{1 connection}.
+Without pipelining: $1+4=\answer{5 RTT}$. With pipelining (all image requests sent back-to-back): $1+1+1=\answer{3 RTT}$.
+Persistent connections save the handshake per object and reduce server load (fewer sockets and buffers).
+\end{solution}
+
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1]
+  \begin{scope}
+    \node[font=\scriptsize\bfseries] at (2.3,-0.35) {Non-persistent: new connection per object};
+    \node[blk,font=\scriptsize,minimum width=12mm] at (0,0.15) {Client}; \node[blk,font=\scriptsize,minimum width=12mm] at (4.6,0.15) {Server};
+    \draw[lifeline] (0,0.5) -- (0,5.0); \draw[lifeline] (4.6,0.5) -- (4.6,5.0);
+    \foreach \t/\d/\y in {SYN/r/0.7,SYN+ACK/l/1.15,ACK + GET html/r/1.6,html (close)/l/2.05,SYN/r/2.7,SYN+ACK/l/3.15,ACK + GET img1/r/3.6,img1 (close)/l/4.05}{
+      \pgfmathsetmacro{\yb}{\y+0.3}
+      \if\d r\draw[msg] (0,\y) -- node[elabel,above,sloped]{\t} (4.6,\yb);\else\draw[msgok] (4.6,\y) -- node[elabel,above,sloped]{\t} (0,\yb);\fi}
+    \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,0.65) -- node[left=4pt,note,text=info]{2 RTT} (-0.15,2.4);
+    \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,2.65) -- node[left=4pt,note,text=info]{2 RTT} (-0.15,4.4);
+    \node[note] at (2.3,4.75) {\dots\ again for img2, img3: 8 RTT};
+  \end{scope}
+  \begin{scope}[xshift=8.2cm]
+    \node[font=\scriptsize\bfseries] at (2.3,-0.35) {Persistent with pipelining: one connection};
+    \node[blk,font=\scriptsize,minimum width=12mm] at (0,0.15) {Client}; \node[blk,font=\scriptsize,minimum width=12mm] at (4.6,0.15) {Server};
+    \draw[lifeline] (0,0.5) -- (0,5.0); \draw[lifeline] (4.6,0.5) -- (4.6,5.0);
+    \foreach \t/\d/\y in {SYN/r/0.7,SYN+ACK/l/1.15,ACK + GET html/r/1.6,html/l/2.05}{
+      \pgfmathsetmacro{\yb}{\y+0.3}
+      \if\d r\draw[msg] (0,\y) -- node[elabel,above,sloped]{\t} (4.6,\yb);\else\draw[msgok] (4.6,\y) -- node[elabel,above,sloped]{\t} (0,\yb);\fi}
+    \foreach \y in {2.7,2.85,3.0}{\draw[msg] (0,\y) -- (4.6,\y+0.3);}
+    \node[elabel] at (1.4,2.88) {GET img1--3};
+    \foreach \y in {3.55,3.7,3.85}{\draw[msgok] (4.6,\y) -- (0,\y+0.3);}
+    \node[elabel] at (3.2,3.85) {img1--3};
+    \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,0.65) -- node[left=4pt,note,text=info]{2 RTT} (-0.15,2.4);
+    \draw[decorate,decoration={brace,amplitude=4pt,mirror},color=info] (-0.15,2.65) -- node[left=4pt,note,text=info]{1 RTT} (-0.15,4.2);
+    \node[note] at (2.3,4.75) {total 3 RTT, connection kept open};
+  \end{scope}
+\end{tikzpicture}
+\caption{Timelines for a base file and images. Left: each object needs its own handshake. Right: the handshake is paid once and the image requests are pipelined \src{N_Network_Systems_compressed p39-41}.}\end{figure}
+
+\begin{answerplan}[2 marks]
+\stepno{1} Define both in one line each (who closes the connection, HTTP/1.0 vs 1.1) \quad \stepno{2} Two timelines (the marks are for these) \quad \stepno{3} Connection and RTT counts.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Page-load time: non-persistent vs persistent HTTP}\label{iq:C12}
+\tier{B} \prob{35} \ev{0.66} \asked{MS2024 Q2(a)} \src{N_Network_Systems_compressed p39-41}
+
+\textbf{Why it is likely:} 2.5 marks in 2024; the same idea as the 2025 timeline question but with numbers. Original PYQ solved on page~\pageref{q:MS2024-2a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-2a}{2.5}
+A browser opens a TCP connection to a website; the connection setup takes 6.2 ms including the RTT. The browser then requests the index file, which references 15 images on the same server. All other conditions being equal, how much longer does non-persistent HTTP take than persistent HTTP?
+\end{question}
+\begin{solution}
+\textbf{Assumptions:} the request/response time of each object is the same in both modes; requests are serial (no parallel connections); persistent means one connection for all objects.
+Objects $=1$ index file $+15$ images $=16$.
+\begin{itemize}
+\item Non-persistent: one connection per object $\Rightarrow$ 16 setups $=16\times6.2=99.2$ ms of setup time.
+\item Persistent: 1 setup $=6.2$ ms.
+\end{itemize}
+\[ \text{Extra time} = (16-1)\times 6.2 = \answer{93 ms}. \]
+\end{solution}
+\begin{answerplan}[2.5 marks]
+\stepno{1} Define both modes (one line each) \quad \stepno{2} Count objects and setups \quad \stepno{3} Extra $=(n-1)\times$ setup, with the assumption stated.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Decode a TCP header from a hexadecimal dump}\label{iq:C31}
+\tier{B} \prob{38} \ev{0.56} \asked{MS2025 Q4(b)} \src{N_Network_Systems_compressed p78-79}
+
+\textbf{Why it is likely:} 2 marks in 2025; the UDP version was asked in 2024, so dump decoding is a pattern; it uses the header you must learn anyway. Original PYQ solved on page~\pageref{q:MS2025-4b}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-4b}{2}
+The following is a TCP header dump in hexadecimal: \texttt{C3500019000027100000000060024000\dots}. Find the source port, destination port, sequence number, acknowledgment number, header length, type of segment and window size. What does the header length tell you?
+\end{question}
+\begin{solution}
+Split by the header layout (4 + 4 + 8 + 8 + 4 + 4 hex digits):
+\begin{center}\small
+\begin{tabular}{lll}\toprule
+Hex & Field & Value\\\midrule
+\texttt{C350} & source port & \answer{50000} (ephemeral: a client)\\
+\texttt{0019} & destination port & \answer{25} (SMTP server)\\
+\texttt{00002710} & sequence number & \answer{10000}\\
+\texttt{00000000} & acknowledgment number & \answer{0} (not valid: ACK flag is 0)\\
+\texttt{6}\,\texttt{002} & HLEN $=6$; flags $=$ \texttt{000010} & header $=6\times4=$ \answer{24 bytes}; \answer{SYN}\\
+\texttt{4000} & window size & \answer{16384} bytes\\\bottomrule
+\end{tabular}\end{center}
+So this is a \textbf{SYN segment}: a client asking an SMTP server to open a connection. HLEN 6 means 4 bytes of \keyword{options} after the 20-byte fixed header (in a SYN typically the MSS option).
+\end{solution}
+\begin{answerplan}[2 marks]
+\stepno{1} Write the layout (bytes 0--1, 2--3, 4--7, 8--11, 12--13, 14--15) \quad \stepno{2} Convert each field to decimal \quad \stepno{3} Read the flag bits and name the segment; recognise the well-known port.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{UDP header numericals: hex dump and transmission efficiency}\label{iq:C28}
+\tier{B} \prob{50} \ev{0.50} \asked{MS2022 Q1(c), MS2024 Q1(b)} \src{N_Network_Systems_compressed p72-75}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2 of 3 papers; seniors' expected question 13. Original PYQs solved on pages~\pageref{q:MS2024-1b} and~\pageref{q:MS2022-1c}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-1b}{1}
+(a) A UDP header in hexadecimal is \texttt{0035 E1A4 0026 7C1D}. Find the source and destination ports and the length of the data. Has a checksum been computed? Is the datagram going to or coming from a server?
+(b) A client sends 100 bytes of data with UDP. What is the efficiency of transmission at the UDP level?
+\end{question}
+\begin{solution}
+(a) Source port \texttt{0035}$_{16}$ $=$ \answer{53} (DNS); destination port \texttt{E1A4}$_{16}$ $=$ \answer{57764} (ephemeral); total length \texttt{0026}$_{16}=38$ bytes, so data $=38-8=$ \answer{30 bytes}; checksum \texttt{7C1D} $\neq 0$, so \answer{yes, computed}. Source port 53 means it comes \emph{from} a DNS server (a reply to a client).
+
+(b) The UDP header is 8 bytes: efficiency $=\dfrac{100}{100+8}=\answer{92.6\%}$.
+\end{solution}
+\begin{answerplan}[1 mark]
+Four 16-bit fields, convert each; data $=$ length $-8$; a checksum of all zeros means ``not computed''; efficiency $=$ data$/($data$+8)$.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Delay of a packet on a link: transmission plus propagation}\label{iq:C01}
+\tier{B} \prob{42} \ev{0.42} \asked{MS2025 Q1(a)} \src{N_Network_Systems_compressed p91}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2025; seniors' topic list puts ``question on delay'' first (``vv imp'') and their expected questions 1 and 8 are delay questions. Original PYQ solved on page~\pageref{q:MS2025-1a}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-1a}{1}
+Hosts A and B are 2,500 km apart on a single 10 Mbps link with propagation speed $2.5\times10^{8}$ m/s. How long does a 1,000-byte packet take to reach B from A (ignore processing and queuing)?
+\end{question}
+\begin{solution}
+$d_{trans}=\dfrac{L}{R}=\dfrac{8000}{10^{7}}=0.8$ ms; \quad $d_{prop}=\dfrac{D}{S}=\dfrac{2.5\times10^{6}}{2.5\times10^{8}}=10$ ms; \quad total $=\answer{10.8 ms}$.
+In symbols (the PYQ form): time $=\dfrac{L}{R}+\dfrac{m}{s}$ seconds.
+\end{solution}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[yscale=-1]
+  \node[blk,font=\scriptsize] at (0,0) {A}; \node[blk,font=\scriptsize] at (5,0) {B};
+  \draw[lifeline] (0,0.35) -- (0,4); \draw[lifeline] (5,0.35) -- (5,4);
+  \fill[info!18] (0,0.6) -- (5,2.4) -- (5,3.4) -- (0,1.6) -- cycle;
+  \draw[msg] (0,0.6) -- node[elabel,above,sloped]{first bit} (5,2.4);
+  \draw[msg] (0,1.6) -- node[elabel,below,sloped]{last bit} (5,3.4);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (-0.15,0.6) -- node[left=5pt,note]{$d_{trans}=L/R$} (-0.15,1.6);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (5.15,0.6) -- node[right=5pt,note]{$d_{prop}=m/s$} (5.15,2.4);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (7.6,0.6) -- node[right=5pt,note,align=left]{total\\$L/R+m/s$} (7.6,3.4);
+\end{tikzpicture}
+\caption{The last bit reaches B $d_{trans}+d_{prop}$ after the first bit leaves A \src{N_Network_Systems_compressed p91}.}\end{figure}
+\begin{answerplan}[1 mark]
+Write $d_{trans}=L/R$ and $d_{prop}=D/S$, substitute with units, add.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Components and characteristics of data communication}\label{iq:C04}
+\tier{B} \prob{37} \ev{0.37} \asked{MS2025 Q1(c)} \src{N_Network_Systems_compressed p1-12}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2025; the first lecture of the course; one-line definitions are natural Q1 material for Unit 1. Original PYQ solved on page~\pageref{q:MS2025-1c}.
+
+\needspace{8\baselineskip}
+\begin{question}{Expected}{1}
+State the five components of a data communication system and its four fundamental characteristics. Name the three data-flow modes.
+\end{question}
+\begin{solution}
+\textbf{Components:} \keyword{message} (the data), \keyword{sender}, \keyword{receiver}, \keyword{transmission medium} (physical path), \keyword{protocol} (agreed set of rules).
+\textbf{Characteristics:} \keyword{delivery} (to the correct destination), \keyword{accuracy}, \keyword{timeliness}, \keyword{jitter} (uneven arrival time).
+\textbf{Data flow:} simplex (one way, e.g.\ keyboard), half-duplex (both ways, one at a time, e.g.\ walkie-talkie), full-duplex (both ways at once, e.g.\ telephone).
+\end{solution}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \node[blk] (s) at (0,0) {Sender};
+  \node[blk] (r) at (7,0) {Receiver};
+  \draw[line width=1.4pt,sgslate] (s) -- node[elabel]{transmission medium} (r);
+  \node[blkhl,font=\scriptsize] (m) at (3.5,0.9) {Message};
+  \node[blk,font=\scriptsize,fill=info!10] (ps) at (0,-1.2) {Protocol: rule 1 \dots\ rule $n$};
+  \node[blk,font=\scriptsize,fill=info!10] (pr) at (7,-1.2) {Protocol: rule 1 \dots\ rule $n$};
+  \draw[arr,dashed] (s) -- (ps); \draw[arr,dashed] (r) -- (pr);
+\end{tikzpicture}
+\caption{The five components of data communication \src{N_Network_Systems_compressed p2}.}\end{figure}
+\begin{answerplan}[1 mark]
+List the five components (drawing the block diagram is a quick win), then the four characteristics.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Write an HTTP request message for a given scenario}\label{iq:C13}
+\tier{B} \prob{35} \ev{0.35} \asked{MS2024 Q1(d)} \src{N_Network_Systems_compressed p42-44}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2024; HTTP has marks in every paper. Original PYQ solved on page~\pageref{q:MS2024-1d}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-1d}{1}
+Write the HTTP request a client sends to \texttt{www.example.edu} to retrieve the document \texttt{/notes/cn/unit3.pdf} over a persistent connection, only if the document has changed since 1 October 2026. The client accepts PDF or HTML.
+\end{question}
+\begin{solution}
+Request line (method, URL, version), header lines (name: value), then a blank line; GET has no body.
+\begin{lstlisting}[numbers=none]
+GET /notes/cn/unit3.pdf HTTP/1.1
+Host: www.example.edu
+Connection: keep-alive
+Accept: application/pdf, text/html
+If-Modified-Since: Thu, 01 Oct 2026 00:00:00 GMT
+(blank line)
+\end{lstlisting}
+The server answers \texttt{HTTP/1.1 200 OK} with the file, or \texttt{HTTP/1.1 304 Not Modified} with no body.
+\end{solution}
+\begin{answerplan}[1 mark]
+Correct \keyword{request line}, \texttt{Host} header, one header per requirement (Accept, Connection, If-Modified-Since), blank line.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{Stop-and-wait: count transmissions when every $k$-th packet is lost}\label{iq:C24}
+\tier{B} \prob{35} \ev{0.35} \asked{MS2024 Q1(c)} \src{N_Network_Systems_compressed p65}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2024; the stop-and-wait twin of the tier-A GBN question; seniors' list item 4 (``packet loss and retransmission, vv imp''). Original PYQ solved on page~\pageref{q:MS2024-1c}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-1c}{1}
+With stop-and-wait, every 5th packet transmitted is lost. How many transmissions are needed to deliver 12 packets?
+\end{question}
+\begin{solution}
+Every 5 transmissions deliver 4 packets; the lost one is resent after the timeout. After 10 transmissions 8 packets are delivered; transmissions 11--14 deliver packets 9--12 (the 15th would be lost but is not needed).
+\[ T = N + \left\lfloor \frac{N-1}{k-1} \right\rfloor = 12 + \left\lfloor \frac{11}{4} \right\rfloor = \answer{14}. \]
+Assumption: ``every 5th packet'' counts retransmissions. If it means every 5th \emph{original} packet is lost once (packets 5 and 10), the answer is also $12+2=14$.
+\end{solution}
+\begin{answerplan}[1 mark]
+State the assumption, show the pattern of 5 transmissions per 4 packets, give the total.
+\end{answerplan}
+
+% ---------------------------------------------------------------------
+\subsection{TCP window size vs MSS; the receive window}\label{iq:C35}
+\tier{B} \prob{35} \ev{0.35} \asked{MS2025 Q1(d)} \src{N_Network_Systems_compressed p78, p87}
+
+\textbf{Why it is likely:} a 1-mark Q1 part in 2025; windows and flow control are on the seniors' topic list (item 12, ``window size''). Original PYQ solved on page~\pageref{q:MS2025-1d}.
+
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2025-1d}{1}
+Differentiate between the TCP window size and the MSS. A receiver has a 16 KB buffer holding 6 KB not yet read by the application; MSS $=1460$ B and cwnd $=8$ MSS. How many bytes may the sender have unacknowledged?
+\end{question}
+\begin{solution}
+\textbf{Window size (rwnd):} bytes the receiver can still accept; a 16-bit header field, re-advertised in every segment (\keyword{flow control}). \textbf{MSS:} largest data in one segment, fixed at connection setup (SYN option, default 536 B).
+rwnd $=16384-6144=10240$ B; cwnd $=8\times1460=11680$ B; sender window $=\min(\text{rwnd},\text{cwnd})=\answer{10240 B}$ (7 full segments). Assumption: 1 KB $=1024$ B; with 1000 B the answer is 10000 B.
+\end{solution}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=0.55cm]
+  \draw[fill=muted!40,draw=sgslate] (0,0) rectangle (6,0.6) node[midway,font=\scriptsize]{6 KB unread};
+  \draw[fill=ok!15,draw=sgslate] (6,0) rectangle (16,0.6) node[midway,font=\scriptsize]{rwnd $=$ 10 KB free};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-0.1) -- node[below=5pt,note]{receive buffer 16 KB} (16,-0.1);
+  \node[note,anchor=west] at (16.3,0.3) {window $=\min(\text{rwnd},\text{cwnd})$};
+\end{tikzpicture}
+\caption{The advertised window is the free part of the receive buffer \src{N_Network_Systems_compressed p87}.}\end{figure}
+\begin{answerplan}[1 mark]
+One line each for rwnd and MSS, then rwnd $=$ buffer $-$ unread and $\min(\text{rwnd},\text{cwnd})$.
+\end{answerplan}
+
+% =====================================================================
+\section{Tier C: possible}
+Asked once each: learn the outline; the full treatment is in the unit chapters.
+
+% ---------------------------------------------------------------------
+\subsection{Transport-layer services: process-to-process delivery, multiplexing and demultiplexing}\label{iq:C20}
+\tier{C} \prob{21} \ev{0.75} \asked{MS2022 Q1(b), Q4(b)} \src{N_Network_Systems_compressed p60-62} \quad PYQs: pages~\pageref{q:MS2022-1b}, \pageref{q:MS2022-4b}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-4b}{2.5}
+Write a short note on multiplexing and demultiplexing at the transport layer. What minimum services must a transport protocol add over the network layer?
+\end{question}
+\begin{solution}[outline]
+\begin{itemize}
+\item The network layer delivers \emph{host to host}; the transport layer adds \keyword{process-to-process} delivery using \keyword{port numbers} (socket address $=$ IP address $+$ port).
+\item \keyword{Multiplexing} (sender): messages from many processes are each given a header with source and destination ports and handed to the single network layer.
+\item \keyword{Demultiplexing} (receiver): the transport layer reads the destination port (TCP: the 4-tuple of addresses and ports) and delivers the payload to the right process.
+\item Minimum extra services: port addressing and error detection (checksum); TCP adds reliability, flow control, congestion control and connection management.
+\end{itemize}
+\end{solution}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[node distance=6mm]
+  \foreach \p [count=\i] in {P1,P2,P3}{\node[blk,minimum width=10mm,font=\scriptsize] (a\i) at (\i*1.3-2.6,1.4) {\p};}
+  \node[blkhl,minimum width=36mm,font=\scriptsize] (mx) at (0,0.2) {Transport: multiplexer};
+  \node[blk,minimum width=36mm,font=\scriptsize] (ip1) at (0,-0.9) {Network layer (IP)};
+  \foreach \i in {1,2,3}{\draw[arr] (a\i) -- (mx);}
+  \draw[arr] (mx) -- (ip1);
+  \begin{scope}[xshift=8cm]
+    \foreach \p [count=\i] in {P1,P2,P3}{\node[blk,minimum width=10mm,font=\scriptsize] (b\i) at (\i*1.3-2.6,1.4) {\p};}
+    \node[blkhl,minimum width=36mm,font=\scriptsize] (dx) at (0,0.2) {Transport: demultiplexer};
+    \node[blk,minimum width=36mm,font=\scriptsize] (ip2) at (0,-0.9) {Network layer (IP)};
+    \foreach \i in {1,2,3}{\draw[arr] (dx) -- (b\i);}
+    \draw[arr] (ip2) -- (dx);
+  \end{scope}
+  \draw[arrhl] (ip1.east) -- node[elabel]{segments carry ports} (ip2.west);
+\end{tikzpicture}
+\caption{Many processes share one IP: ports let the receiver pick the right process \src{N_Network_Systems_compressed p61}.}\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{TCP states and the state transition diagram}\label{iq:C34}
+\tier{C} \prob{34} \ev{0.63} \asked{MS2024 Q5(b)} \src{N_Network_Systems_compressed p84-86} \quad PYQ: page~\pageref{q:MS2024-5b}; full diagram: Section~\ref{sec:T21}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-5b}{2.5}
+List the TCP states and trace the states a client passes through when it actively opens and actively closes a connection, and those of the server.
+\end{question}
+\begin{solution}[outline]
+11 states: CLOSED, LISTEN, SYN-SENT, SYN-RCVD, ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, LAST-ACK, CLOSING (simultaneous close), TIME-WAIT. Draw the two paths below as a diagram with ``event / action'' on each arrow; TIME-WAIT lasts 2 MSL so that a lost final ACK can be resent.
+\begin{center}\small\zebra
+\begin{tabularx}{\linewidth}{L{24mm}YL{24mm}Y}\toprule
+\thead{Client state} & \thead{event / action $\to$ next} & \thead{Server state} & \thead{event / action $\to$ next}\\\midrule
+CLOSED & active open / SYN $\to$ SYN-SENT & CLOSED & passive open $\to$ LISTEN\\
+SYN-SENT & SYN+ACK / ACK $\to$ ESTABLISHED & LISTEN & SYN / SYN+ACK $\to$ SYN-RCVD\\
+ESTABLISHED & close / FIN $\to$ FIN-WAIT-1 & SYN-RCVD & ACK $\to$ ESTABLISHED\\
+FIN-WAIT-1 & ACK $\to$ FIN-WAIT-2 & ESTABLISHED & FIN / ACK $\to$ CLOSE-WAIT\\
+FIN-WAIT-2 & FIN / ACK $\to$ TIME-WAIT & CLOSE-WAIT & close / FIN $\to$ LAST-ACK\\
+TIME-WAIT & 2 MSL timeout $\to$ CLOSED & LAST-ACK & ACK $\to$ CLOSED\\\bottomrule
+\end{tabularx}\end{center}
+\end{solution}
+
+% ---------------------------------------------------------------------
+\subsection{E-mail architecture: UA, MTA, MAA, mail transfer phases, MIME}\label{iq:C15}
+\tier{C} \prob{32} \ev{0.61} \asked{MS2024 Q2(b)} \src{N_Network_Systems_compressed p47-51} \quad PYQ: page~\pageref{q:MS2024-2b}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2024-2b}{2.5}
+Explain with a diagram the e-mail architecture when the sender and the receiver are on different mail servers. What are the roles of the UA, MTA and MAA, and why is MIME needed?
+\end{question}
+\begin{solution}[outline]
+\begin{itemize}
+\item \keyword{UA} (user agent): composes, reads, replies and forwards messages (for example Thunderbird, a web mail page).
+\item \keyword{MTA} (message transfer agent): SMTP client and server that \emph{push} the mail from the sender's server to the receiver's server (phases: connection establishment, mail transfer, termination; see page~\pageref{iq:C16}).
+\item \keyword{MAA} (message access agent): POP3 (download and usually delete, port 110) or IMAP (keep on the server, folders, port 143) used by the receiver to \emph{pull} mail from the mailbox.
+\item \keyword{MIME}: SMTP carries only 7-bit ASCII; MIME adds headers (MIME-Version, Content-Type, Content-Transfer-Encoding such as base64) so non-ASCII text, images, audio and attachments can be sent.
+\end{itemize}
+\end{solution}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \node[blk,font=\scriptsize] (ua1) at (0,0) {Alice\\UA};
+  \node[blk,font=\scriptsize] (s1) at (4.2,0) {sender's\\mail server\\(MTA client)};
+  \node[blk,font=\scriptsize] (s2) at (9.2,0) {receiver's\\mail server\\(MTA server,\\mailbox)};
+  \node[blk,font=\scriptsize] (ua2) at (14,0) {Bob\\UA\\(MAA client)};
+  \draw[arr] (ua1) -- node[elabel,above=2pt]{SMTP} (s1);
+  \draw[arrhl] (s1) -- node[elabel,above=2pt]{SMTP (push)} (s2);
+  \draw[arrok] (s2) -- node[elabel,above=2pt]{POP3 / IMAP (pull)} (ua2);
+\end{tikzpicture}
+\caption{E-mail architecture: two pushes with SMTP, one pull with an MAA \src{N_Network_Systems_compressed p47-48}.}\end{figure}
+
+% ---------------------------------------------------------------------
+\subsection{Web caching (proxy server) and the stale-cache problem}\label{iq:C14}
+\tier{C} \prob{28} \ev{0.52} \asked{MS2022 Q2(b)} \src{N_Network_Systems_compressed p45-46} \quad PYQ: page~\pageref{q:MS2022-2b}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-2b}{2.5}
+How does a proxy server reduce the response time for web objects? How does HTTP make sure the proxy does not serve an out-of-date copy?
+\end{question}
+\begin{solution}[outline]
+\begin{itemize}
+\item The browser sends every request to the \keyword{proxy} (web cache). \emph{Hit}: the proxy returns its stored copy at LAN speed. \emph{Miss}: it fetches the object from the origin server, stores it and returns it. This cuts response time, access-link traffic and server load.
+\item \textbf{Stale cache:} the origin object may change after it was cached.
+\item HTTP's fix is the \keyword{conditional GET}: the proxy sends \texttt{GET} with \texttt{If-Modified-Since: <date of the cached copy>}. The server answers \texttt{304 Not Modified} with no body if the object is unchanged, or \texttt{200 OK} with the new object.
+\item Freshness can also come from \texttt{Expires} or \texttt{Cache-Control: max-age} headers, so the proxy revalidates only after expiry.
+\end{itemize}
+\end{solution}
+
+% ---------------------------------------------------------------------
+\subsection{Stop-and-wait ARQ flow diagram with a lost frame and a lost ACK}\label{iq:C22}
+\tier{C} \prob{28} \ev{0.52} \asked{MS2022 Q3(a) [2nd Q3]} \src{N_Network_Systems_compressed p65} \quad PYQ: page~\pageref{q:MS2022-3Ba}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-3Ba}{2.5}
+With a flow diagram explain how stop-and-wait ARQ recovers when (i) a data frame is lost and (ii) an acknowledgment is lost. Why are sequence numbers needed?
+\end{question}
+\begin{solution}[outline]
+\begin{itemize}
+\item The sender keeps a copy of the frame and starts a \keyword{timer}; it sends the next frame only after the ACK. Sequence numbers alternate 0, 1 (modulo 2); the ACK carries the number of the \emph{next} frame expected.
+\item \textbf{Lost frame:} no ACK comes, the timer expires, the sender resends the same frame.
+\item \textbf{Lost ACK:} the receiver already has the frame, so the resent copy is a \keyword{duplicate}; its sequence number shows it is old, so the receiver discards it and resends the ACK.
+\item Without sequence numbers the duplicate would be accepted twice.
+\item Draw the lost-frame / lost-ACK timing diagram of Section~\ref{sec:T14}.
+\end{itemize}
+\end{solution}
+
+% ---------------------------------------------------------------------
+\subsection{Circuit switching vs packet switching (and virtual circuits)}\label{iq:C06}
+\tier{C} \prob{25} \ev{0.47} \asked{MS2022 Q4(a)} \src{N_Network_Systems_compressed p29-33} \quad PYQ: page~\pageref{q:MS2022-4a}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-4a}{2.5}
+Compare circuit switching, datagram packet switching and virtual-circuit switching.
+\end{question}
+\begin{solution}[outline]
+\begin{center}\small\zebra
+\begin{tabularx}{\linewidth}{L{24mm}YYY}\toprule
+\thead{Aspect} & \thead{Circuit switching} & \thead{Datagram (packet)} & \thead{Virtual circuit}\\\midrule
+Setup phase & yes, before data & none & yes (VC identifiers)\\
+Resources & reserved for the whole call & on demand, shared & on demand, path fixed\\
+Path & one dedicated path & each packet routed alone & all packets on one path\\
+Order & in order & may arrive out of order & in order\\
+Delay & setup delay, then constant & variable queuing delay & setup, then small\\
+Efficiency & low (idle reserved capacity) & high & high\\
+Example & telephone network & Internet (IP) & ATM, Frame Relay\\\bottomrule
+\end{tabularx}\end{center}
+\end{solution}
+
+% ---------------------------------------------------------------------
+\subsection{Trace a complete TCP exchange with SYN/ACK/FIN bits and SEQ/ACK numbers}\label{iq:C33}
+\tier{C} \prob{25} \ev{0.47} \asked{MS2022 Q3(b)} \src{N_Network_Systems_compressed p80-83} \quad PYQ: page~\pageref{q:MS2022-3b}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-3b}{2.5}
+MSS $=800$ bytes in both directions; client ISN $=100$, server ISN $=9000$. The client sends 1,600 bytes and the server sends 800 bytes; no loss. Give every segment with its SYN, ACK, FIN bits and SEQ, ACK numbers (client closes first).
+\end{question}
+\begin{solution}[outline]
+Use the method of page~\pageref{iq:C32}: SYN and FIN consume one number each, data one per byte, pure ACKs none. \src{N_Network_Systems_compressed p82}
+\begin{center}\footnotesize\zebra
+\begin{tabular}{rlcccll}\toprule
+\# & Direction & SYN & ACK & FIN & SEQ & ACK no.\\\midrule
+1 & C $\to$ S & 1 & 0 & 0 & 100 & --\\
+2 & S $\to$ C & 1 & 1 & 0 & 9000 & 101\\
+3 & C $\to$ S & 0 & 1 & 0 & 101 & 9001\\
+4 & C $\to$ S data 101--900 & 0 & 1 & 0 & 101 & 9001\\
+5 & C $\to$ S data 901--1700 & 0 & 1 & 0 & 901 & 9001\\
+6 & S $\to$ C data 9001--9800 & 0 & 1 & 0 & 9001 & 1701\\
+7 & C $\to$ S & 0 & 1 & 1 & 1701 & 9801\\
+8 & S $\to$ C & 0 & 1 & 1 & 9801 & 1702\\
+9 & C $\to$ S & 0 & 1 & 0 & 1702 & 9802\\\bottomrule
+\end{tabular}\end{center}
+\end{solution}
+
+% ---------------------------------------------------------------------
+\subsection{Client-server vs peer-to-peer: why the server is always on}\label{iq:C10}
+\tier{C} \prob{18} \ev{0.19} \asked{MS2022 Q1(e)} \src{N_Network_Systems_compressed p34-37} \quad PYQ: page~\pageref{q:MS2022-1e}.
+\needspace{8\baselineskip}
+\begin{question}{Variant of MS2022-1e}{1}
+Why must the server in a client-server application be always on? Is this needed in a peer-to-peer application?
+\end{question}
+\begin{solution}[outline]
+The server \emph{provides} the service and never knows when a client will ask, so it runs continuously at a fixed (well-known) IP address and port, in the LISTEN state (passive open). A client only \emph{initiates} requests when its user needs the service, so it may be on or off. In P2P there is no always-on server: intermittently connected peers with changing addresses talk directly, and each new peer adds capacity (self-scalability).
+\end{solution}
+
+% =====================================================================
+\section{Wildcards: never asked, heavily taught}
+Never in the three papers, but lecture time or the seniors' list makes them a risk.
+
+\subsection{Throughput of a packet-switched network}\label{iq:C03}
+\tier{D} \prob{15} \ev{0.29} \src{N_Network_Systems_compressed p90}
+
+\textbf{Why it is a risk:} the lesson plan names ``delay and throughput in packet-switched networks'' and the seniors' expected question 14 asks for it.
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+A packet-switched network has a total link capacity of 2 Gbps over 4 equal links; each link carries 10,000 packets per second of 1,500 bytes. Find the overall throughput and the utilisation. If a file of $2\times10^{6}$ bytes crosses three links in series of 10, 4 and 8 Mbps, how long does it take (ignore propagation)?
+\end{question}
+\begin{solution}
+Per link: $10000\times1500\times8=120$ Mbps; overall $4\times120=\answer{480 Mbps}$, i.e.\ $480/2000=\answer{24\%}$ of capacity. In series the \keyword{bottleneck} link sets the throughput: $\min(10,4,8)=4$ Mbps, so the file takes $16\times10^{6}/4\times10^{6}=\answer{4 s}$.
+\end{solution}
+
+\subsection{Selective Repeat: windows from $S_f$, $S_n$, $R_n$}\label{iq:C27}
+\tier{D} \prob{15} \ev{0.29} \src{N_Network_Systems_compressed p69-71}
+
+\textbf{Why it is a risk:} the notes draw the SR send and receive windows with $S_f$, $S_n$, $R_n$ and work an ACK-interpretation example; it is an easy 2-mark numerical.
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+In Selective Repeat with $m=3$, the sender has $S_f=3$, $S_n=7$ and the receiver has $R_n=5$. Which packets are outstanding, can the sender send more, and which sequence numbers can the receiver accept?
+\end{question}
+\begin{solution}
+Outstanding $=S_f\ldots S_n-1=\answer{3, 4, 5, 6}$ (4 packets). Window size $=2^{m-1}=4$ is full, so the sender \answer{cannot send} until 3 is acknowledged. Receive window starts at $R_n$: \answer{5, 6, 7, 0}; so 3 and 4 have reached the receiver (their ACKs are on the way or lost).
+\begin{center}
+\begin{tikzpicture}
+  \foreach \v [count=\i from 0] in {0,1,2,3,4,5,6,7,0,1}{
+    \pgfmathtruncatemacro{\o}{(\i>=3 && \i<=6) ? 1 : 0}
+    \ifnum\o=1 \node[cellhl] at (\i*0.75,0) {\v};\else\node[cell] at (\i*0.75,0) {\v};\fi}
+  \node[note,anchor=east] at (-0.5,0) {sender};
+  \node[note,anchor=west] at (7.4,0) {outstanding $S_f=3\ldots S_n-1=6$ (window full)};
+\end{tikzpicture}
+\end{center}
+\end{solution}
+
+\subsection{Flow control vs error control; how TCP does flow control}\label{iq:C21}
+\tier{D} \prob{13} \ev{0.24} \src{N_Network_Systems_compressed p61-64}
+
+\textbf{Why it is a risk:} seniors' expected question 3 is exactly this, and ``error and flow control'' is item 11 on their topic list.
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+What is flow control in the transport layer? How does TCP implement flow control differently from generic transport-layer methods?
+\end{question}
+\begin{solution}
+\keyword{Flow control} stops a fast sender overflowing the receiver's buffer; \keyword{error control} recovers corrupted, lost, duplicate or out-of-order packets (checksum, ACK, timer, retransmission). Generic protocols use a window of a \emph{fixed number of packets}; TCP's window is \emph{byte-oriented} and \emph{variable}: the receiver advertises rwnd $=$ buffer $-$ bytes waiting in every segment, the sender uses $\min(\text{rwnd},\text{cwnd})$, and rwnd $=0$ stops it (persist timer).
+\end{solution}
+
+\subsection{TCP throughput from the cwnd sawtooth}\label{iq:C37}
+\tier{D} \prob{11} \ev{0.21} \src{N_Network_Systems_compressed p90}
+
+\textbf{Why it is a risk:} the notes work a full numerical on it (lecture 21).
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+A TCP connection's window peaks at $W_{max}=20$ MSS before each loss; MSS $=1500$ bytes and RTT $=60$ ms. Find the average throughput.
+\end{question}
+\begin{solution}
+AIMD makes cwnd swing between $W_{max}/2$ and $W_{max}$, so the average is $0.75\,W_{max}$ per RTT:
+\[ \text{throughput} = \frac{0.75\,W_{max}}{\text{RTT}} = \frac{0.75\times20\times1500\times8}{0.06} = \answer{3 Mbps}. \]
+Always convert bytes to bits ($\times8$): redone this way, the notes' example (9.6 MSS of 10 KB, 100 ms) gives 5.90 Mbps (1 KB $=1024$ B; 5.76 Mbps with 1000 B).
+\end{solution}
+
+\subsection{OSI model and TCP/IP suite}\label{iq:C07}
+\tier{D} \prob{8} \ev{0.15} \src{N_Network_Systems_compressed p21-28}
+
+\textbf{Why it is a risk:} a full lecture with the layer diagrams; a classic short note.
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+Compare the OSI model and the TCP/IP protocol suite, giving the responsibility of each layer.
+\end{question}
+\begin{solution}
+OSI, 7 layers: physical (bits), data link (framing, hop-to-hop, MAC), network (logical addressing, routing), transport (process-to-process, reliability), session (dialog control, sync), presentation (translation, encryption, compression), application (user services). TCP/IP, 5 layers: physical, data link, network (IP), transport (TCP/UDP), application, which absorbs session and presentation. OSI is a reference model; TCP/IP grew from working protocols.
+\end{solution}
+
+\subsection{Analog vs digital signals; multiplexing}\label{iq:C08}
+\tier{D} \prob{8} \ev{0.15} \src{N_Network_Systems_compressed p3}
+
+\textbf{Why it is a risk:} in the lesson plan for Unit 1, but only touched on in the notes.
+\needspace{8\baselineskip}
+\begin{question}{Expected}{2.5}
+Distinguish analog and digital signals, and explain FDM and TDM.
+\end{question}
+\begin{solution}
+\keyword{Analog}: infinitely many values, changes smoothly (sine wave: amplitude, frequency, phase); \keyword{digital}: a limited set of levels (0 and 1). \keyword{FDM} shares \emph{bandwidth}: each channel gets its own carrier band, with guard bands (radio, cable TV). \keyword{TDM} shares \emph{time}: each channel gets a slot in every frame (synchronous: fixed slots; statistical: on demand).
+\end{solution}
+
+\textbf{Long shots} (lesson plan only): \textit{encoding} --- NRZ-L, NRZ-I (invert on 1), Manchester (mid-bit transition), differential Manchester; \textit{QoS} --- reliability, delay, jitter, bandwidth; scheduling, leaky/token bucket, admission control, reservation.
+
+% =====================================================================
+\needspace{12\baselineskip}
+\section{Last-night list}
+Tick each idea once you can write its answer plan from memory. Ordered by expected marks; (A) = must do, the rest are tier B.
+\begin{multicols}{2}\footnotesize
+\begin{itemize}[label=$\square$,itemsep=1pt]
+\item GBN transmissions, every $k$-th lost \textbf{(A)} \dotfill p.~\pageref{iq:C25}
+\item TCP sequence numbers (SYN, ACK, FIN) \dotfill p.~\pageref{iq:C29}
+\item BDP and stop-and-wait / window utilisation \dotfill p.~\pageref{iq:C23}
+\item TCP congestion control \dotfill p.~\pageref{iq:C36}
+\item TCP open, data transfer, close \dotfill p.~\pageref{iq:C32}
+\item TCP vs UDP for an application \dotfill p.~\pageref{iq:C19}
+\item TCP header format and the urgent pointer \dotfill p.~\pageref{iq:C30}
+\item DNS lookup: iterative, recursive \dotfill p.~\pageref{iq:C18}
+\item SMTP commands and phases \dotfill p.~\pageref{iq:C16}
+\item DNS names and records (FQDN, CNAME, MX) \textbf{(A)} \dotfill p.~\pageref{iq:C17}
+\item Topologies; mesh links and ports \dotfill p.~\pageref{iq:C05}
+\item File-transfer time with RTT waits \dotfill p.~\pageref{iq:C02}
+\item Window limits GBN $2^m-1$, SR $2^{m-1}$ \dotfill p.~\pageref{iq:C26}
+\item Persistent vs non-persistent HTTP \dotfill p.~\pageref{iq:C11}
+\item Page-load time (HTTP) \dotfill p.~\pageref{iq:C12}
+\item Decode a TCP header hex dump \dotfill p.~\pageref{iq:C31}
+\item UDP header hex dump and efficiency \dotfill p.~\pageref{iq:C28}
+\item Packet delay: $L/R+D/S$ \dotfill p.~\pageref{iq:C01}
+\item Data-communication components \dotfill p.~\pageref{iq:C04}
+\item Write an HTTP request message \dotfill p.~\pageref{iq:C13}
+\item Stop-and-wait loss counting \dotfill p.~\pageref{iq:C24}
+\item TCP window size vs MSS (rwnd) \dotfill p.~\pageref{iq:C35}
+\end{itemize}
+\end{multicols}

@@ -1,0 +1,3306 @@
+{
+ "model": {
+  "papers_used": {
+   "MS2022": 1.0,
+   "MS2024": 1.0,
+   "MS2025": 1.0
+  }
+ },
+ "clusters": [
+  {
+   "cluster": "C04",
+   "label": "State the components and characteristics of data communication (and data-flow modes)",
+   "topic": "T01",
+   "topic_title": "Introduction: data communication components, data flow, network criteria, network types (PAN/LAN/MAN/WAN)",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.217,
+   "band": "low",
+   "P_display": "22%",
+   "P_q1": 0.089,
+   "prior": 0.0392,
+   "form_share": 1.0,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.45,
+   "effort_min": 10,
+   "yield_per_30min": 1.36,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.59,
+   "asked": [
+    "MS2025 Q1(c)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-1c"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C08",
+   "label": "Explain analog vs digital signals and multiplexing (FDM/TDM)",
+   "topic": "T02",
+   "topic_title": "Analog and digital signals; data transmission and multiplexing",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.178,
+   "band": "low",
+   "P_display": "18%",
+   "P_q1": 0.075,
+   "prior": 0.0139,
+   "form_share": 0.444,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.35,
+   "effort_min": 20,
+   "yield_per_30min": 0.53,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.296,
+   "asked": [],
+   "asked_weighted": [],
+   "question_ids": [],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C39",
+   "label": "Multiplexing numericals: synchronous TDM slot, frame and output rates; statistical TDM capacity",
+   "topic": "T02",
+   "topic_title": "Analog and digital signals; data transmission and multiplexing",
+   "unit": "U1",
+   "type": "numerical",
+   "P": 0.231,
+   "band": "low",
+   "P_display": "23%",
+   "P_q1": 0.095,
+   "prior": 0.0174,
+   "form_share": 0.556,
+   "typical_marks": 5.0,
+   "compulsory": false,
+   "EV": 0.47,
+   "effort_min": 30,
+   "yield_per_30min": 0.47,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.406,
+   "asked": [
+    "MS2026SP QQ2"
+   ],
+   "asked_weighted": [
+    "MS2026SP"
+   ],
+   "question_ids": [
+    "MS2026SP-Q2"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C09",
+   "label": "Draw data encoding schemes for a bit stream (NRZ, Manchester, etc.)",
+   "topic": "T03",
+   "topic_title": "Data encoding techniques",
+   "unit": "U1",
+   "type": "diagram",
+   "P": 0.116,
+   "band": "low",
+   "P_display": "12%",
+   "P_q1": 0.04,
+   "prior": 0.0233,
+   "form_share": 1.0,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.23,
+   "effort_min": 20,
+   "yield_per_30min": 0.35,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [],
+   "asked_weighted": [],
+   "question_ids": [],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C06",
+   "label": "Compare circuit switching and packet switching (and virtual circuits)",
+   "topic": "T04",
+   "topic_title": "Packet switching vs circuit switching (and virtual-circuit switching)",
+   "unit": "U1",
+   "type": "compare",
+   "P": 0.255,
+   "band": "med",
+   "P_display": "26%",
+   "P_q1": 0.105,
+   "prior": 0.0469,
+   "form_share": 1.0,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.54,
+   "effort_min": 15,
+   "yield_per_30min": 1.08,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.699,
+   "asked": [
+    "ES2025 Q1(j)",
+    "MS2022 Q4(a)"
+   ],
+   "asked_weighted": [
+    "MS2022"
+   ],
+   "question_ids": [
+    "MS2022-4a",
+    "ES2025-1j"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C05",
+   "label": "Short note on network topologies: types with advantages and disadvantages",
+   "topic": "T05",
+   "topic_title": "Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling)",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.178,
+   "band": "low",
+   "P_display": "18%",
+   "P_q1": 0.069,
+   "prior": 0.0252,
+   "form_share": 0.537,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.37,
+   "effort_min": 20,
+   "yield_per_30min": 0.56,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.347,
+   "asked": [
+    "MS2025 Q5(i)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-5i"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C50",
+   "label": "Count the links in a mesh topology: n(n-1)/2",
+   "topic": "T05",
+   "topic_title": "Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling)",
+   "unit": "U1",
+   "type": "numerical",
+   "P": 0.165,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.063,
+   "prior": 0.0217,
+   "form_share": 0.463,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.34,
+   "effort_min": 10,
+   "yield_per_30min": 1.03,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.435,
+   "asked": [
+    "ES2026SP Q1(a) OR",
+    "MS2026SP Q1(b)"
+   ],
+   "asked_weighted": [
+    "MS2026SP"
+   ],
+   "question_ids": [
+    "MS2026SP-1b",
+    "ES2026SP-1aOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C07",
+   "label": "Explain the OSI and TCP/IP models: layers and their responsibilities",
+   "topic": "T06",
+   "topic_title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.123,
+   "band": "low",
+   "P_display": "12%",
+   "P_q1": 0.047,
+   "prior": 0.0077,
+   "form_share": 0.245,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.23,
+   "effort_min": 30,
+   "yield_per_30min": 0.23,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2018 Q6(b)",
+    "ES2019 Q4(b)",
+    "ES2022 Q7(b)",
+    "ES2025 Q5(b)",
+    "MS2019 Q4(a)",
+    "MS2020 Q2(b)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2020"
+   ],
+   "question_ids": [
+    "MS2019-4a",
+    "MS2020-2b",
+    "ES2018-6b",
+    "ES2019-4b",
+    "ES2022-7b",
+    "ES2025-5b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C40",
+   "label": "Explain encapsulation and decapsulation through the layers with a diagram",
+   "topic": "T06",
+   "topic_title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "type": "diagram",
+   "P": 0.127,
+   "band": "low",
+   "P_display": "13%",
+   "P_q1": 0.05,
+   "prior": 0.0078,
+   "form_share": 0.251,
+   "typical_marks": 5.0,
+   "compulsory": false,
+   "EV": 0.25,
+   "effort_min": 20,
+   "yield_per_30min": 0.38,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2026SP QQ3"
+   ],
+   "asked_weighted": [
+    "MS2026SP"
+   ],
+   "question_ids": [
+    "MS2026SP-Q3"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C41",
+   "label": "Layer header overhead: fraction of bandwidth taken by headers in an n-layer hierarchy",
+   "topic": "T06",
+   "topic_title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "type": "numerical",
+   "P": 0.069,
+   "band": "low",
+   "P_display": "7%",
+   "P_q1": 0.029,
+   "prior": 0.0048,
+   "form_share": 0.154,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.13,
+   "effort_min": 15,
+   "yield_per_30min": 0.26,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2018 Q1(e)",
+    "ES2024 Q1(c)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2018-1e",
+    "ES2024-1c"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C42",
+   "label": "Count the layers a packet visits at the hosts and at each router",
+   "topic": "T06",
+   "topic_title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.08,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.029,
+   "prior": 0.0048,
+   "form_share": 0.154,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.16,
+   "effort_min": 10,
+   "yield_per_30min": 0.47,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.124,
+   "asked": [
+    "ES2023 Q1(f)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2023-1f"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C43",
+   "label": "Explain the address types (physical/MAC, logical/IP, port, name) and why each is needed",
+   "topic": "T06",
+   "topic_title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "type": "theory",
+   "P": 0.093,
+   "band": "low",
+   "P_display": "9%",
+   "P_q1": 0.038,
+   "prior": 0.0061,
+   "form_share": 0.195,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.17,
+   "effort_min": 10,
+   "yield_per_30min": 0.52,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.156,
+   "asked": [
+    "ES2024 Q1(a)",
+    "MS2019 Q1(e)"
+   ],
+   "asked_weighted": [
+    "MS2019"
+   ],
+   "question_ids": [
+    "MS2019-1e",
+    "ES2024-1a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C10",
+   "label": "Client-server vs P2P paradigm: why the server must be always on",
+   "topic": "T07",
+   "topic_title": "Application paradigms: client-server vs peer-to-peer; sockets",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.155,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.067,
+   "prior": 0.0114,
+   "form_share": 0.489,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.31,
+   "effort_min": 10,
+   "yield_per_30min": 0.94,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.387,
+   "asked": [
+    "ES2018 Q1(a)",
+    "MS2019 Q1(b)",
+    "MS2022 Q1(e)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2022"
+   ],
+   "question_ids": [
+    "MS2022-1e",
+    "MS2019-1b",
+    "ES2018-1a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C44",
+   "label": "Compare centralized and decentralized P2P networks (and place a node in a DHT ring)",
+   "topic": "T07",
+   "topic_title": "Application paradigms: client-server vs peer-to-peer; sockets",
+   "unit": "U2",
+   "type": "compare",
+   "P": 0.16,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.063,
+   "prior": 0.0119,
+   "form_share": 0.511,
+   "typical_marks": 3.5,
+   "compulsory": false,
+   "EV": 0.32,
+   "effort_min": 20,
+   "yield_per_30min": 0.48,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.263,
+   "asked": [
+    "MS2019 Q4(b)",
+    "MS2023 Q5(B)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2019-4b",
+    "MS2023-5b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C11",
+   "label": "Explain persistent vs non-persistent HTTP with timeline diagrams",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "diagram",
+   "P": 0.205,
+   "band": "low",
+   "P_display": "21%",
+   "P_q1": 0.092,
+   "prior": 0.0137,
+   "form_share": 0.232,
+   "typical_marks": 2.0,
+   "compulsory": false,
+   "EV": 0.4,
+   "effort_min": 20,
+   "yield_per_30min": 0.6,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.41,
+   "asked": [
+    "ES2024 Q1(h)",
+    "MS2025 Q2(b)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-2b",
+    "ES2024-1h"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C12",
+   "label": "Compute page-load time: non-persistent vs persistent HTTP (RTT counting)",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "numerical",
+   "P": 0.225,
+   "band": "low",
+   "P_display": "22%",
+   "P_q1": 0.092,
+   "prior": 0.0143,
+   "form_share": 0.243,
+   "typical_marks": 3.75,
+   "compulsory": false,
+   "EV": 0.46,
+   "effort_min": 25,
+   "yield_per_30min": 0.55,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.451,
+   "asked": [
+    "ES2022 Q1(e)",
+    "ES2025 Q1(f)",
+    "ES2026SP Q5(a)",
+    "MS2023 Q2(A)",
+    "MS2024 Q2(a)"
+   ],
+   "asked_weighted": [
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-2a",
+    "MS2023-2a",
+    "ES2022-1e",
+    "ES2025-1f",
+    "ES2026SP-5a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C13",
+   "label": "Write an HTTP request (or response) message for a given scenario",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.156,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.06,
+   "prior": 0.01,
+   "form_share": 0.17,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.32,
+   "effort_min": 15,
+   "yield_per_30min": 0.63,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.324,
+   "asked": [
+    "MS2024 Q1(d)"
+   ],
+   "asked_weighted": [
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-1d"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C14",
+   "label": "Explain web caching / proxy server and how HTTP handles stale cache (conditional GET)",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.155,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.063,
+   "prior": 0.0096,
+   "form_share": 0.164,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.31,
+   "effort_min": 15,
+   "yield_per_30min": 0.62,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.291,
+   "asked": [
+    "ES2019 Q1(e)",
+    "ES2023 Q4(a)",
+    "MS2019 Q5(a)",
+    "MS2022 Q2(b)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2022"
+   ],
+   "question_ids": [
+    "MS2022-2b",
+    "MS2019-5a",
+    "ES2019-1e",
+    "ES2023-4a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C45",
+   "label": "Explain cookies and how a commercial site uses them",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.073,
+   "band": "low",
+   "P_display": "7%",
+   "P_q1": 0.031,
+   "prior": 0.0046,
+   "form_share": 0.079,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.14,
+   "effort_min": 10,
+   "yield_per_30min": 0.42,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2024 Q1(f)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2024-1f"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C46",
+   "label": "List / order the protocols a browser uses to fetch a page (DNS over UDP, TCP SYN, HTTP GET)",
+   "topic": "T08",
+   "topic_title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.111,
+   "band": "low",
+   "P_display": "11%",
+   "P_q1": 0.045,
+   "prior": 0.0066,
+   "form_share": 0.112,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.21,
+   "effort_min": 10,
+   "yield_per_30min": 0.63,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.209,
+   "asked": [
+    "ES2023 Q1(g)",
+    "MS2020 Q1(a)"
+   ],
+   "asked_weighted": [
+    "MS2020"
+   ],
+   "question_ids": [
+    "MS2020-1a",
+    "ES2023-1g"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C15",
+   "label": "Describe e-mail architecture and components: UA, MTA, MAA (POP3/IMAP), mail transfer phases, MIME",
+   "topic": "T09",
+   "topic_title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.261,
+   "band": "med",
+   "P_display": "26%",
+   "P_q1": 0.109,
+   "prior": 0.0188,
+   "form_share": 0.4,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.54,
+   "effort_min": 25,
+   "yield_per_30min": 0.65,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.561,
+   "asked": [
+    "ES2023 Q4(b)",
+    "ES2025 Q6(a)",
+    "ES2026SP Q5(a) OR",
+    "MS2019 Q2(b)",
+    "MS2023 Q2(B)",
+    "MS2024 Q2(b)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-2b",
+    "MS2019-2b",
+    "MS2023-2b",
+    "ES2023-4b",
+    "ES2025-6a",
+    "ES2026SP-5aOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C16",
+   "label": "Explain how SMTP delivers a mail (commands, connection / mail transfer / termination phases)",
+   "topic": "T09",
+   "topic_title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.275,
+   "band": "med",
+   "P_display": "28%",
+   "P_q1": 0.116,
+   "prior": 0.0185,
+   "form_share": 0.395,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.57,
+   "effort_min": 20,
+   "yield_per_30min": 0.86,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.674,
+   "asked": [
+    "MS2025 Q5(ii)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-5ii"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C47",
+   "label": "Write and explain the MIME headers of a mail message",
+   "topic": "T09",
+   "topic_title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.156,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.066,
+   "prior": 0.0096,
+   "form_share": 0.205,
+   "typical_marks": 2.0,
+   "compulsory": false,
+   "EV": 0.3,
+   "effort_min": 15,
+   "yield_per_30min": 0.61,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.314,
+   "asked": [
+    "MS2019 Q3(b)"
+   ],
+   "asked_weighted": [
+    "MS2019"
+   ],
+   "question_ids": [
+    "MS2019-3b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C17",
+   "label": "Define DNS name types and records: FQDN vs PQDN, RR types (CNAME, A, NS)",
+   "topic": "T10",
+   "topic_title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.303,
+   "band": "med",
+   "P_display": "30%",
+   "P_q1": 0.129,
+   "prior": 0.0224,
+   "form_share": 0.477,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.68,
+   "effort_min": 10,
+   "yield_per_30min": 2.04,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.893,
+   "asked": [
+    "MS2019 Q1(c)",
+    "MS2020 Q5(a)",
+    "MS2022 Q1(d)",
+    "MS2024 Q1(a)",
+    "MS2025 Q1(e)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2020",
+    "MS2022",
+    "MS2024",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-1e",
+    "MS2024-1a",
+    "MS2022-1d",
+    "MS2019-1c",
+    "MS2020-5a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C18",
+   "label": "Explain the DNS lookup process (recursive and iterative resolution)",
+   "topic": "T10",
+   "topic_title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records",
+   "unit": "U2",
+   "type": "diagram",
+   "P": 0.196,
+   "band": "low",
+   "P_display": "20%",
+   "P_q1": 0.086,
+   "prior": 0.0129,
+   "form_share": 0.274,
+   "typical_marks": 3.0,
+   "compulsory": false,
+   "EV": 0.38,
+   "effort_min": 25,
+   "yield_per_30min": 0.46,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2023 Q3(a)",
+    "ES2024 Q3(a)",
+    "MS2025 Q2(a)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-2a",
+    "ES2023-3a",
+    "ES2024-3a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C48",
+   "label": "Explain DNS's role and services (aliasing, load distribution) and what happens if all DNS servers crash",
+   "topic": "T10",
+   "topic_title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records",
+   "unit": "U2",
+   "type": "theory",
+   "P": 0.174,
+   "band": "low",
+   "P_display": "17%",
+   "P_q1": 0.07,
+   "prior": 0.0116,
+   "form_share": 0.248,
+   "typical_marks": 2.5,
+   "compulsory": true,
+   "EV": 0.34,
+   "effort_min": 15,
+   "yield_per_30min": 0.68,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.369,
+   "asked": [
+    "ES2018 Q3(b)",
+    "MS2019 Q1(d), Q3(a)",
+    "MS2020 Q1(e)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2020"
+   ],
+   "question_ids": [
+    "MS2019-1d",
+    "MS2019-3a",
+    "MS2020-1e",
+    "ES2018-3b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C01",
+   "label": "Delay types: compute transmission + propagation (+ queuing, processing) delay of a packet on a link",
+   "topic": "T11",
+   "topic_title": "Delay and throughput in packet-switched networks",
+   "unit": "U2",
+   "type": "numerical",
+   "P": 0.252,
+   "band": "med",
+   "P_display": "25%",
+   "P_q1": 0.102,
+   "prior": 0.0213,
+   "form_share": 0.455,
+   "typical_marks": 2.0,
+   "compulsory": true,
+   "EV": 0.53,
+   "effort_min": 20,
+   "yield_per_30min": 0.8,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.619,
+   "asked": [
+    "ES2022 Q1(b)",
+    "ES2023 Q1(c)",
+    "ES2024 Q1(b)",
+    "MS2019 Q2(a)",
+    "MS2020 Q4(b)",
+    "MS2023 Q1(b)",
+    "MS2025 Q1(a)",
+    "MS2026SP Q1(a)"
+   ],
+   "asked_weighted": [
+    "MS2019",
+    "MS2020",
+    "MS2023",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-1a",
+    "MS2019-2a",
+    "MS2020-4b",
+    "MS2023-1b",
+    "MS2026SP-1a",
+    "ES2022-1b",
+    "ES2023-1c",
+    "ES2024-1b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C02",
+   "label": "Compute total time for a file transfer with RTT waits and initial handshake",
+   "topic": "T11",
+   "topic_title": "Delay and throughput in packet-switched networks",
+   "unit": "U2",
+   "type": "numerical",
+   "P": 0.165,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.068,
+   "prior": 0.0127,
+   "form_share": 0.271,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.34,
+   "effort_min": 25,
+   "yield_per_30min": 0.4,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2024 Q3(a)"
+   ],
+   "asked_weighted": [
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-3a"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C03",
+   "label": "Compute throughput of a packet-switched network or link",
+   "topic": "T11",
+   "topic_title": "Delay and throughput in packet-switched networks",
+   "unit": "U2",
+   "type": "numerical",
+   "P": 0.107,
+   "band": "low",
+   "P_display": "11%",
+   "P_q1": 0.043,
+   "prior": 0.0077,
+   "form_share": 0.164,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.21,
+   "effort_min": 15,
+   "yield_per_30min": 0.42,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2023 Q1(d)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2023-1d"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C49",
+   "label": "Bandwidth-delay product: bits in the link and the width of a bit",
+   "topic": "T11",
+   "topic_title": "Delay and throughput in packet-switched networks",
+   "unit": "U2",
+   "type": "numerical",
+   "P": 0.064,
+   "band": "low",
+   "P_display": "6%",
+   "P_q1": 0.024,
+   "prior": 0.0051,
+   "form_share": 0.109,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.12,
+   "effort_min": 20,
+   "yield_per_30min": 0.17,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2025 Q5(a)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2025-5a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C20",
+   "label": "Explain transport-layer services over the network layer: process-to-process delivery, multiplexing vs demultiplexing",
+   "topic": "T12",
+   "topic_title": "Transport-layer services: process-to-process delivery, port numbers, multiplexing and demultiplexing",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.283,
+   "band": "med",
+   "P_display": "28%",
+   "P_q1": 0.116,
+   "prior": 0.0313,
+   "form_share": 1.0,
+   "typical_marks": 3.5,
+   "compulsory": true,
+   "EV": 0.6,
+   "effort_min": 15,
+   "yield_per_30min": 1.21,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.786,
+   "asked": [
+    "ES2019 Q1(c)",
+    "MS2022 Q1(b), Q4(b)"
+   ],
+   "asked_weighted": [
+    "MS2022"
+   ],
+   "question_ids": [
+    "MS2022-1b",
+    "MS2022-4b",
+    "ES2019-1c"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C21",
+   "label": "Explain flow control vs error control at the transport layer and how TCP does flow control",
+   "topic": "T13",
+   "topic_title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.106,
+   "band": "low",
+   "P_display": "11%",
+   "P_q1": 0.039,
+   "prior": 0.0142,
+   "form_share": 0.407,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.21,
+   "effort_min": 20,
+   "yield_per_30min": 0.31,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2019 Q6(a)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2019-6a"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C51",
+   "label": "Compare connectionless and connection-oriented service",
+   "topic": "T13",
+   "topic_title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol",
+   "unit": "U3",
+   "type": "compare",
+   "P": 0.083,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.03,
+   "prior": 0.0112,
+   "form_share": 0.321,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.16,
+   "effort_min": 10,
+   "yield_per_30min": 0.48,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2019 Q1(a)"
+   ],
+   "asked_weighted": [
+    "MS2019"
+   ],
+   "question_ids": [
+    "MS2019-1a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C52",
+   "label": "Differentiate flow control from congestion control",
+   "topic": "T13",
+   "topic_title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol",
+   "unit": "U3",
+   "type": "compare",
+   "P": 0.076,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.031,
+   "prior": 0.0095,
+   "form_share": 0.271,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.14,
+   "effort_min": 10,
+   "yield_per_30min": 0.42,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2023 Q1(e)",
+    "ES2024 Q1(e)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2023-1e",
+    "ES2024-1e"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C22",
+   "label": "Draw the stop-and-wait ARQ flow diagram with lost frame and lost ACK",
+   "topic": "T14",
+   "topic_title": "Stop-and-wait protocol",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.16,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.06,
+   "prior": 0.0117,
+   "form_share": 0.198,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.31,
+   "effort_min": 20,
+   "yield_per_30min": 0.47,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2022 Q3(a) [2nd Q3]"
+   ],
+   "asked_weighted": [
+    "MS2022"
+   ],
+   "question_ids": [
+    "MS2022-3Ba"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C23",
+   "label": "Compute bandwidth-delay product and link utilization for stop-and-wait (vs a pipelined window)",
+   "topic": "T14",
+   "topic_title": "Stop-and-wait protocol",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.337,
+   "band": "med",
+   "P_display": "34%",
+   "P_q1": 0.146,
+   "prior": 0.0256,
+   "form_share": 0.434,
+   "typical_marks": 3.0,
+   "compulsory": false,
+   "EV": 0.73,
+   "effort_min": 20,
+   "yield_per_30min": 1.1,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.923,
+   "asked": [
+    "ES2018 Q2(b)",
+    "ES2023 Q2(b)",
+    "MS2020 Q3(a)",
+    "MS2022 Q3(b) [2nd Q3]",
+    "MS2025 Q4(a)"
+   ],
+   "asked_weighted": [
+    "MS2020",
+    "MS2022",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-4a",
+    "MS2022-3Bb",
+    "MS2020-3a",
+    "ES2018-2b",
+    "ES2023-2b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C24",
+   "label": "Stop-and-wait: count transmissions when every k-th packet is lost",
+   "topic": "T14",
+   "topic_title": "Stop-and-wait protocol",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.181,
+   "band": "low",
+   "P_display": "18%",
+   "P_q1": 0.076,
+   "prior": 0.0139,
+   "form_share": 0.236,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.37,
+   "effort_min": 15,
+   "yield_per_30min": 0.73,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.411,
+   "asked": [
+    "MS2024 Q1(c)"
+   ],
+   "asked_weighted": [
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-1c"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C54",
+   "label": "State the disadvantages of stop-and-wait",
+   "topic": "T14",
+   "topic_title": "Stop-and-wait protocol",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.108,
+   "band": "low",
+   "P_display": "11%",
+   "P_q1": 0.042,
+   "prior": 0.0077,
+   "form_share": 0.131,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.2,
+   "effort_min": 10,
+   "yield_per_30min": 0.6,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.19,
+   "asked": [
+    "ES2023 Q1(j)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2023-1j"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C25",
+   "label": "Go-Back-N: count transmissions when every k-th packet is lost",
+   "topic": "T15",
+   "topic_title": "Go-Back-N protocol",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.418,
+   "band": "med",
+   "P_display": "42%",
+   "P_q1": 0.178,
+   "prior": 0.0381,
+   "form_share": 0.647,
+   "typical_marks": 2.0,
+   "compulsory": true,
+   "EV": 0.98,
+   "effort_min": 25,
+   "yield_per_30min": 1.17,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 1.269,
+   "asked": [
+    "MS2022 Q1(a)",
+    "MS2024 Q4(b)",
+    "MS2025 Q3(b)"
+   ],
+   "asked_weighted": [
+    "MS2022",
+    "MS2024",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-3b",
+    "MS2024-4b",
+    "MS2022-1a"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C55",
+   "label": "Go-Back-N: find the packets and ACKs in transit from Sf, Sn, Rn",
+   "topic": "T15",
+   "topic_title": "Go-Back-N protocol",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.253,
+   "band": "med",
+   "P_display": "25%",
+   "P_q1": 0.11,
+   "prior": 0.0208,
+   "form_share": 0.353,
+   "typical_marks": 2.5,
+   "compulsory": true,
+   "EV": 0.52,
+   "effort_min": 20,
+   "yield_per_30min": 0.79,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.581,
+   "asked": [
+    "ES2022 Q1(f)",
+    "MS2020 Q4(a)",
+    "MS2023 Q1(e)"
+   ],
+   "asked_weighted": [
+    "MS2020",
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2020-4a",
+    "MS2023-1e",
+    "ES2022-1f"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C26",
+   "label": "Derive the window-size limits for GBN (2^m - 1) and SR (2^(m-1)) and show the failure when exceeded",
+   "topic": "T16",
+   "topic_title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "type": "derivation",
+   "P": 0.267,
+   "band": "med",
+   "P_display": "27%",
+   "P_q1": 0.113,
+   "prior": 0.0195,
+   "form_share": 0.417,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.56,
+   "effort_min": 40,
+   "yield_per_30min": 0.42,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2020 Q3(b)",
+    "MS2023 Q3(B)",
+    "MS2024 Q4(a)"
+   ],
+   "asked_weighted": [
+    "MS2020",
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-4a",
+    "MS2020-3b",
+    "MS2023-3b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C27",
+   "label": "Selective Repeat: find pending packets/ACKs from Sf, Sn, Rn values",
+   "topic": "T16",
+   "topic_title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.186,
+   "band": "low",
+   "P_display": "19%",
+   "P_q1": 0.067,
+   "prior": 0.012,
+   "form_share": 0.257,
+   "typical_marks": 5.0,
+   "compulsory": false,
+   "EV": 0.37,
+   "effort_min": 25,
+   "yield_per_30min": 0.45,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2024 Q1(j)",
+    "MS2023 Q3(A)"
+   ],
+   "asked_weighted": [
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2023-3a",
+    "ES2024-1j"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C56",
+   "label": "State GBN's limitation and how Selective Repeat removes it",
+   "topic": "T16",
+   "topic_title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "type": "compare",
+   "P": 0.085,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.035,
+   "prior": 0.0051,
+   "form_share": 0.109,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.16,
+   "effort_min": 15,
+   "yield_per_30min": 0.32,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2018 Q4(a)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2018-4a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C57",
+   "label": "Selective Repeat: draw the flow diagram for a loss scenario with Sf, Sn, Rn",
+   "topic": "T16",
+   "topic_title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "type": "trace",
+   "P": 0.072,
+   "band": "low",
+   "P_display": "7%",
+   "P_q1": 0.025,
+   "prior": 0.0051,
+   "form_share": 0.109,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.14,
+   "effort_min": 30,
+   "yield_per_30min": 0.14,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2019 Q2(a)",
+    "ES2026SP Q1(b), Q1(b) OR",
+    "MS2026SP QQ5"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "MS2026SP-Q5",
+    "ES2019-2a",
+    "ES2026SP-1b",
+    "ES2026SP-1bOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C58",
+   "label": "Interpret an ACK number in GBN vs SR (and an ACK outside the window)",
+   "topic": "T16",
+   "topic_title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.086,
+   "band": "low",
+   "P_display": "9%",
+   "P_q1": 0.033,
+   "prior": 0.0051,
+   "form_share": 0.109,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.16,
+   "effort_min": 10,
+   "yield_per_30min": 0.49,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.133,
+   "asked": [
+    "ES2019 Q1(j)",
+    "ES2023 Q1(b)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2019-1j",
+    "ES2023-1b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C19",
+   "label": "Justify TCP vs UDP for an application (data transfer, DNS)",
+   "topic": "T17",
+   "topic_title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "type": "compare",
+   "P": 0.19,
+   "band": "low",
+   "P_display": "19%",
+   "P_q1": 0.079,
+   "prior": 0.0145,
+   "form_share": 0.309,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.39,
+   "effort_min": 15,
+   "yield_per_30min": 0.77,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.428,
+   "asked": [
+    "ES2019 Q7(a)",
+    "ES2022 Q1(h)",
+    "ES2023 Q1(a)",
+    "ES2025 Q1(h)",
+    "MS2020 Q1(b)",
+    "MS2022 Q3(a)",
+    "MS2025 Q1(b)"
+   ],
+   "asked_weighted": [
+    "MS2020",
+    "MS2022",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-1b",
+    "MS2022-3a",
+    "MS2020-1b",
+    "ES2019-7a",
+    "ES2022-1h",
+    "ES2023-1a",
+    "ES2025-1h"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C28",
+   "label": "UDP header numericals: decode a hex dump (ports, length, checksum), transmission efficiency",
+   "topic": "T17",
+   "topic_title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.225,
+   "band": "low",
+   "P_display": "22%",
+   "P_q1": 0.097,
+   "prior": 0.0176,
+   "form_share": 0.375,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.45,
+   "effort_min": 15,
+   "yield_per_30min": 0.91,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.553,
+   "asked": [
+    "MS2022 Q1(c)",
+    "MS2023 Q1(a)",
+    "MS2024 Q1(b)"
+   ],
+   "asked_weighted": [
+    "MS2022",
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-1b",
+    "MS2022-1c",
+    "MS2023-1a"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C59",
+   "label": "Draw the UDP datagram / header format and the pseudoheader",
+   "topic": "T17",
+   "topic_title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.076,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.025,
+   "prior": 0.0058,
+   "form_share": 0.124,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.15,
+   "effort_min": 15,
+   "yield_per_30min": 0.3,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2026SP Q4(a)",
+    "MS2019 Q5(c)"
+   ],
+   "asked_weighted": [
+    "MS2019"
+   ],
+   "question_ids": [
+    "MS2019-5c",
+    "ES2026SP-4a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C60",
+   "label": "Compute a UDP checksum with the pseudoheader",
+   "topic": "T17",
+   "topic_title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.061,
+   "band": "low",
+   "P_display": "6%",
+   "P_q1": 0.028,
+   "prior": 0.0045,
+   "form_share": 0.096,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.11,
+   "effort_min": 30,
+   "yield_per_30min": 0.11,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2026SP Q4(b) OR"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2026SP-4bOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C61",
+   "label": "Explain why a matching Internet checksum does not guarantee an error-free segment",
+   "topic": "T17",
+   "topic_title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.065,
+   "band": "low",
+   "P_display": "7%",
+   "P_q1": 0.027,
+   "prior": 0.0045,
+   "form_share": 0.096,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.13,
+   "effort_min": 10,
+   "yield_per_30min": 0.38,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2019 Q1(b)",
+    "ES2022 Q1(j)",
+    "MS2026SP Q1(c)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "MS2026SP-1c",
+    "ES2019-1b",
+    "ES2022-1j"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C29",
+   "label": "TCP sequence numbering: numbers consumed by SYN/ACK/FIN/data and the sequence number of each segment",
+   "topic": "T18",
+   "topic_title": "TCP services and features: byte numbering, sequence and acknowledgment numbers",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.377,
+   "band": "med",
+   "P_display": "38%",
+   "P_q1": 0.167,
+   "prior": 0.033,
+   "form_share": 0.703,
+   "typical_marks": 2.75,
+   "compulsory": true,
+   "EV": 0.83,
+   "effort_min": 15,
+   "yield_per_30min": 1.67,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 1.09,
+   "asked": [
+    "ES2018 Q1(h)",
+    "ES2022 Q1(i)",
+    "ES2025 Q1(c)",
+    "MS2023 Q1(c)",
+    "MS2024 Q1(e), Q5(a)"
+   ],
+   "asked_weighted": [
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-1e",
+    "MS2024-5a",
+    "MS2023-1c",
+    "ES2018-1h",
+    "ES2022-1i",
+    "ES2025-1c"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C62",
+   "label": "Size the sequence-number and window fields: wrap-around time and bandwidth x RTT",
+   "topic": "T18",
+   "topic_title": "TCP services and features: byte numbering, sequence and acknowledgment numbers",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.17,
+   "band": "low",
+   "P_display": "17%",
+   "P_q1": 0.071,
+   "prior": 0.0139,
+   "form_share": 0.297,
+   "typical_marks": 3.0,
+   "compulsory": false,
+   "EV": 0.34,
+   "effort_min": 15,
+   "yield_per_30min": 0.68,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.378,
+   "asked": [
+    "ES2019 Q1(i), Q7(b)",
+    "MS2020 Q2(a)"
+   ],
+   "asked_weighted": [
+    "MS2020"
+   ],
+   "question_ids": [
+    "MS2020-2a",
+    "ES2019-1i",
+    "ES2019-7b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C30",
+   "label": "Draw the TCP header format and explain each field (incl. urgent-pointer numericals)",
+   "topic": "T19",
+   "topic_title": "TCP segment format (header fields, flags)",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.267,
+   "band": "med",
+   "P_display": "27%",
+   "P_q1": 0.114,
+   "prior": 0.0172,
+   "form_share": 0.367,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.55,
+   "effort_min": 30,
+   "yield_per_30min": 0.55,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.514,
+   "asked": [
+    "ES2025 Q2(b)",
+    "ES2026SP Q4(a) OR",
+    "MS2022 Q2(a)",
+    "MS2023 Q4(B)",
+    "MS2024 Q3(b)"
+   ],
+   "asked_weighted": [
+    "MS2022",
+    "MS2023",
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-3b",
+    "MS2022-2a",
+    "MS2023-4b",
+    "ES2025-2b",
+    "ES2026SP-4aOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C31",
+   "label": "Decode a TCP header from a hexadecimal dump",
+   "topic": "T19",
+   "topic_title": "TCP segment format (header fields, flags)",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.201,
+   "band": "low",
+   "P_display": "20%",
+   "P_q1": 0.084,
+   "prior": 0.0119,
+   "form_share": 0.253,
+   "typical_marks": 2.0,
+   "compulsory": false,
+   "EV": 0.4,
+   "effort_min": 20,
+   "yield_per_30min": 0.6,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.384,
+   "asked": [
+    "MS2025 Q4(b)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-4b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C63",
+   "label": "HLEN arithmetic: header length and option bytes from the HLEN field",
+   "topic": "T19",
+   "topic_title": "TCP segment format (header fields, flags)",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.187,
+   "band": "low",
+   "P_display": "19%",
+   "P_q1": 0.071,
+   "prior": 0.0115,
+   "form_share": 0.245,
+   "typical_marks": 1.5,
+   "compulsory": true,
+   "EV": 0.37,
+   "effort_min": 10,
+   "yield_per_30min": 1.12,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.48,
+   "asked": [
+    "ES2018 Q1(g)",
+    "ES2019 Q1(h)",
+    "ES2022 Q1(d)",
+    "MS2020 Q1(c)",
+    "MS2023 Q1(d)"
+   ],
+   "asked_weighted": [
+    "MS2020",
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2020-1c",
+    "MS2023-1d",
+    "ES2018-1g",
+    "ES2019-1h",
+    "ES2022-1d"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C64",
+   "label": "TCP/IP size limits: minimum header overhead and the maximum segment payload (65,495 B)",
+   "topic": "T19",
+   "topic_title": "TCP segment format (header fields, flags)",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.102,
+   "band": "low",
+   "P_display": "10%",
+   "P_q1": 0.036,
+   "prior": 0.0063,
+   "form_share": 0.134,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.2,
+   "effort_min": 15,
+   "yield_per_30min": 0.4,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2024 Q3(b)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2024-3b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C32",
+   "label": "Explain TCP connection establishment (3-way handshake), data transfer and termination",
+   "topic": "T20",
+   "topic_title": "TCP connection management: 3-way handshake, data transfer, connection termination",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.281,
+   "band": "med",
+   "P_display": "28%",
+   "P_q1": 0.117,
+   "prior": 0.0199,
+   "form_share": 0.425,
+   "typical_marks": 3.0,
+   "compulsory": false,
+   "EV": 0.6,
+   "effort_min": 30,
+   "yield_per_30min": 0.6,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.601,
+   "asked": [
+    "ES2018 Q2(a)",
+    "ES2022 Q8(b)",
+    "MS2025 Q3(a)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-3a",
+    "ES2018-2a",
+    "ES2022-8b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C33",
+   "label": "Trace a complete TCP exchange with SYN/ACK/FIN bits and SEQ/ACK numbers",
+   "topic": "T20",
+   "topic_title": "TCP connection management: 3-way handshake, data transfer, connection termination",
+   "unit": "U3",
+   "type": "trace",
+   "P": 0.243,
+   "band": "low",
+   "P_display": "24%",
+   "P_q1": 0.111,
+   "prior": 0.0166,
+   "form_share": 0.354,
+   "typical_marks": 3.75,
+   "compulsory": false,
+   "EV": 0.49,
+   "effort_min": 35,
+   "yield_per_30min": 0.42,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "MS2022 Q3(b)",
+    "MS2023 Q4(A)"
+   ],
+   "asked_weighted": [
+    "MS2022",
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2022-3b",
+    "MS2023-4a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C53",
+   "label": "Explain piggybacking of acknowledgments",
+   "topic": "T20",
+   "topic_title": "TCP connection management: 3-way handshake, data transfer, connection termination",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.143,
+   "band": "low",
+   "P_display": "14%",
+   "P_q1": 0.055,
+   "prior": 0.0103,
+   "form_share": 0.22,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.29,
+   "effort_min": 10,
+   "yield_per_30min": 0.86,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.353,
+   "asked": [
+    "MS2019 Q5(b)"
+   ],
+   "asked_weighted": [
+    "MS2019"
+   ],
+   "question_ids": [
+    "MS2019-5b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C34",
+   "label": "List the TCP states and draw the TCP state transition diagram",
+   "topic": "T21",
+   "topic_title": "TCP state transition diagram",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.227,
+   "band": "low",
+   "P_display": "23%",
+   "P_q1": 0.094,
+   "prior": 0.0219,
+   "form_share": 0.626,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.47,
+   "effort_min": 30,
+   "yield_per_30min": 0.47,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.369,
+   "asked": [
+    "MS2024 Q5(b)"
+   ],
+   "asked_weighted": [
+    "MS2024"
+   ],
+   "question_ids": [
+    "MS2024-5b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C65",
+   "label": "Name and reason about TCP states during close (FIN-WAIT-2, TIME-WAIT)",
+   "topic": "T21",
+   "topic_title": "TCP state transition diagram",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.143,
+   "band": "low",
+   "P_display": "14%",
+   "P_q1": 0.058,
+   "prior": 0.0131,
+   "form_share": 0.374,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.29,
+   "effort_min": 10,
+   "yield_per_30min": 0.86,
+   "tier": "A",
+   "plan": "3h",
+   "plan_gain": 0.34,
+   "asked": [
+    "ES2019 Q4(a)",
+    "ES2023 Q1(h)",
+    "MS2020 Q1(d)"
+   ],
+   "asked_weighted": [
+    "MS2020"
+   ],
+   "question_ids": [
+    "MS2020-1d",
+    "ES2019-4a",
+    "ES2023-1h"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C35",
+   "label": "Differentiate TCP window size and MSS; explain the receive window (rwnd)",
+   "topic": "T22",
+   "topic_title": "Windows in TCP and TCP flow control",
+   "unit": "U3",
+   "type": "compare",
+   "P": 0.159,
+   "band": "low",
+   "P_display": "16%",
+   "P_q1": 0.064,
+   "prior": 0.0142,
+   "form_share": 0.408,
+   "typical_marks": 1.0,
+   "compulsory": true,
+   "EV": 0.32,
+   "effort_min": 15,
+   "yield_per_30min": 0.64,
+   "tier": "B",
+   "plan": "6h",
+   "plan_gain": 0.358,
+   "asked": [
+    "MS2025 Q1(d)"
+   ],
+   "asked_weighted": [
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-1d"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C66",
+   "label": "Window needed to fill the pipe (bandwidth x RTT) and segments per window",
+   "topic": "T22",
+   "topic_title": "Windows in TCP and TCP flow control",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.136,
+   "band": "low",
+   "P_display": "14%",
+   "P_q1": 0.054,
+   "prior": 0.0122,
+   "form_share": 0.349,
+   "typical_marks": 5.0,
+   "compulsory": false,
+   "EV": 0.26,
+   "effort_min": 15,
+   "yield_per_30min": 0.51,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.218,
+   "asked": [
+    "ES2022 Q1(g)",
+    "ES2025 Q1(i)",
+    "MS2023 Q5(A)"
+   ],
+   "asked_weighted": [
+    "MS2023"
+   ],
+   "question_ids": [
+    "MS2023-5a",
+    "ES2022-1g",
+    "ES2025-1i"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C67",
+   "label": "Explain TCP transmission and acknowledgment policies and TCP timers",
+   "topic": "T22",
+   "topic_title": "Windows in TCP and TCP flow control",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.099,
+   "band": "low",
+   "P_display": "10%",
+   "P_q1": 0.039,
+   "prior": 0.0085,
+   "form_share": 0.244,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.18,
+   "effort_min": 30,
+   "yield_per_30min": 0.18,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2024 Q4(a)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2024-4a"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C36",
+   "label": "Explain TCP congestion control: slow start, congestion avoidance (additive increase), fast recovery",
+   "topic": "T23",
+   "topic_title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.262,
+   "band": "med",
+   "P_display": "26%",
+   "P_q1": 0.119,
+   "prior": 0.0235,
+   "form_share": 0.502,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.55,
+   "effort_min": 30,
+   "yield_per_30min": 0.55,
+   "tier": "C",
+   "plan": "12h",
+   "plan_gain": 0.46,
+   "asked": [
+    "ES2018 Q8(b)",
+    "ES2022 Q2(a)",
+    "ES2023 Q8(b)",
+    "MS2022 Q4(c)",
+    "MS2025 Q5(iii)"
+   ],
+   "asked_weighted": [
+    "MS2022",
+    "MS2025"
+   ],
+   "question_ids": [
+    "MS2025-5iii",
+    "MS2022-4c",
+    "ES2018-8b",
+    "ES2022-2a",
+    "ES2023-8b"
+   ],
+   "in_imp_list": true,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C37",
+   "label": "Compute TCP throughput from the cwnd sawtooth (0.75 Wmax / RTT)",
+   "topic": "T23",
+   "topic_title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.093,
+   "band": "low",
+   "P_display": "9%",
+   "P_q1": 0.033,
+   "prior": 0.0078,
+   "form_share": 0.166,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.18,
+   "effort_min": 20,
+   "yield_per_30min": 0.26,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [],
+   "asked_weighted": [],
+   "question_ids": [],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C68",
+   "label": "Trace cwnd round by round (slow start, threshold, timeout) and give cwnd at round n",
+   "topic": "T23",
+   "topic_title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+   "unit": "U3",
+   "type": "numerical",
+   "P": 0.092,
+   "band": "low",
+   "P_display": "9%",
+   "P_q1": 0.037,
+   "prior": 0.0078,
+   "form_share": 0.166,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.17,
+   "effort_min": 25,
+   "yield_per_30min": 0.2,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2019 Q3(b)",
+    "ES2022 Q2(b)",
+    "ES2023 Q7(a)",
+    "ES2024 Q4(b)",
+    "ES2025 Q2(a)",
+    "ES2026SP Q4(b)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2019-3b",
+    "ES2022-2b",
+    "ES2023-7a",
+    "ES2024-4b",
+    "ES2025-2a",
+    "ES2026SP-4b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C69",
+   "label": "Read a TCP Reno cwnd plot: threshold, slow-start / avoidance intervals, loss type",
+   "topic": "T23",
+   "topic_title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+   "unit": "U3",
+   "type": "trace",
+   "P": 0.079,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.029,
+   "prior": 0.0078,
+   "form_share": 0.166,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.16,
+   "effort_min": 25,
+   "yield_per_30min": 0.19,
+   "tier": "D",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2023 Q7(b)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2023-7b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C38",
+   "label": "Explain Quality of Service: flow characteristics and techniques",
+   "topic": "T24",
+   "topic_title": "Quality of Service (QoS)",
+   "unit": "U3",
+   "type": "theory",
+   "P": 0.075,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.029,
+   "prior": 0.0116,
+   "form_share": 0.5,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.15,
+   "effort_min": 20,
+   "yield_per_30min": 0.23,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2026SP Q5(b)"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2026SP-5b"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  },
+  {
+   "cluster": "C70",
+   "label": "Explain traffic shaping with the leaky (and token) bucket",
+   "topic": "T24",
+   "topic_title": "Quality of Service (QoS)",
+   "unit": "U3",
+   "type": "diagram",
+   "P": 0.083,
+   "band": "low",
+   "P_display": "8%",
+   "P_q1": 0.03,
+   "prior": 0.0116,
+   "form_share": 0.5,
+   "typical_marks": 2.5,
+   "compulsory": false,
+   "EV": 0.16,
+   "effort_min": 25,
+   "yield_per_30min": 0.19,
+   "tier": "E",
+   "plan": null,
+   "plan_gain": null,
+   "asked": [
+    "ES2026SP Q5(b) OR"
+   ],
+   "asked_weighted": [],
+   "question_ids": [
+    "ES2026SP-5bOR"
+   ],
+   "in_imp_list": false,
+   "class_signal": false,
+   "dropped": false,
+   "synthetic": false
+  }
+ ],
+ "topics": [
+  {
+   "topic": "T01",
+   "title": "Introduction: data communication components, data flow, network criteria, network types (PAN/LAN/MAN/WAN)",
+   "unit": "U1",
+   "P": 0.217,
+   "band": "low",
+   "P_display": "22%",
+   "share": 0.0182,
+   "expected_marks": 0.59,
+   "prior": 0.0392,
+   "papers": [
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 1.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T02",
+   "title": "Analog and digital signals; data transmission and multiplexing",
+   "unit": "U1",
+   "P": 0.372,
+   "band": "med",
+   "P_display": "37%",
+   "share": 0.0339,
+   "expected_marks": 1.08,
+   "prior": 0.0313,
+   "papers": [
+    "MS2026SP"
+   ],
+   "marks_by_paper": {
+    "MS2026SP": 5.0
+   },
+   "tier": "C",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T03",
+   "title": "Data encoding techniques",
+   "unit": "U1",
+   "P": 0.116,
+   "band": "low",
+   "P_display": "12%",
+   "share": 0.009,
+   "expected_marks": 0.31,
+   "prior": 0.0233,
+   "papers": [],
+   "marks_by_paper": {},
+   "tier": "E",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T04",
+   "title": "Packet switching vs circuit switching (and virtual-circuit switching)",
+   "unit": "U1",
+   "P": 0.255,
+   "band": "med",
+   "P_display": "26%",
+   "share": 0.0221,
+   "expected_marks": 0.71,
+   "prior": 0.0469,
+   "papers": [
+    "MS2022"
+   ],
+   "marks_by_paper": {
+    "MS2022": 2.5
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T05",
+   "title": "Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling)",
+   "unit": "U1",
+   "P": 0.317,
+   "band": "med",
+   "P_display": "32%",
+   "share": 0.0302,
+   "expected_marks": 0.95,
+   "prior": 0.0469,
+   "papers": [
+    "MS2025",
+    "MS2026SP"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.5,
+    "MS2026SP": 1.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T06",
+   "title": "Protocol layering; OSI model and TCP/IP protocol suite",
+   "unit": "U1",
+   "P": 0.409,
+   "band": "med",
+   "P_display": "41%",
+   "share": 0.039,
+   "expected_marks": 1.23,
+   "prior": 0.0313,
+   "papers": [
+    "MS2019",
+    "MS2020",
+    "MS2026SP"
+   ],
+   "marks_by_paper": {
+    "MS2019": 4.0,
+    "MS2020": 2.0,
+    "MS2026SP": 5.0
+   },
+   "tier": "C",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T07",
+   "title": "Application paradigms: client-server vs peer-to-peer; sockets",
+   "unit": "U2",
+   "P": 0.293,
+   "band": "med",
+   "P_display": "29%",
+   "share": 0.0267,
+   "expected_marks": 0.83,
+   "prior": 0.0233,
+   "papers": [
+    "MS2019",
+    "MS2022",
+    "MS2023"
+   ],
+   "marks_by_paper": {
+    "MS2022": 1.0,
+    "MS2019": 3.0,
+    "MS2023": 5.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T08",
+   "title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+   "unit": "U2",
+   "P": 0.645,
+   "band": "high",
+   "P_display": "64%",
+   "share": 0.0745,
+   "expected_marks": 2.4,
+   "prior": 0.0589,
+   "papers": [
+    "MS2019",
+    "MS2020",
+    "MS2022",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.0,
+    "MS2024": 3.5,
+    "MS2022": 2.5,
+    "MS2019": 2.5,
+    "MS2020": 1.0,
+    "MS2023": 5.0
+   },
+   "tier": "B",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T09",
+   "title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME",
+   "unit": "U2",
+   "P": 0.552,
+   "band": "high",
+   "P_display": "55%",
+   "share": 0.0602,
+   "expected_marks": 1.85,
+   "prior": 0.0469,
+   "papers": [
+    "MS2019",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.5,
+    "MS2024": 2.5,
+    "MS2019": 4.0,
+    "MS2023": 5.0
+   },
+   "tier": "B",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T10",
+   "title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records",
+   "unit": "U2",
+   "P": 0.536,
+   "band": "high",
+   "P_display": "54%",
+   "share": 0.0628,
+   "expected_marks": 1.84,
+   "prior": 0.0469,
+   "papers": [
+    "MS2019",
+    "MS2020",
+    "MS2022",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 4.0,
+    "MS2024": 1.0,
+    "MS2022": 1.0,
+    "MS2019": 5.0,
+    "MS2020": 4.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T11",
+   "title": "Delay and throughput in packet-switched networks",
+   "unit": "U2",
+   "P": 0.482,
+   "band": "med",
+   "P_display": "48%",
+   "share": 0.0506,
+   "expected_marks": 1.56,
+   "prior": 0.0469,
+   "papers": [
+    "MS2019",
+    "MS2020",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 1.0,
+    "MS2024": 2.5,
+    "MS2019": 3.0,
+    "MS2020": 2.0,
+    "MS2023": 2.0
+   },
+   "tier": "B",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T12",
+   "title": "Transport-layer services: process-to-process delivery, port numbers, multiplexing and demultiplexing",
+   "unit": "U3",
+   "P": 0.283,
+   "band": "med",
+   "P_display": "28%",
+   "share": 0.0258,
+   "expected_marks": 0.79,
+   "prior": 0.0313,
+   "papers": [
+    "MS2022"
+   ],
+   "marks_by_paper": {
+    "MS2022": 3.5
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T13",
+   "title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol",
+   "unit": "U3",
+   "P": 0.244,
+   "band": "low",
+   "P_display": "24%",
+   "share": 0.0207,
+   "expected_marks": 0.67,
+   "prior": 0.0349,
+   "papers": [
+    "MS2019"
+   ],
+   "marks_by_paper": {
+    "MS2019": 1.0
+   },
+   "tier": "D",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T14",
+   "title": "Stop-and-wait protocol",
+   "unit": "U3",
+   "P": 0.598,
+   "band": "high",
+   "P_display": "60%",
+   "share": 0.0674,
+   "expected_marks": 2.11,
+   "prior": 0.0589,
+   "papers": [
+    "MS2020",
+    "MS2022",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 3.0,
+    "MS2024": 1.0,
+    "MS2022": 5.0,
+    "MS2020": 3.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T15",
+   "title": "Go-Back-N protocol",
+   "unit": "U3",
+   "P": 0.567,
+   "band": "high",
+   "P_display": "57%",
+   "share": 0.0627,
+   "expected_marks": 1.97,
+   "prior": 0.0589,
+   "papers": [
+    "MS2020",
+    "MS2022",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.0,
+    "MS2024": 2.5,
+    "MS2022": 1.0,
+    "MS2020": 3.0,
+    "MS2023": 2.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T16",
+   "title": "Selective-Repeat protocol; window size vs sequence-number bits",
+   "unit": "U3",
+   "P": 0.543,
+   "band": "high",
+   "P_display": "54%",
+   "share": 0.0557,
+   "expected_marks": 1.84,
+   "prior": 0.0469,
+   "papers": [
+    "MS2020",
+    "MS2023",
+    "MS2024"
+   ],
+   "marks_by_paper": {
+    "MS2024": 2.5,
+    "MS2020": 2.0,
+    "MS2023": 10.0
+   },
+   "tier": "C",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T17",
+   "title": "UDP: services, applications, user-datagram format, checksum",
+   "unit": "U3",
+   "P": 0.495,
+   "band": "med",
+   "P_display": "50%",
+   "share": 0.0507,
+   "expected_marks": 1.62,
+   "prior": 0.0469,
+   "papers": [
+    "MS2019",
+    "MS2020",
+    "MS2022",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 1.0,
+    "MS2024": 1.0,
+    "MS2022": 3.5,
+    "MS2019": 2.5,
+    "MS2020": 1.0,
+    "MS2023": 2.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T18",
+   "title": "TCP services and features: byte numbering, sequence and acknowledgment numbers",
+   "unit": "U3",
+   "P": 0.484,
+   "band": "med",
+   "P_display": "48%",
+   "share": 0.0485,
+   "expected_marks": 1.54,
+   "prior": 0.0469,
+   "papers": [
+    "MS2020",
+    "MS2023",
+    "MS2024"
+   ],
+   "marks_by_paper": {
+    "MS2024": 3.5,
+    "MS2020": 3.0,
+    "MS2023": 2.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T19",
+   "title": "TCP segment format (header fields, flags)",
+   "unit": "U3",
+   "P": 0.578,
+   "band": "high",
+   "P_display": "58%",
+   "share": 0.0643,
+   "expected_marks": 2.0,
+   "prior": 0.0469,
+   "papers": [
+    "MS2020",
+    "MS2022",
+    "MS2023",
+    "MS2024",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.0,
+    "MS2024": 2.5,
+    "MS2022": 2.5,
+    "MS2020": 1.0,
+    "MS2023": 7.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T20",
+   "title": "TCP connection management: 3-way handshake, data transfer, connection termination",
+   "unit": "U3",
+   "P": 0.542,
+   "band": "high",
+   "P_display": "54%",
+   "share": 0.0567,
+   "expected_marks": 1.82,
+   "prior": 0.0469,
+   "papers": [
+    "MS2019",
+    "MS2022",
+    "MS2023",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 3.0,
+    "MS2022": 2.5,
+    "MS2019": 2.5,
+    "MS2023": 5.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T21",
+   "title": "TCP state transition diagram",
+   "unit": "U3",
+   "P": 0.338,
+   "band": "med",
+   "P_display": "34%",
+   "share": 0.0313,
+   "expected_marks": 0.98,
+   "prior": 0.0349,
+   "papers": [
+    "MS2020",
+    "MS2024"
+   ],
+   "marks_by_paper": {
+    "MS2024": 2.5,
+    "MS2020": 1.0
+   },
+   "tier": "A",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T22",
+   "title": "Windows in TCP and TCP flow control",
+   "unit": "U3",
+   "P": 0.348,
+   "band": "med",
+   "P_display": "35%",
+   "share": 0.0323,
+   "expected_marks": 0.99,
+   "prior": 0.0349,
+   "papers": [
+    "MS2023",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 1.0,
+    "MS2023": 5.0
+   },
+   "tier": "B",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T23",
+   "title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+   "unit": "U3",
+   "P": 0.441,
+   "band": "med",
+   "P_display": "44%",
+   "share": 0.0437,
+   "expected_marks": 1.36,
+   "prior": 0.0469,
+   "papers": [
+    "MS2022",
+    "MS2025"
+   ],
+   "marks_by_paper": {
+    "MS2025": 2.5,
+    "MS2022": 2.5
+   },
+   "tier": "C",
+   "class_signal": false,
+   "dropped": false
+  },
+  {
+   "topic": "T24",
+   "title": "Quality of Service (QoS)",
+   "unit": "U3",
+   "P": 0.152,
+   "band": "low",
+   "P_display": "15%",
+   "share": 0.0131,
+   "expected_marks": 0.41,
+   "prior": 0.0233,
+   "papers": [],
+   "marks_by_paper": {},
+   "tier": "E",
+   "class_signal": false,
+   "dropped": false
+  }
+ ],
+ "plans": {
+  "3h": {
+   "minutes": 175,
+   "expected_marks": 8.8,
+   "p_safe": 0.24,
+   "clusters": [
+    "C17",
+    "C29",
+    "C04",
+    "C20",
+    "C25",
+    "C63",
+    "C06",
+    "C23",
+    "C50",
+    "C10",
+    "C28",
+    "C53",
+    "C65"
+   ]
+  },
+  "6h": {
+   "minutes": 360,
+   "expected_marks": 13.71,
+   "p_safe": 0.569,
+   "clusters": [
+    "C17",
+    "C29",
+    "C04",
+    "C20",
+    "C25",
+    "C63",
+    "C06",
+    "C23",
+    "C50",
+    "C10",
+    "C28",
+    "C53",
+    "C65",
+    "C16",
+    "C01",
+    "C55",
+    "C19",
+    "C24",
+    "C62",
+    "C48",
+    "C35",
+    "C15",
+    "C13",
+    "C46"
+   ]
+  },
+  "12h": {
+   "minutes": 720,
+   "expected_marks": 19.64,
+   "p_safe": 0.908,
+   "clusters": [
+    "C17",
+    "C29",
+    "C04",
+    "C20",
+    "C25",
+    "C63",
+    "C06",
+    "C23",
+    "C50",
+    "C10",
+    "C28",
+    "C53",
+    "C65",
+    "C16",
+    "C01",
+    "C55",
+    "C19",
+    "C24",
+    "C62",
+    "C48",
+    "C35",
+    "C15",
+    "C13",
+    "C46",
+    "C47",
+    "C11",
+    "C32",
+    "C14",
+    "C31",
+    "C54",
+    "C12",
+    "C05",
+    "C30",
+    "C43",
+    "C36",
+    "C08",
+    "C66",
+    "C39",
+    "C58",
+    "C44",
+    "C42",
+    "C34"
+   ]
+  }
+ }
+}

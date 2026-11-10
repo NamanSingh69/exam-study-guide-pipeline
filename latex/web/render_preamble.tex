@@ -1,0 +1,21 @@
+% Standalone render document for tools/web.py: every job is one \begin{preview}..\end{preview}
+% (one PDF page), converted to SVG with pymupdf. Uses the REAL studyguide.sty.
+% The 40pt border keeps ink that TikZ draws outside a 'use as bounding box' rectangle; web.py then
+% crops each SVG to the union of what is drawn (all frames of one animation share one box).
+\documentclass[11pt]{report}
+\usepackage{studyguide}
+\usepackage[active,tightpage]{preview}
+\setlength\PreviewBorder{40pt}
+% fallbacks in case the style in use predates a Round-4 macro (no-ops when it defines them)
+\makeatletter
+\providecommand{\flashcard}[2]{}
+\providecommand{\clusterbadge}[1]{\textbf{#1}}
+\providecommand{\topicbadge}[1]{\textbf{#1}}
+\providecommand{\pyqsolved}[1]{solved}
+\providecommand{\seesolved}[1]{same idea as #1}
+\providecommand{\receipt}[1]{}
+\providecommand{\notfromnotes}[1]{\textbf{Not in your instructor's notes} --- written from #1.}
+\providecommand{\sg@frametitle}[1]{}
+\pagestyle{empty}
+\begin{document}
+%%DEFS%%

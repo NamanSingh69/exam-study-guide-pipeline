@@ -1,0 +1,6 @@
+{"subject": "Speech and Video Processing", "code": "XX 4001", "scope": "Endsem",
+ "units": [{"id": "U4", "title": "Motion estimation and tracking", "in_scope": true, "chapter": "33_video",
+            "topics": [{"id": "T31", "title": "Gradient-based methods: Lucas-Kanade, Horn-Schunck"},
+                       {"id": "T35", "title": "Mean shift"},
+                       {"id": "T38", "title": "Active shape model"},
+                       {"id": "T40", "title": "OpenCV video programming"}]}]}

@@ -1,0 +1,3 @@
+{"no_papers": true, "papers": [], "questions": [],
+ "clusters": [{"id": "C122", "topic": "T40", "label": "Write a Python/OpenCV mean-shift object tracker"},
+              {"id": "C098", "topic": "T30", "label": "Exhaustive block matching in a small search window"}]}

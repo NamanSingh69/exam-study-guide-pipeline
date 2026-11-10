@@ -1,0 +1,444 @@
+% =============================================================================
+%  visual_cookbook.tex — every TESTED visual + box pattern the writer agents may copy.
+%  Compile:  py _pipeline/tools/build.py --cookbook [--interactive | --phone] [--render]
+%  Rule for agents: start from the closest pattern here; change content, keep the mechanics.
+%  This file obeys the chapter lint: floats are [!htbp] (never [H]), nothing is \tiny, no statistic
+%  that is not computed from the bank. Every number in a worked figure was checked with py.
+% =============================================================================
+\documentclass[11pt,a4paper]{report}
+\usepackage{studyguide}   % build.py --cookbook --interactive / --phone passes the edition option
+\setsubject{Visual Cookbook}{v2.1}{Pattern library}
+\begin{document}
+% badges normally come from badges.tex (score.py); defined here so the demo is self-contained
+\sgdefbadge{C05}{A}{79}{high}{1.58}\sgdefbadge{C09}{B}{-}{med}{0.90}\sgdeftopic{T07}{84}{high}
+
+\chapter{Boxes and exam metadata}
+
+\section{Question / solution / answer plan}
+\begin{question}{2024 Midsem Q1(c)}{1}[\clusterbadge{C05}]
+In Stop and wait protocol every 4th packet is lost and we need to send total 15 packets so how many transmissions it took to send all the packets?
+\end{question}\label{q:DEMO-1c}
+\begin{solution}[count transmissions with periodic loss]
+Every 4th \emph{transmission} is lost (transmissions 4, 8, 12, 16, \dots). Find the smallest $T$ with
+$T-\lfloor T/4\rfloor = 15$ \emph{and} transmission $T$ itself successful:
+\begin{align*}
+  T=19:\; 19-\lfloor 19/4\rfloor = 19-4 = 15 \text{ successes, and the 19th is not a multiple of 4}
+  \;\Rightarrow\; T=\answer{$19$}
+\end{align*}
+($T=20$ also satisfies the count, but the 20th transmission is never sent: the 15th packet already got through at 19.)
+\end{solution}
+\begin{answerplan}[2.5 marks]
+\stepno{1} Define the term in one line \quad \stepno{2} Draw the labelled diagram the question asks for \quad
+\stepno{3} 3--4 numbered points with keywords: \keyword{ARQ}, \keyword{timeout}, \keyword{sequence number}.
+\end{answerplan}
+
+\begin{definitionbox}[Bandwidth-delay product]  $\text{BDP}=R\times d_{prop}$ bits in flight. \src{N_Computer_Networks_compressed p41}\end{definitionbox}
+\begin{formulabox}[Stop-and-wait efficiency] $\eta=\dfrac{1}{1+2a},\quad a=\dfrac{T_{prop}}{T_{trans}}$\end{formulabox}
+\begin{warningbox}MB vs Mb: 1 MB $=8\times10^6$ bits in networking numericals unless the paper says $2^{20}$.\end{warningbox}
+\begin{intuitionbox}A pipe: bandwidth is its width, propagation delay its length; BDP is its volume.\end{intuitionbox}
+\begin{mnemonicbox}OSI top-down: \textbf{A}ll \textbf{P}eople \textbf{S}eem \textbf{T}o \textbf{N}eed \textbf{D}ata \textbf{P}rocessing.\end{mnemonicbox}
+\begin{examtip}If a question says ``with a neat diagram'', draw the diagram first, then write around it.\end{examtip}
+\begin{checkpoint}Why must the GBN window be $\le 2^m-1$? (Answer: ch.~3)\end{checkpoint}
+
+\section{Badges (from badges.tex) and provenance}
+\clusterbadge{C05} \clusterbadge{C09} \topicbadge{T07} \mks{5} \asked{2022 Q2a, 2024 Q3b} \ev{2.1}
+\quad legacy, auto chapters only: \tier{A} \tier{B} \tier{C} \tier{D} \tier{E} \prob{80} \prob{45} \prob{12}
+
+Writers use \verb|\clusterbadge{Cxx}| / \verb|\topicbadge{Txx}| on the line \emph{after} a heading (lint flags
+badges inside \verb|\section{..}| and hand-typed \verb|\prob|/\verb|\tier|). An id missing from badges.tex prints
+\clusterbadge{C99} and the build lists it.
+\flashcard{What does BDP measure?}{The number of bits in flight on a link: $R\times d_{prop}$.}%
+\verb|\flashcard{front}{back}| prints nothing (flashcards.py collects 2--5 per topic).
+
+\notfromnotes{Forouzan, \emph{Data Communications and Networking}, ch.~23}
+\verb|\notfromnotes{book, chapter}| goes at the top of a topic the instructor's notes do not cover (instead of \verb|\src|).
+
+\section{Receipts, solved ideas and cross-links}
+\verb|\receipt{<qid>}| shows the question as printed (receipts/<qid>.png); a missing crop looks like this:
+\receipt{DEMO-1c}
+\begin{solvedidea}{C05}{Stop-and-wait: count transmissions with periodic loss}
+The one full model solution of the idea lives in \texttt{atoms/solve/C05.tex}; it sets \verb|\label{solve:C05}|.
+Count successes $T-\lfloor T/k\rfloor$ and stop at the first successful transmission: $k=4$, 15 packets $\Rightarrow \answer{19}$.
+\end{solvedidea}
+Elsewhere: \seesolved{C05}. A PYQ list links each question: MS2024 Q1(c), \pyqsolved{DEMO-1c}.
+
+\chapter{Diagram patterns}
+\section{Sequence / timing diagram (protocol exchanges)}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1]
+  \node[blk] (s) at (0,0) {Sender}; \node[blk] (r) at (6,0) {Receiver};
+  \draw[lifeline] (0,0.4) -- (0,6.4); \draw[lifeline] (6,0.4) -- (6,6.4);
+  \draw[msg] (0,0.8) -- node[elabel,above,sloped]{Frame 0} (6,1.6);
+  \draw[msgok] (6,1.7) -- node[elabel,above,sloped]{ACK 1} (0,2.5);
+  \draw[msglost] (0,2.8) -- node[elabel,above,sloped]{Frame 1} (3.4,3.25);
+  \node[bad,font=\bfseries] at (3.6,3.3) {$\times$};
+  \draw[timeout] (-0.15,2.8) -- node[left=4pt,note,text=bad]{timeout} (-0.15,4.6);
+  \draw[msg] (0,4.7) -- node[elabel,above,sloped]{Frame 1 (resend)} (6,5.5);
+  \draw[msgok] (6,5.6) -- node[elabel,above,sloped]{ACK 0} (0,6.4);
+  \node[note,right] at (6.2,3.3) {frame lost $\Rightarrow$ no ACK};
+\end{tikzpicture}
+\caption{Stop-and-wait with a lost frame: time runs downward.}\label{fig:cb-seq}\end{figure}
+
+\section{Step-by-step storyboard + animation (algorithm progress)}
+Write ONE tikz body; \verb|\f| is the frame number. Reveal with \verb|\ifnum\f>k ... \fi|. Leave the top-left
+corner of the bounding box free: the ``Step N'' tag sits there.
+\stepanim{4}{2}{0.48\linewidth}{Go-Back-N, window 3: frame 2 is lost, so frames 2--4 are resent.}{%
+  \path[use as bounding box] (-0.5,-1.3) rectangle (6.2,0.9);
+  \foreach \i in {0,...,6}{
+    \pgfmathtruncatemacro{\st}{ (\f==1 && \i<3) || (\f==2 && \i<5 && \i>1) || (\f==3 && \i>1 && \i<5) || (\f==4 && \i>4) ? 1 : 0 }
+    \ifnum\st=1 \node[cellhl] at (\i*0.8,0) {\i};\else\node[cell] at (\i*0.8,0) {\i};\fi
+  }
+  \ifcase\f\or
+    \node[note] at (2.4,-0.9) {send 0,1,2};
+  \or
+    \node[note] at (2.4,-0.9) {ACK 0,1 arrive; 2 lost; send 3,4};
+  \or
+    \node[note,text=bad] at (2.4,-0.9) {timeout on 2 $\Rightarrow$ resend 2,3,4};
+  \or
+    \node[note,text=ok] at (2.4,-0.9) {ACKs arrive; window slides to 5};
+  \fi
+}
+
+\section{Finite state machine}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[node distance=30mm,auto]
+  \node[state,initial] (c) {CLOSED};
+  \node[state,right=of c] (l) {LISTEN};
+  \node[state,right=of l] (sr) {SYN-RCVD};
+  \node[state,accepting,below=18mm of l] (e) {ESTAB};
+  \path[arr] (c) edge node[elabel]{passive open} (l)
+             (l) edge node[elabel]{SYN / SYN+ACK} (sr)
+             (sr) edge node[elabel,pos=.45]{ACK} (e);
+\end{tikzpicture}
+\caption{Part of the TCP state machine (server side).}\end{figure}
+
+\section{Tree (recursion tree / BST / heap)}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[level distance=13mm,
+  level 1/.style={sibling distance=40mm},level 2/.style={sibling distance=20mm},
+  every child node/.style={treenode}]   % NOT "every node": that would also circle the side notes
+  \node[circhl] {$n$}
+    child {node {$n/2$} child {node {$n/4$}} child {node {$n/4$}}}
+    child {node {$n/2$} child {node {$n/4$}} child {node {$n/4$}}};
+  \node[note,right] at (4.3,0) {cost $n$};
+  \node[note,right] at (4.3,-1.3) {cost $n$};
+  \node[note,right] at (4.3,-2.6) {cost $n$ \;\;$\Rightarrow\; n\log n$};
+\end{tikzpicture}
+\caption{Recursion tree of $T(n)=2T(n/2)+n$.}\end{figure}
+
+\section{Weighted graph with highlighted path}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[node distance=22mm]
+  \node[circhl] (a) {A}; \node[circ,above right=of a] (b) {B};
+  \node[circ,below right=of a] (c) {C}; \node[circhl,below right=of b] (d) {D};
+  \draw[arr,-] (a) -- node[elabel]{4} (b);
+  \draw[arrhl,-] (a) -- node[elabel]{1} (c);
+  \draw[arr,-] (b) -- node[elabel]{2} (d);
+  \draw[arrhl,-] (c) -- node[elabel]{3} (d);
+  \draw[arr,-] (b) -- node[elabel]{5} (c);
+\end{tikzpicture}
+\caption{Shortest path A$\to$D = A--C--D (cost 4) highlighted.}\end{figure}
+
+\section{Array trace (sorting / DP / hashing)}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}
+  \foreach \v [count=\i from 0] in {7,2,9,4,5}{ \node[cell] at (\i*0.75,0) {\v}; \node[note] at (\i*0.75,-0.55) {\i}; }
+  \foreach \v/\s [count=\i from 0] in {2/cellok,4/cellok,5/cellhl,9/cell,7/cell}{ \node[\s] at (\i*0.75,-1.6) {\v}; }
+  \draw[arr] (1.5,-0.8) -- node[elabel,right]{partition, pivot 5} (1.5,-1.25);
+\end{tikzpicture}
+\caption{Array before/after partition; pivot highlighted.}\end{figure}
+
+\section{Layered architecture with brace}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[node distance=0mm]
+  \node[layerblk] (a) {Application};
+  \node[layerblk,below=of a] (t) {Transport \quad (TCP / UDP)};
+  \node[layerblk,below=of t,fill=hl!15] (n) {Network \quad (IP)};
+  \node[layerblk,below=of n] (l) {Link + Physical};
+  \draw[decorate,decoration={brace,amplitude=5pt}] (a.north east) -- node[right=6pt,note]{end-to-end} (t.south east);
+  \draw[decorate,decoration={brace,amplitude=5pt}] (n.north east) -- node[right=6pt,note]{hop-by-hop} (l.south east);
+\end{tikzpicture}
+\caption{TCP/IP stack.}\end{figure}
+
+\section{Plot with annotations (pgfplots)}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.7\linewidth,height=5cm,xlabel={Transmission round},ylabel={cwnd (MSS)},
+  grid=major,grid style={sggrid},xmin=0,xmax=11,ymin=0,ymax=18,
+  every axis plot/.append style={line width=1pt}]
+  \addplot[sgnavy,mark=*] coordinates {(1,1)(2,2)(3,4)(4,8)(5,9)(6,10)(7,11)(8,1)(9,2)(10,4)};
+  \addplot[sgred,dashed,domain=0:7.5] {8};
+  \node[elabel,text=sgred] at (axis cs:2,8.9) {ssthresh = 8};
+  \node[elabel] at (axis cs:7.6,12.5) {timeout};
+\end{axis}
+\end{tikzpicture}
+\caption{TCP Tahoe cwnd evolution.}\end{figure}
+
+\section{Flowchart}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[node distance=9mm]
+  \node[term] (s) {Start};
+  \node[blk,below=of s] (p) {Compute $a=T_p/T_t$};
+  \node[decision,below=of p] (d) {$W\ge 1+2a$?};
+  \node[blkok,below left=8mm and 6mm of d] (y) {$\eta=1$};
+  \node[blk,below right=8mm and 6mm of d] (n) {$\eta=\frac{W}{1+2a}$};
+  \draw[arr] (s)--(p); \draw[arr] (p)--(d);
+  \draw[arr] (d) -| node[elabel,pos=.25]{yes} (y);
+  \draw[arr] (d) -| node[elabel,pos=.25]{no} (n);
+\end{tikzpicture}
+\caption{Sliding window efficiency decision.}\end{figure}
+
+\section{Pipeline / Gantt chart (HPC, scheduling)}
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[x=10mm,y=7mm]
+  \foreach \c in {1,...,7} \node[note] at (\c,0.8) {\c};
+  \foreach \ins/\row in {I1/0,I2/-1,I3/-2}{
+    \node[anchor=east,font=\scriptsize] at (0.4,\row) {\ins};
+    \foreach \st [count=\k from 0] in {IF,ID,EX,MEM,WB}{
+      \pgfmathtruncatemacro{\col}{\k-\row+1}
+      \node[cell,minimum width=10mm,font=\scriptsize,fill=sgteal!\the\numexpr 10+\k*8\relax] at (\col,\row) {\st};
+    }}
+\end{tikzpicture}
+\caption{5-stage pipeline: one instruction completes per cycle once full.}\end{figure}
+
+\section{Comparison table}
+\begin{table}[!htbp]\centering\zebra
+\begin{tabularx}{\linewidth}{L{28mm}YY}\toprule
+\thead{Aspect} & \thead{TCP} & \thead{UDP}\\\midrule
+Connection & 3-way handshake & none\\
+Reliability & ACK + retransmission & best effort\\
+Header & 20--60 B & 8 B\\\bottomrule
+\end{tabularx}
+\caption{Write comparisons as tables: one row per aspect.}\end{table}
+
+\section{Storyboard inside a box (starred = inline, no float)}
+Inside \texttt{solution}/\texttt{answerplan} boxes floats are illegal (``Float(s) lost''): use \verb|\stepanim*| / \verb|\storyboard*|.
+\begin{solution}[GBN, inline]
+\stepanim*{2}{2}{0.45\linewidth}{Inline storyboard inside a solution box.}{%
+  \path[use as bounding box] (-0.3,-0.5) rectangle (3,0.5);
+  \foreach \i in {0,...,3}{\node[cell] at (\i*0.7,0) {\i};}
+  \ifnum\f>1 \node[cellhl] at (0,0) {0};\fi}
+\end{solution}
+
+\section{Figure taken from the instructor's notes}
+\verb|\figfromnotes[0.7]|\allowbreak\verb|{figures/src/<file>.png}|\allowbreak\verb|{Caption (from notes, slide 12)}|
+--- use only when redrawing in TikZ would lose information.
+
+\chapter{Patterns for other subjects}
+
+\section{UML class diagram (SE)}
+Use for ``draw the class diagram'' questions (blueprint visual \texttt{uml}): three compartments per class, multiplicities on both association ends.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[umlclass/.style={rectangle split,rectangle split parts=3,draw=sgnavy,line width=0.6pt,
+    align=left,font=\small,inner sep=3pt,text width=34mm,rectangle split part fill={sgnavy!12,white,white}},
+    inherit/.style={-{Triangle[open,length=3mm,width=3mm]},line width=0.7pt,color=sgslate}]
+  \node[umlclass] (acc) at (0,0) {\centering\textbf{Account}
+    \nodepart{second} $-$ id : int\\ $-$ balance : float
+    \nodepart{third} $+$ deposit(x : float)\\ $+$ withdraw(x : float)};
+  \node[umlclass] (sav) at (-2.4,-3.8) {\centering\textbf{SavingsAccount}
+    \nodepart{second} $-$ rate : float
+    \nodepart{third} $+$ addInterest()};
+  \node[umlclass] (cur) at (2.4,-3.8) {\centering\textbf{CurrentAccount}
+    \nodepart{second} $-$ overdraft : float
+    \nodepart{third} $+$ withdraw(x : float)};
+  \node[umlclass,text width=26mm] (cus) at (5.6,0) {\centering\textbf{Customer}
+    \nodepart{second} $-$ name : string
+    \nodepart{third} $+$ open()};
+  \draw[inherit] (sav.north) -- ++(0,0.45) -| (acc.south);
+  \draw[inherit] (cur.north) -- ++(0,0.45) -| (acc.south);
+  \draw[line width=0.7pt,color=sgslate] (acc.east) -- (cus.west)
+    node[elabel,pos=0.15,above]{0..*} node[elabel,pos=0.85,above]{1} node[elabel,midway,below]{owns};
+\end{tikzpicture}
+\caption{Class diagram: attributes and operations in separate compartments; open triangle = inheritance;
+multiplicities at the association ends.}\label{fig:cb-uml-class}\end{figure}
+
+\section{UML sequence diagram (SE)}
+Use for interactions between objects over time; keep messages horizontal and returns dashed.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[yscale=-1,obj/.style={blk,minimum width=20mm},
+    act/.style={draw=sgnavy,fill=sgtint,minimum width=2.2mm,inner sep=0pt},
+    ret/.style={->,dashed,line width=0.6pt,color=sgslate}]
+  \foreach \x/\n/\t in {0/c/:Customer,3.6/a/:ATM,7.2/b/:Bank}{
+    \node[obj] (\n) at (\x,0) {\underline{\t}};
+    \draw[lifeline,dashed] (\x,0.4) -- (\x,5.6);}
+  \node[act,minimum height=4.4cm,anchor=north] at (3.6,0.9) {};
+  \node[act,minimum height=1.5cm,anchor=north] at (7.2,1.9) {};
+  \draw[msg] (0,1.0) -- node[elabel,above]{insertCard()} (3.49,1.0);
+  \draw[msg] (3.71,2.0) -- node[elabel,above]{verify(pin)} (7.09,2.0);
+  \draw[ret] (7.09,3.2) -- node[elabel,above]{ok} (3.71,3.2);
+  \draw[msg] (3.49,4.3) -- node[elabel,above]{dispense(cash)} (0,4.3);
+  \node[note,right] at (7.4,2.6) {activation bar};
+\end{tikzpicture}
+\caption{Sequence diagram: objects on top, dashed lifelines, activation bars; solid arrow = call, dashed = return.}\end{figure}
+
+\section{Data flow diagram, level 1 (SE)}
+Use for DFDs: number every process, name every flow, and keep data stores open-ended.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[proc/.style={circle,draw=sgnavy,fill=sgtint,minimum size=19mm,align=center,font=\small,line width=0.6pt},
+    ext/.style={blk,minimum width=22mm,minimum height=9mm,fill=sgnavy!10},
+    flow/.style={->,line width=0.7pt,color=sgslate}]
+  \node[ext] (st) at (0,0) {Student};
+  \node[proc] (p1) at (4,1.2) {1.0\\Register};
+  \node[proc] (p2) at (4,-1.6) {2.0\\Pay fees};
+  \node[ext] (of) at (8.4,-1.6) {Accounts office};
+  \node[minimum width=26mm,minimum height=7mm,font=\small] (d1) at (8.4,1.2) {D1 \quad Students};
+  \draw[line width=0.7pt,color=sgnavy] (d1.north west) -- (d1.north east) (d1.south west) -- (d1.south east)
+    ([xshift=7mm]d1.north west) -- ([xshift=7mm]d1.south west);
+  \draw[flow] (st) |- node[elabel,pos=0.75,above]{details} (p1);
+  \draw[flow] (p1) -- node[elabel,above]{record} (d1);
+  \draw[flow] (st) |- node[elabel,pos=0.75,below]{fee payment} (p2);
+  \draw[flow] (p2) -- node[elabel,above]{receipt data} (of);
+  \draw[flow] (d1.south) -- node[elabel,right]{roll no.} ([yshift=3mm]p2.north east);
+\end{tikzpicture}
+\caption{Level-1 DFD: circles are processes (numbered), rectangles external entities, the open box a data store;
+every arrow carries a named data flow.}\end{figure}
+
+\section{Neural-network layers (ML)}
+Use for MLP / backpropagation topics; label one weight to fix the index convention used in the formulas.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[x=26mm,y=11mm,neuron/.style={circ,minimum size=8mm},
+    conn/.style={line width=0.4pt,color=sgslate!60}]
+  \foreach \i in {1,2,3} \node[neuron] (x\i) at (0,-\i-0.5) {$x_{\i}$};
+  \foreach \j in {1,...,4} \node[neuron,fill=info!12,draw=info] (h\j) at (1,-\j) {$h_{\j}$};
+  \foreach \k in {1,2} \node[neuron,fill=hl!15,draw=hl] (y\k) at (2,-\k-1) {$\hat y_{\k}$};
+  \foreach \i in {1,2,3} \foreach \j in {1,...,4} \draw[conn] (x\i) -- (h\j);
+  \foreach \j in {1,...,4} \foreach \k in {1,2} \draw[conn] (h\j) -- (y\k);
+  \draw[arrhl,-] (x1) -- node[elabel,above,sloped,pos=0.4]{$w^{(1)}_{11}$} (h1);
+  \node[note] at (0,-0.2) {input layer};
+  \node[note] at (1,-0.2) {hidden (ReLU)};
+  \node[note] at (2,-0.2) {output (softmax)};
+  \node[note] at (1,-4.8) {$h=\mathrm{ReLU}(W^{(1)}x+b^{(1)})$, \quad $\hat y=\mathrm{softmax}(W^{(2)}h+b^{(2)})$};
+\end{tikzpicture}
+\caption{A 3--4--2 fully connected network; one weight is labelled to fix the index convention ($w^{(l)}_{ji}$: layer $l$, to $j$ from $i$).}\end{figure}
+
+\section{Convolution kernel sliding (ML / IPA)}
+Kernel $K=\begin{bmatrix}1&0&-1\\1&0&-1\\1&0&-1\end{bmatrix}$ (vertical edges), stride 1, no padding: a $5\times5$ input gives a $3\times3$ output.
+\stepanim{4}{2}{0.48\linewidth}{Sliding a $3\times3$ kernel over a $5\times5$ input: each output is the sum of the
+window times $K$ (left column minus right column here). Output $Y=\begin{bmatrix}0&0&-1\\-2&-4&3\\0&-1&0\end{bmatrix}$.}{%
+  \path[use as bounding box] (-0.4,-3.55) rectangle (6.6,0.75);
+  \pgfmathtruncatemacro{\wr}{\f==4 ? 1 : 0}\pgfmathtruncatemacro{\wc}{\f==4 ? 0 : \f-1}
+  \foreach \r/\row in {0/{1,2,0,1,3},1/{0,1,3,2,1},2/{2,1,0,1,0},3/{1,0,2,3,1},4/{0,2,1,0,2}}{
+    \foreach \v [count=\c from 0] in \row {
+      \pgfmathtruncatemacro{\inw}{(\r>=\wr && \r<=\wr+2 && \c>=\wc && \c<=\wc+2) ? 1 : 0}
+      \ifnum\inw=1 \node[cellhl,minimum size=5.5mm,font=\small] at (\c*0.55,-\r*0.55) {\v};
+      \else \node[cell,minimum size=5.5mm,font=\small] at (\c*0.55,-\r*0.55) {\v};\fi}}
+  \node[note,anchor=west] at (-0.3,-2.72) {input $X$ (window highlighted)};
+  \draw[arrhl] (3.0,-1.1) -- (3.9,-1.1);
+  \node[note] at (5.15,-1.95) {output $Y$};
+  \foreach \k/\val in {1/0,2/0,3/-1,4/-2}{
+    \pgfmathtruncatemacro{\yr}{\k==4 ? 1 : 0}\pgfmathtruncatemacro{\yc}{\k==4 ? 0 : \k-1}
+    \ifnum\k<\f \node[cellok,minimum size=6.5mm,font=\small] at (4.5+\yc*0.65,-\yr*0.65) {$\val$};\fi
+    \ifnum\k=\f \node[cellhl,minimum size=6.5mm,font=\small] at (4.5+\yc*0.65,-\yr*0.65) {$\val$};\fi}
+  \foreach \r in {0,1,2} \foreach \c in {0,1,2} \node[cell,minimum size=6.5mm,draw=sggrid,fill=none] at (4.5+\c*0.65,-\r*0.65) {};
+  \ifcase\f\or
+    \node[note] at (3.1,-3.25) {$y_{00}=(1{+}0{+}2)-(0{+}3{+}0)=0$};
+  \or
+    \node[note] at (3.1,-3.25) {$y_{01}=(2{+}1{+}1)-(1{+}2{+}1)=0$};
+  \or
+    \node[note] at (3.1,-3.25) {$y_{02}=(0{+}3{+}0)-(3{+}1{+}0)=-1$};
+  \or
+    \node[note] at (3.1,-3.25) {next row: $y_{10}=(0{+}2{+}1)-(3{+}0{+}2)=-2$};
+  \fi
+}
+
+\section{Fuzzy membership functions (CI)}
+Use for fuzzification and inference questions; mark the crisp input and read off each membership degree.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}
+\begin{axis}[width=0.8\linewidth,height=5.4cm,xmin=0,xmax=100,ymin=0,ymax=1.3,
+  xlabel={temperature $x$ ($^\circ$C)},ylabel={membership $\mu(x)$},ytick={0,0.25,0.5,1},
+  grid=major,grid style={sggrid},every axis plot/.append style={line width=1pt}]
+  \addplot[info] coordinates {(0,1)(20,1)(40,0)};
+  \addplot[hl] coordinates {(20,0)(50,1)(80,0)};
+  \addplot[bad] coordinates {(60,0)(80,1)(100,1)};
+  \addplot[muted,dashed,line width=0.6pt] coordinates {(35,0)(35,0.5)};
+  \addplot[muted,dotted,line width=0.6pt] coordinates {(0,0.25)(35,0.25)};
+  \addplot[muted,dotted,line width=0.6pt] coordinates {(0,0.5)(35,0.5)};
+  \node[elabel,text=info] at (axis cs:10,1.15) {cold};
+  \node[elabel,text=hl] at (axis cs:50,1.15) {warm};
+  \node[elabel,text=bad] at (axis cs:90,1.15) {hot};
+  \node[elabel] at (axis cs:44,0.15) {$x=35$};
+\end{axis}
+\end{tikzpicture}
+\caption{Cold is a trapezoid, warm a triangle, hot a shoulder. Fuzzification of $x=35$: $\mu_{cold}=\frac{40-35}{40-20}=0.25$, $\mu_{warm}=\frac{35-20}{50-20}=0.5$, $\mu_{hot}=0$.}\end{figure}
+
+\section{Lamport and vector clocks (DOS)}
+Use for logical-clock questions: one line per process, dots for events, arrows for messages; label each event with both clocks.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[x=17mm,y=14mm,ev/.style={circle,fill=sgnavy,inner sep=1.6pt},
+    lab/.style={font=\scriptsize,text=sgslate,fill=white,inner sep=1pt}]
+  \foreach \p/\y in {P1/0,P2/-1,P3/-2}{
+    \node[anchor=east,font=\small\sffamily\bfseries] at (-0.1,\y) {\p};
+    \draw[lifeline,->] (0,\y) -- (5.4,\y);}
+  \node[ev] (a) at (1,0) {};   \node[lab,above=2pt] at (a) {a: $L{=}1$, $(1,0,0)$};
+  \node[ev] (b) at (3.4,0) {}; \node[lab,above=2pt] at (b) {b: $L{=}2$, $(2,0,0)$};
+  \node[ev] (c) at (2,-1) {};  \node[lab,below=2pt] at (c) {c: $L{=}2$, $(1,1,0)$};
+  \node[ev] (d) at (3.2,-1) {}; \node[lab,above=2pt] at (d) {d: $L{=}3$, $(1,2,0)$};
+  \node[ev] (e) at (1.2,-2) {}; \node[lab,below=2pt] at (e) {e: $L{=}1$, $(0,0,1)$};
+  \node[ev] (f) at (4.4,-2) {}; \node[lab,below=2pt] at (f) {f: $L{=}4$, $(1,2,2)$};
+  \draw[msg] (a) -- node[elabel,sloped,above]{$m_1$} (c);
+  \draw[msg] (d) -- node[elabel,sloped,above]{$m_2$} (f);
+\end{tikzpicture}
+\caption{Receive rule: Lamport $L=\max(L_{local},L_{msg})+1$; vector clock: element-wise max, then increment your
+own entry. $b$ and $d$ are concurrent: $(2,0,0)$ and $(1,2,0)$ are incomparable, although $L_b<L_d$.}\end{figure}
+
+\section{Reorder buffer / Tomasulo table storyboard (HPC)}
+Program: I1 \texttt{LD F2,0(R1)}; I2 \texttt{MUL F4,F2,F0} (needs F2); I3 \texttt{ADD F8,F6,F6} (independent).
+\stepanim{4}{2}{0.48\linewidth}{Reorder buffer: instructions finish out of order (I3 before I2) but commit in order
+from the head, so I3 waits for I2.}{%
+  \path[use as bounding box] (-0.2,-2.55) rectangle (7.0,0.45);
+  \node[anchor=north west,font=\scriptsize,inner sep=0pt] at (0.25,0) {%
+  \begin{tabular}{@{}c p{7mm} c p{11mm} p{15mm}@{}}\toprule
+  \# & instr & dest & value & state\\\midrule
+  1 & LD  & F2 & \ifnum\f>1 Mem\else --\fi & \ifcase\f\or issued\or \textcolor{ok}{done}\or \textcolor{muted}{committed}\or \textcolor{muted}{committed}\fi\\
+  2 & MUL & F4 & \ifnum\f>3 F2$\times$F0\else --\fi & \ifcase\f\or issued\or waits F2\or executing\or \textcolor{muted}{committed}\fi\\
+  3 & ADD & F8 & \ifnum\f>1 F6+F6\else --\fi & \ifcase\f\or issued\or \textcolor{ok}{done}\or \textcolor{bad}{done, waits}\or \textcolor{muted}{committed}\fi\\\bottomrule
+  \end{tabular}};
+  \ifcase\f\or
+    \node[note,anchor=west] at (0.25,-2.3) {cycle 1--3: all issued, head = 1};
+  \or
+    \node[note,anchor=west] at (0.25,-2.3) {I1 and I3 write results (out of order)};
+  \or
+    \node[note,anchor=west] at (0.25,-2.3) {I1 commits; head = 2; I3 must wait};
+  \or
+    \node[note,anchor=west] at (0.25,-2.3) {I2 done $\Rightarrow$ I2, then I3 commit};
+  \fi
+}
+
+\section{Decision-tree split (DMDW / ML)}
+Use for ID3 / information-gain questions: class counts and entropy in every node, the attribute value on each edge.
+\begin{figure}[!htbp]\centering
+\begin{tikzpicture}[level distance=21mm,sibling distance=44mm,
+    every child node/.style={blk,minimum width=26mm,align=center,font=\small},
+    edge from parent/.style={draw=sgslate,line width=0.7pt}]
+  \node[blkhl,align=center,font=\small] {\textbf{Outlook?}\\ $[9+,5-]$, $H=0.940$}
+    child {node {$[2+,3-]$\\ $H=0.971$} edge from parent node[elabel]{Sunny}}
+    child {node[blkok] {$[4+,0-]$, $H=0$\\ leaf: \textbf{Yes}} edge from parent node[elabel]{Overcast}}
+    child {node {$[3+,2-]$\\ $H=0.971$} edge from parent node[elabel]{Rain}};
+\end{tikzpicture}
+\caption{Information gain of the split: $0.940-\left(\tfrac{5}{14}0.971+\tfrac{4}{14}\cdot0+\tfrac{5}{14}0.971\right)=0.247$
+(many books print 0.246 after rounding the entropies first).}\end{figure}
+
+\section{k-means iterations storyboard (DMDW / ML)}
+Use for clustering traces: one frame per iteration, points coloured by assignment, crosses for centroids.
+\stepanim{3}{2}{0.48\linewidth}{k-means, $k=2$, 8 points; centroids start at $(1,1)$ and $(2.5,2.5)$. Assign each
+point to the nearest centroid, move each centroid to the mean of its points, repeat until nothing changes.}{%
+  \path[use as bounding box] (-0.3,-0.6) rectangle (6.4,5.0);
+  \draw[->,muted] (0,0) -- (6.2,0); \draw[->,muted] (0,0) -- (0,4.6);
+  \foreach \x in {1,...,7} \node[note] at (\x*0.8,-0.3) {\x};
+  \foreach \y in {1,...,5} \node[note] at (-0.2,\y*0.8) {\y};
+  \foreach \px/\py/\a/\b in {1/1/0/0,1.5/2/0/0,2/1/0/0,2.5/2.5/1/0,5/4/1/1,6/5/1/1,5.5/3.5/1/1,6.5/4.5/1/1}{
+    \pgfmathtruncatemacro{\lab}{\f==1 ? \a : \b}
+    \ifnum\lab=0 \fill[info] (\px*0.8,\py*0.8) circle (1.6pt);\else\fill[hl] (\px*0.8,\py*0.8) circle (1.6pt);\fi}
+  \ifcase\f\or
+    \def\ax{1}\def\ay{1}\def\bx{2.5}\def\by{2.5}\def\cap{init: $(2.5,2.5)$ grabs 5 points}
+  \or
+    \def\ax{1.5}\def\ay{1.333}\def\bx{5.1}\def\by{3.9}\def\cap{means: $(1.5,1.33)$, $(5.1,3.9)$}
+  \or
+    \def\ax{1.75}\def\ay{1.625}\def\bx{5.75}\def\by{4.25}\def\cap{$(1.75,1.63)$, $(5.75,4.25)$: converged}
+  \fi
+  \node[draw=info,line width=1pt,cross out,minimum size=2.6mm,inner sep=0pt] at (\ax*0.8,\ay*0.8) {};
+  \node[draw=hl,line width=1pt,cross out,minimum size=2.6mm,inner sep=0pt] at (\bx*0.8,\by*0.8) {};
+  \node[note,anchor=west] at (1.0,4.75) {\cap};
+}
+\end{document}

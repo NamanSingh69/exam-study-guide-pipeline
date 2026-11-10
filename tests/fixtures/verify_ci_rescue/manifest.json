@@ -1,0 +1,46 @@
+{
+ "files": {
+  "Midsem PYQs/5th Sem, 2024 mid sample (XX3001).pdf": {
+   "slug": "PYQM_synthetic_2024_mid_sample_XX3001",
+   "category": "pyq_midsem",
+   "origin": "instructor",
+   "kind_detected": "pdf",
+   "ext_kind": "pdf",
+   "mismatch": false,
+   "pages": 2,
+   "ocr_pages": 2,
+   "text_pages": 2,
+   "image_only_pages": 0,
+   "blank_pages": 0,
+   "lost_pages": [],
+   "chars": 1931,
+   "garble": 0.02,
+   "ocr_conf": 85.0,
+   "figures": 0,
+   "stamp": "154446-synthetic|ocr1|v4",
+   "ocr_available": true,
+   "quality": "ok"
+  },
+  "Midsem PYQs/5th Sem, 2025 mid sample (XX3001).pdf": {
+   "slug": "PYQM_synthetic_2025_mid_sample_XX3001",
+   "category": "pyq_midsem",
+   "origin": "instructor",
+   "kind_detected": "pdf",
+   "ext_kind": "pdf",
+   "mismatch": false,
+   "pages": 2,
+   "ocr_pages": 2,
+   "text_pages": 2,
+   "image_only_pages": 0,
+   "blank_pages": 0,
+   "lost_pages": [],
+   "chars": 1838,
+   "garble": 0.02,
+   "ocr_conf": 85.0,
+   "figures": 0,
+   "stamp": "139498-synthetic|ocr1|v4",
+   "ocr_available": true,
+   "quality": "ok"
+  }
+ }
+}

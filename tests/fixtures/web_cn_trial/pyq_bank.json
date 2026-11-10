@@ -1,0 +1,1126 @@
+{
+ "papers": [
+  {
+   "id": "MS2022",
+   "year": 2022,
+   "session": "autumn",
+   "exam": "midsem",
+   "source_slug": "PYQM_2022_Midsem_1_Network_Systems",
+   "course_code": "XX-3005",
+   "full_marks": 20,
+   "duration": "1.5 h",
+   "pattern": "Q1 compulsory 5x1; any 3 of the remaining four (printed 2, 3, 3, 4), each 2.5+2.5",
+   "pages": 2,
+   "coverage": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "weight": 1
+  },
+  {
+   "id": "MS2024",
+   "year": 2024,
+   "session": "autumn",
+   "exam": "midsem",
+   "source_slug": "PYQM_2024_Midsem_1_Network_Systems_1",
+   "course_code": "XX 3003",
+   "full_marks": 20,
+   "duration": "1.5 h",
+   "pattern": "Q1 compulsory 5x1; any 3 of Q2-Q5, each 2.5+2.5",
+   "pages": 2,
+   "coverage": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "weight": 1
+  },
+  {
+   "id": "MS2025",
+   "year": 2025,
+   "session": "autumn",
+   "exam": "midsem",
+   "source_slug": "PYQM_2025_Midsem_1_Network_Systems_1",
+   "course_code": "XX 3003",
+   "full_marks": 20,
+   "duration": "1.5 h",
+   "pattern": "Q1 compulsory 5x1; any 3 of Q2-Q5; Q2-Q4 3+2, Q5 short notes any two of three 2.5x2",
+   "pages": 2,
+   "coverage": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "weight": 1
+  }
+ ],
+ "questions": [
+  {
+   "id": "MS2025-1a",
+   "paper": "MS2025",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Two machines, P and Q, share one link of rate R bps. They sit d meters apart and the signal travels along the link at v meters/sec. P sends Q a frame of F bits. How long does the frame take to arrive at Q?",
+   "topic": "T11",
+   "cluster": "C01",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-1b",
+   "paper": "MS2025",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Give reasons to prefer TCP/IP over UDP/IP when a file has to be moved between two hosts.",
+   "topic": "T17",
+   "cluster": "C19",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-1c",
+   "paper": "MS2025",
+   "qno": "1(c)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "List the building blocks of a data communication system.",
+   "topic": "T01",
+   "cluster": "C04",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-1d",
+   "paper": "MS2025",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Distinguish the TCP receive window from the maximum segment size.",
+   "topic": "T22",
+   "cluster": "C35",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-1e",
+   "paper": "MS2025",
+   "qno": "1(e)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Define FQDN and PQDN, with one example of each.",
+   "topic": "T10",
+   "cluster": "C17",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-2a",
+   "paper": "MS2025",
+   "qno": "2(a)",
+   "marks": 3,
+   "compulsory": false,
+   "text": "A user types a site name into a browser. Before any page request can be sent, the name must be turned into an IP address. Describe each step of that lookup, from the user's host to the moment the address comes back.",
+   "topic": "T10",
+   "cluster": "C18",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-2b",
+   "paper": "MS2025",
+   "qno": "2(b)",
+   "marks": 2,
+   "compulsory": false,
+   "text": "Define persistent and non-persistent HTTP connections. Show an example of each on a timeline diagram.",
+   "topic": "T08",
+   "cluster": "C11",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-3a",
+   "paper": "MS2025",
+   "qno": "3(a)",
+   "marks": 3,
+   "compulsory": false,
+   "text": "Describe how a client and a server open a TCP connection, exchange data and then close the connection.",
+   "topic": "T20",
+   "cluster": "C32",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-3b",
+   "paper": "MS2025",
+   "qno": "3(b)",
+   "marks": 2,
+   "compulsory": false,
+   "text": "Node A must deliver a message of 9 packets to node B over a sliding window of size 3 with Go-Back-N recovery. Every packet is ready from the start. Every 5th packet that A transmits is lost, while no acknowledgement from B is ever lost. How many packets does A transmit in all? Support your answer with a transition diagram.",
+   "topic": "T15",
+   "cluster": "C25",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-4a",
+   "paper": "MS2025",
+   "qno": "4(a)",
+   "marks": 3,
+   "compulsory": false,
+   "text": "A Stop-and-Wait ARQ link runs at 1 Mbps and one bit needs 20 milliseconds for a round trip. (i) Find the bandwidth-delay product. (ii) With data packets of 1,000 bits, find the link utilization percentage under Stop-and-Wait. (iii) If up to 15 packets may be sent before an acknowledgement is required (as in Go-Back-N ARQ), find the utilization percentage.",
+   "topic": "T14",
+   "cluster": "C23",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-4b",
+   "paper": "MS2025",
+   "qno": "4(b)",
+   "marks": 2,
+   "compulsory": false,
+   "text": "A TCP header is captured in hexadecimal as E29300170000000100000000500207FF.... From it read the source port, destination port, sequence number, acknowledgement number, header length, segment type and window size.",
+   "topic": "T19",
+   "cluster": "C31",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-5i",
+   "paper": "MS2025",
+   "qno": "5(i)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write short notes on any two of the following. (i) Network topologies",
+   "topic": "T05",
+   "cluster": "C05",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-5ii",
+   "paper": "MS2025",
+   "qno": "5(ii)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write short notes on any two of the following. (ii) The Simple Mail Transfer Protocol",
+   "topic": "T09",
+   "cluster": "C16",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2025-5iii",
+   "paper": "MS2025",
+   "qno": "5(iii)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write short notes on any two of the following. (iii) Congestion control in TCP",
+   "topic": "T23",
+   "cluster": "C36",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-1a",
+   "paper": "MS2024",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "State the key distinction between a fully qualified and a partially qualified domain name. What is a CNAME record used for?",
+   "topic": "T10",
+   "cluster": "C17",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-1b",
+   "paper": "MS2024",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "A UDP header is shown in hexadecimal: 0045 DF00 0058 0000. Give the source and destination port numbers and the length of the data, and say whether the sender computed a checksum.",
+   "topic": "T17",
+   "cluster": "C28",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-1c",
+   "paper": "MS2024",
+   "qno": "1(c)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "In stop-and-wait every 4th packet is lost and 15 (fifteen) packets must be delivered. How many transmissions are needed in all?",
+   "topic": "T14",
+   "cluster": "C24",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-1d",
+   "paper": "MS2024",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "A server has the domain name www.example.edu. Write the HTTP request that retrieves the document /usr/users/doc. The client accepts MIME version 1 and GIF or JPEG images.",
+   "topic": "T08",
+   "cluster": "C13",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-1e",
+   "paper": "MS2024",
+   "qno": "1(e)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "How many sequence numbers does each of these TCP segments use up? (i) SYN (ii) ACK (iii) SYN+ACK (iv) Data",
+   "topic": "T18",
+   "cluster": "C29",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-2a",
+   "paper": "MS2024",
+   "qno": "2(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "A browser sends an HTTP request to a web server. The server answers by opening a TCP connection, which takes 8.4 milliseconds (ms) including the RTT. The browser then asks for the site's index file, which refers to 22 (twenty two) more images that the browser must fetch. Taking all other conditions as equal, how much longer does non-persistent HTTP take than persistent HTTP?",
+   "topic": "T08",
+   "cluster": "C12",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-2b",
+   "paper": "MS2024",
+   "qno": "2(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Describe each of these e-mail concepts: (i) the architecture of an e-mail system, (ii) the phases of mail transfer, (iii) a message access agent, (iv) MIME (Multipurpose Internet Mail Extension).",
+   "topic": "T09",
+   "cluster": "C15",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-3a",
+   "paper": "MS2024",
+   "qno": "3(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Explain how the different packet delays are computed, and say which of them are constant and which vary. Then find the total time to transfer a 1.5MB file, given: the bandwidth is 10Mbps; after each data packet the sender waits one RTT before sending the next; the RTT is 80 ms; a packet carries 1 KB of data; and an initial 2×RTT of handshaking precedes the data.",
+   "topic": "T11",
+   "cluster": "C02",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-3b",
+   "paper": "MS2024",
+   "qno": "3(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Draw the TCP header format and briefly describe each field.",
+   "topic": "T19",
+   "cluster": "C30",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-4a",
+   "paper": "MS2024",
+   "qno": "4(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Derive how the window size relates to the sequence-number space in Go-Back-N (GBN) and Selective Repeat (SR). With three-bit sequence numbers, find the window size for each. Using a neat diagram for each, show what goes wrong when the window exceeds the value you found.",
+   "topic": "T16",
+   "cluster": "C26",
+   "type": "derivation",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-4b",
+   "paper": "MS2024",
+   "qno": "4(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Node A must send a message of nine (9) packets to node B with a sliding window of size 3 and Go-Back-N (GBN) recovery. All packets are available at once. Every 5th packet that A transmits is lost, but no acknowledgement from B is ever lost. How many packets does A transmit to deliver the message?",
+   "topic": "T15",
+   "cluster": "C25",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-5a",
+   "paper": "MS2024",
+   "qno": "5(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "A TCP connection starts with initial sequence number 2171. The client opens it, sends three segments (the second carrying 1000 bytes of data) and then closes the connection. Give the sequence number of each segment the client sends: (i) the SYN segment (ii) the data segment (iii) the FIN segment.",
+   "topic": "T18",
+   "cluster": "C29",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024-5b",
+   "paper": "MS2024",
+   "qno": "5(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "List the TCP states and give the TCP state transition diagram.",
+   "topic": "T21",
+   "cluster": "C34",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-1a",
+   "paper": "MS2022",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Host M has 9 packets for host N and uses a sliding window of size 3 with Go-Back-N error control. All packets are ready at once. Every 5th packet that M sends is lost, and no acknowledgement from N is lost. How many packets does M send in total?",
+   "topic": "T15",
+   "cluster": "C25",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-1b",
+   "paper": "MS2022",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Which minimum set of functions must a transport protocol add to what the network protocol already provides?",
+   "topic": "T12",
+   "cluster": "C20",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-1c",
+   "paper": "MS2022",
+   "qno": "1(c)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "A client sends 16 bytes of data in a UDP datagram. Calculate the transmission efficiency at the UDP level.",
+   "topic": "T17",
+   "cluster": "C28",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-1d",
+   "paper": "MS2022",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Which resource record type holds the canonical name of a host?",
+   "topic": "T10",
+   "cluster": "C17",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-1e",
+   "paper": "MS2022",
+   "qno": "1(e)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "In client-server computing, why must the server stay on all the time while a client may come and go?",
+   "topic": "T07",
+   "cluster": "C10",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-2a",
+   "paper": "MS2022",
+   "qno": "2(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Describe each field of the TCP header, with a header figure. A TCP segment is 1 KB long, its header length value is 6 and its sequence number is 3500. The URG flag is 1 and the URG pointer is 45. How many bytes are urgent, and what are their sequence numbers?",
+   "topic": "T19",
+   "cluster": "C30",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-2b",
+   "paper": "MS2022",
+   "qno": "2(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Caching shortens the time to download an object but can serve an out-of-date copy. How does HTTP deal with this stale-copy problem?",
+   "topic": "T08",
+   "cluster": "C14",
+   "type": "theory",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-3a",
+   "paper": "MS2022",
+   "qno": "3(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "DNS may run over UDP or over TCP. Explain when UDP is the better choice and when TCP is.",
+   "topic": "T17",
+   "cluster": "C19",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-3b",
+   "paper": "MS2022",
+   "qno": "3(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Both directions use a 1000-byte maximum segment size (MSS). The client numbers its bytes from ISN 50 and the server from ISN 81. The client has 2000 bytes to send and the server has 3000 bytes. Give the full exchange of segments; for each one draw an arrow labelled with its SYN, ACK and FIN bits and its SEQ and ACK values. Assume nothing is lost and that applications read data the moment it arrives.",
+   "topic": "T20",
+   "cluster": "C33",
+   "type": "trace",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-3Ba",
+   "paper": "MS2022",
+   "qno": "3(a) [2nd Q3]",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Explain, with a flow diagram, how stop-and-wait copes with a lost packet and with a lost acknowledgement.",
+   "topic": "T14",
+   "cluster": "C22",
+   "type": "diagram",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-3Bb",
+   "paper": "MS2022",
+   "qno": "3(b) [2nd Q3]",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "A stop-and-wait link has a 1 Mbps line and needs 20 ms to carry one bit there and back. Compute the bandwidth-delay product, then the link utilization percentage for data packets of 1,000 bits.",
+   "topic": "T14",
+   "cluster": "C23",
+   "type": "numerical",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-4a",
+   "paper": "MS2022",
+   "qno": "4(a)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write brief notes on any two of these: (a) circuit-switched versus packet-switched networks.",
+   "topic": "T04",
+   "cluster": "C06",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-4b",
+   "paper": "MS2022",
+   "qno": "4(b)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write brief notes on any two of these: (b) multiplexing versus demultiplexing.",
+   "topic": "T12",
+   "cluster": "C20",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2022-4c",
+   "paper": "MS2022",
+   "qno": "4(c)",
+   "marks": 2.5,
+   "compulsory": false,
+   "text": "Write brief notes on any two of these: (c) slow start versus additive increase in congestion control.",
+   "topic": "T23",
+   "cluster": "C36",
+   "type": "compare",
+   "in_scope": true,
+   "verified": "vision",
+   "ocr_fixes": ""
+  }
+ ],
+ "clusters": [
+  {
+   "id": "C01",
+   "topic": "T11",
+   "label": "Delay types: compute transmission + propagation (+ queuing, processing) delay of a packet on a link",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C02",
+   "topic": "T11",
+   "label": "Compute total time for a file transfer with RTT waits and initial handshake",
+   "type": "numerical",
+   "effort_min": 25
+  },
+  {
+   "id": "C03",
+   "topic": "T11",
+   "label": "Compute throughput of a packet-switched network or link",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C04",
+   "topic": "T01",
+   "label": "State the components and characteristics of data communication (and data-flow modes)",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C05",
+   "topic": "T05",
+   "label": "Short note on network topologies: types with advantages and disadvantages",
+   "type": "theory",
+   "effort_min": 20
+  },
+  {
+   "id": "C06",
+   "topic": "T04",
+   "label": "Compare circuit switching and packet switching (and virtual circuits)",
+   "type": "compare",
+   "effort_min": 15
+  },
+  {
+   "id": "C07",
+   "topic": "T06",
+   "label": "Explain the OSI and TCP/IP models: layers and their responsibilities",
+   "type": "theory",
+   "effort_min": 30
+  },
+  {
+   "id": "C08",
+   "topic": "T02",
+   "label": "Explain analog vs digital signals and multiplexing (FDM/TDM)",
+   "type": "theory",
+   "effort_min": 20
+  },
+  {
+   "id": "C09",
+   "topic": "T03",
+   "label": "Draw data encoding schemes for a bit stream (NRZ, Manchester, etc.)",
+   "type": "diagram",
+   "effort_min": 20
+  },
+  {
+   "id": "C10",
+   "topic": "T07",
+   "label": "Client-server vs P2P paradigm: why the server must be always on",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C11",
+   "topic": "T08",
+   "label": "Explain persistent vs non-persistent HTTP with timeline diagrams",
+   "type": "diagram",
+   "effort_min": 20
+  },
+  {
+   "id": "C12",
+   "topic": "T08",
+   "label": "Compute page-load time: non-persistent vs persistent HTTP (RTT counting)",
+   "type": "numerical",
+   "effort_min": 25
+  },
+  {
+   "id": "C13",
+   "topic": "T08",
+   "label": "Write an HTTP request (or response) message for a given scenario",
+   "type": "theory",
+   "effort_min": 15
+  },
+  {
+   "id": "C14",
+   "topic": "T08",
+   "label": "Explain web caching / proxy server and how HTTP handles stale cache (conditional GET)",
+   "type": "theory",
+   "effort_min": 15
+  },
+  {
+   "id": "C15",
+   "topic": "T09",
+   "label": "Describe e-mail architecture and components: UA, MTA, MAA (POP3/IMAP), mail transfer phases, MIME",
+   "type": "theory",
+   "effort_min": 25
+  },
+  {
+   "id": "C16",
+   "topic": "T09",
+   "label": "Explain how SMTP delivers a mail (commands, connection / mail transfer / termination phases)",
+   "type": "theory",
+   "effort_min": 20
+  },
+  {
+   "id": "C17",
+   "topic": "T10",
+   "label": "Define DNS name types and records: FQDN vs PQDN, RR types (CNAME, A, NS)",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C18",
+   "topic": "T10",
+   "label": "Explain the DNS lookup process (recursive and iterative resolution)",
+   "type": "diagram",
+   "effort_min": 25
+  },
+  {
+   "id": "C19",
+   "topic": "T17",
+   "label": "Justify TCP vs UDP for an application (data transfer, DNS)",
+   "type": "compare",
+   "effort_min": 15
+  },
+  {
+   "id": "C20",
+   "topic": "T12",
+   "label": "Explain transport-layer services over the network layer: process-to-process delivery, multiplexing vs demultiplexing",
+   "type": "theory",
+   "effort_min": 15
+  },
+  {
+   "id": "C21",
+   "topic": "T13",
+   "label": "Explain flow control vs error control at the transport layer and how TCP does flow control",
+   "type": "theory",
+   "effort_min": 20
+  },
+  {
+   "id": "C22",
+   "topic": "T14",
+   "label": "Draw the stop-and-wait ARQ flow diagram with lost frame and lost ACK",
+   "type": "diagram",
+   "effort_min": 20
+  },
+  {
+   "id": "C23",
+   "topic": "T14",
+   "label": "Compute bandwidth-delay product and link utilization for stop-and-wait (vs a pipelined window)",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C24",
+   "topic": "T14",
+   "label": "Stop-and-wait: count transmissions when every k-th packet is lost",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C25",
+   "topic": "T15",
+   "label": "Go-Back-N: count transmissions when every k-th packet is lost",
+   "type": "numerical",
+   "effort_min": 25
+  },
+  {
+   "id": "C26",
+   "topic": "T16",
+   "label": "Derive the window-size limits for GBN (2^m - 1) and SR (2^(m-1)) and show the failure when exceeded",
+   "type": "derivation",
+   "effort_min": 40
+  },
+  {
+   "id": "C27",
+   "topic": "T16",
+   "label": "Selective Repeat: find pending packets/ACKs from Sf, Sn, Rn values",
+   "type": "numerical",
+   "effort_min": 25
+  },
+  {
+   "id": "C28",
+   "topic": "T17",
+   "label": "UDP header numericals: decode a hex dump (ports, length, checksum), transmission efficiency",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C29",
+   "topic": "T18",
+   "label": "TCP sequence numbering: numbers consumed by SYN/ACK/FIN/data and the sequence number of each segment",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C30",
+   "topic": "T19",
+   "label": "Draw the TCP header format and explain each field (incl. urgent-pointer numericals)",
+   "type": "diagram",
+   "effort_min": 30
+  },
+  {
+   "id": "C31",
+   "topic": "T19",
+   "label": "Decode a TCP header from a hexadecimal dump",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C32",
+   "topic": "T20",
+   "label": "Explain TCP connection establishment (3-way handshake), data transfer and termination",
+   "type": "diagram",
+   "effort_min": 30
+  },
+  {
+   "id": "C33",
+   "topic": "T20",
+   "label": "Trace a complete TCP exchange with SYN/ACK/FIN bits and SEQ/ACK numbers",
+   "type": "trace",
+   "effort_min": 35
+  },
+  {
+   "id": "C34",
+   "topic": "T21",
+   "label": "List the TCP states and draw the TCP state transition diagram",
+   "type": "diagram",
+   "effort_min": 30
+  },
+  {
+   "id": "C35",
+   "topic": "T22",
+   "label": "Differentiate TCP window size and MSS; explain the receive window (rwnd)",
+   "type": "compare",
+   "effort_min": 15
+  },
+  {
+   "id": "C36",
+   "topic": "T23",
+   "label": "Explain TCP congestion control: slow start, congestion avoidance (additive increase), fast recovery",
+   "type": "theory",
+   "effort_min": 30
+  },
+  {
+   "id": "C37",
+   "topic": "T23",
+   "label": "Compute TCP throughput from the cwnd sawtooth (0.75 Wmax / RTT)",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C38",
+   "topic": "T24",
+   "label": "Explain Quality of Service: flow characteristics and techniques",
+   "type": "theory",
+   "effort_min": 20
+  },
+  {
+   "id": "C39",
+   "topic": "T02",
+   "label": "Multiplexing numericals: synchronous TDM slot, frame and output rates; statistical TDM capacity",
+   "type": "numerical",
+   "effort_min": 30
+  },
+  {
+   "id": "C40",
+   "topic": "T06",
+   "label": "Explain encapsulation and decapsulation through the layers with a diagram",
+   "type": "diagram",
+   "effort_min": 20
+  },
+  {
+   "id": "C41",
+   "topic": "T06",
+   "label": "Layer header overhead: fraction of bandwidth taken by headers in an n-layer hierarchy",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C42",
+   "topic": "T06",
+   "label": "Count the layers a packet visits at the hosts and at each router",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C43",
+   "topic": "T06",
+   "label": "Explain the address types (physical/MAC, logical/IP, port, name) and why each is needed",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C44",
+   "topic": "T07",
+   "label": "Compare centralized and decentralized P2P networks (and place a node in a DHT ring)",
+   "type": "compare",
+   "effort_min": 20
+  },
+  {
+   "id": "C45",
+   "topic": "T08",
+   "label": "Explain cookies and how a commercial site uses them",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C46",
+   "topic": "T08",
+   "label": "List / order the protocols a browser uses to fetch a page (DNS over UDP, TCP SYN, HTTP GET)",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C47",
+   "topic": "T09",
+   "label": "Write and explain the MIME headers of a mail message",
+   "type": "theory",
+   "effort_min": 15
+  },
+  {
+   "id": "C48",
+   "topic": "T10",
+   "label": "Explain DNS's role and services (aliasing, load distribution) and what happens if all DNS servers crash",
+   "type": "theory",
+   "effort_min": 15
+  },
+  {
+   "id": "C49",
+   "topic": "T11",
+   "label": "Bandwidth-delay product: bits in the link and the width of a bit",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C50",
+   "topic": "T05",
+   "label": "Count the links in a mesh topology: n(n-1)/2",
+   "type": "numerical",
+   "effort_min": 10
+  },
+  {
+   "id": "C51",
+   "topic": "T13",
+   "label": "Compare connectionless and connection-oriented service",
+   "type": "compare",
+   "effort_min": 10
+  },
+  {
+   "id": "C52",
+   "topic": "T13",
+   "label": "Differentiate flow control from congestion control",
+   "type": "compare",
+   "effort_min": 10
+  },
+  {
+   "id": "C53",
+   "topic": "T20",
+   "label": "Explain piggybacking of acknowledgments",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C54",
+   "topic": "T14",
+   "label": "State the disadvantages of stop-and-wait",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C55",
+   "topic": "T15",
+   "label": "Go-Back-N: find the packets and ACKs in transit from Sf, Sn, Rn",
+   "type": "numerical",
+   "effort_min": 20
+  },
+  {
+   "id": "C56",
+   "topic": "T16",
+   "label": "State GBN's limitation and how Selective Repeat removes it",
+   "type": "compare",
+   "effort_min": 15
+  },
+  {
+   "id": "C57",
+   "topic": "T16",
+   "label": "Selective Repeat: draw the flow diagram for a loss scenario with Sf, Sn, Rn",
+   "type": "trace",
+   "effort_min": 30
+  },
+  {
+   "id": "C58",
+   "topic": "T16",
+   "label": "Interpret an ACK number in GBN vs SR (and an ACK outside the window)",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C59",
+   "topic": "T17",
+   "label": "Draw the UDP datagram / header format and the pseudoheader",
+   "type": "diagram",
+   "effort_min": 15
+  },
+  {
+   "id": "C60",
+   "topic": "T17",
+   "label": "Compute a UDP checksum with the pseudoheader",
+   "type": "numerical",
+   "effort_min": 30
+  },
+  {
+   "id": "C61",
+   "topic": "T17",
+   "label": "Explain why a matching Internet checksum does not guarantee an error-free segment",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C62",
+   "topic": "T18",
+   "label": "Size the sequence-number and window fields: wrap-around time and bandwidth x RTT",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C63",
+   "topic": "T19",
+   "label": "HLEN arithmetic: header length and option bytes from the HLEN field",
+   "type": "numerical",
+   "effort_min": 10
+  },
+  {
+   "id": "C64",
+   "topic": "T19",
+   "label": "TCP/IP size limits: minimum header overhead and the maximum segment payload (65,495 B)",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C65",
+   "topic": "T21",
+   "label": "Name and reason about TCP states during close (FIN-WAIT-2, TIME-WAIT)",
+   "type": "theory",
+   "effort_min": 10
+  },
+  {
+   "id": "C66",
+   "topic": "T22",
+   "label": "Window needed to fill the pipe (bandwidth x RTT) and segments per window",
+   "type": "numerical",
+   "effort_min": 15
+  },
+  {
+   "id": "C67",
+   "topic": "T22",
+   "label": "Explain TCP transmission and acknowledgment policies and TCP timers",
+   "type": "theory",
+   "effort_min": 30
+  },
+  {
+   "id": "C68",
+   "topic": "T23",
+   "label": "Trace cwnd round by round (slow start, threshold, timeout) and give cwnd at round n",
+   "type": "numerical",
+   "effort_min": 25
+  },
+  {
+   "id": "C69",
+   "topic": "T23",
+   "label": "Read a TCP Reno cwnd plot: threshold, slow-start / avoidance intervals, loss type",
+   "type": "trace",
+   "effort_min": 25
+  },
+  {
+   "id": "C70",
+   "topic": "T24",
+   "label": "Explain traffic shaping with the leaky (and token) bucket",
+   "type": "diagram",
+   "effort_min": 25
+  }
+ ]
+}

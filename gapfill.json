@@ -1,0 +1,42 @@
+{
+  "_comment": "Notes added to fill syllabus gaps (not from the course instructor). Keys: subject -> file name under Notes/ -> origin description. ingest.py writes origin 'gapfill:<description>' for these files and 'instructor' for everything else. Source: GATHERING_LOG.md, 'Notes added'.",
+  "CN": {
+    "Module 4 Lec 37-39- Protocols Associated to the Network Layer.pdf": "KIIT Katalog, Amit Jha PPTs (network-layer protocols, lectures 37-39)",
+    "Module 5 Lec 43-47-Data Link Layer.pdf": "KIIT Katalog, Amit Jha PPTs (data link layer, lectures 43-47)",
+    "Module 5 Lec 48-58- Data Link Layer.pdf": "KIIT Katalog, Amit Jha PPTs (data link layer, lectures 48-58)"
+  },
+  "DAA": {
+    "13. Knapsack Problem.pdf": "KIIT Katalog, DAA Set 1 (0/1 knapsack)",
+    "15. Dynamic Programming Concept.pdf": "KIIT Katalog, DAA Set 1 (dynamic programming)",
+    "16. LCS.pdf": "KIIT Katalog, DAA Set 1 (LCS)",
+    "17. Matrix Chain Multiplication.pdf": "KIIT Katalog, DAA Set 1 (matrix chain multiplication)",
+    "20. MST.pdf": "KIIT Katalog, DAA Set 1 (minimum spanning trees)",
+    "22. NP-Complete.pdf": "KIIT Katalog, DAA Set 1 (NP-completeness)"
+  },
+  "DMDW": {
+    "08Cluster Analysis.pptx": "Google Drive Notes-Random, Han et al. textbook slides (cluster analysis)",
+    "Chap4-PatternMiningBasic.pptx": "Google Drive Notes-Random, Han et al. textbook slides (frequent pattern mining)",
+    "Chap6-ClassificationBasic.pptx": "Google Drive Notes-Random, Han et al. textbook slides (classification: basic)",
+    "Chap7-ClassificationAdvanced.pptx": "Google Drive Notes-Random, Han et al. textbook slides (classification: advanced)"
+  },
+  "DOS": {
+    "PPT-Unit4.pdf": "KIIT Katalog, DOS Set 1 (unit 4)",
+    "PPT-Unit5.pdf": "KIIT Katalog, DOS Set 1 (unit 5)"
+  },
+  "EE": {
+    "Demand forecasting(SM).pdf": "Google Drive Notes-Random, EE slides (demand forecasting)",
+    "inflation.pdf": "Google Drive Notes-Random, EE slides (inflation)"
+  },
+  "IPA": {
+    "EC8093-DIP-Notes_compressed.pdf": "Google Drive Notes-Random, EC8093 DIP notes (full course)",
+    "Part4.pdf": "Google Drive Notes-Random, DIP slides part 4",
+    "Part5.pdf": "Google Drive Notes-Random, DIP slides part 5"
+  },
+  "SE": {
+    "8-9-10levelsOftesting.pdf": "KIIT Katalog, R. Mall PPTs and Others (levels of testing)",
+    "LECT10 Software Maintenance(1).pdf": "KIIT Katalog, R. Mall PPTs and Others (software maintenance)",
+    "LECT6 - testing(1).pdf": "KIIT Katalog, R. Mall PPTs and Others (testing)",
+    "LECT7 Debugging , integration and system testing(1).pdf": "KIIT Katalog, R. Mall PPTs and Others (debugging, integration, system testing)",
+    "LECT9 Software quality management(1).pdf": "KIIT Katalog, R. Mall PPTs and Others (software quality management)"
+  }
+}

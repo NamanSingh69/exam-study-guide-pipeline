@@ -1,0 +1,146 @@
+{
+ "subject": "Network Systems",
+ "code": "XX 3003",
+ "scope": "Midsem",
+ "exam_pattern": {
+  "full_marks": 20,
+  "duration": "1.5 h",
+  "structure": "Answer any four questions including Q1 (compulsory). Q1: 5 x 1 mark; answer any 3 of Q2-Q5, 5 marks each. 2025: Q2-Q4 split 3 + 2 marks, Q5 = short notes on any two of three (2.5 x 2). 2022/2024: each 2.5 + 2.5",
+  "compulsory": [
+   "1"
+  ],
+  "choose": {
+   "from": [
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "answer": 3
+  },
+  "source": "PYQM_2025_Midsem_1_Network_Systems_1 p1",
+  "assumed": false
+ },
+ "units": [
+  {
+   "id": "U1",
+   "title": "Data Communications",
+   "in_scope": true,
+   "chapter": "30_data_comm",
+   "topics": [
+    {
+     "id": "T01",
+     "title": "Introduction: data communication components, data flow, network criteria, network types (PAN/LAN/MAN/WAN)"
+    },
+    {
+     "id": "T02",
+     "title": "Analog and digital signals; data transmission and multiplexing"
+    },
+    {
+     "id": "T03",
+     "title": "Data encoding techniques"
+    },
+    {
+     "id": "T04",
+     "title": "Packet switching vs circuit switching (and virtual-circuit switching)"
+    },
+    {
+     "id": "T05",
+     "title": "Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling)"
+    },
+    {
+     "id": "T06",
+     "title": "Protocol layering; OSI model and TCP/IP protocol suite"
+    }
+   ]
+  },
+  {
+   "id": "U2",
+   "title": "Application Layer",
+   "in_scope": true,
+   "chapter": "31_application_layer",
+   "topics": [
+    {
+     "id": "T07",
+     "title": "Application paradigms: client-server vs peer-to-peer; sockets"
+    },
+    {
+     "id": "T08",
+     "title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy"
+    },
+    {
+     "id": "T09",
+     "title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME"
+    },
+    {
+     "id": "T10",
+     "title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records"
+    },
+    {
+     "id": "T11",
+     "title": "Delay and throughput in packet-switched networks"
+    }
+   ]
+  },
+  {
+   "id": "U3",
+   "title": "Transport Layer",
+   "in_scope": true,
+   "chapter": "32_transport_layer",
+   "topics": [
+    {
+     "id": "T12",
+     "title": "Transport-layer services: process-to-process delivery, port numbers, multiplexing and demultiplexing"
+    },
+    {
+     "id": "T13",
+     "title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol"
+    },
+    {
+     "id": "T14",
+     "title": "Stop-and-wait protocol"
+    },
+    {
+     "id": "T15",
+     "title": "Go-Back-N protocol"
+    },
+    {
+     "id": "T16",
+     "title": "Selective-Repeat protocol; window size vs sequence-number bits"
+    },
+    {
+     "id": "T17",
+     "title": "UDP: services, applications, user-datagram format, checksum"
+    },
+    {
+     "id": "T18",
+     "title": "TCP services and features: byte numbering, sequence and acknowledgment numbers"
+    },
+    {
+     "id": "T19",
+     "title": "TCP segment format (header fields, flags)"
+    },
+    {
+     "id": "T20",
+     "title": "TCP connection management: 3-way handshake, data transfer, connection termination"
+    },
+    {
+     "id": "T21",
+     "title": "TCP state transition diagram"
+    },
+    {
+     "id": "T22",
+     "title": "Windows in TCP and TCP flow control"
+    },
+    {
+     "id": "T23",
+     "title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput"
+    },
+    {
+     "id": "T24",
+     "title": "Quality of Service (QoS)"
+    }
+   ]
+  }
+ ]
+}

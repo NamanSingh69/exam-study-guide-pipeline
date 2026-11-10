@@ -1,0 +1,45 @@
+\begin{solvedidea}{C122}{Write a Python/OpenCV mean-shift object tracker}
+\textbf{Expected question} \mks{5}\quad\emph{Write a Python program using OpenCV that follows a coloured object through a clip with
+mean shift (use calcBackProject and meanShift). Explain each step.}
+\par\smallskip
+\begin{lstlisting}[language=Python]
+import cv2
+import numpy as np
+cap = cv2.VideoCapture("video.mp4")
+ok, frame = cap.read()                          # first frame (BGR)
+x, y, w, h = 300, 200, 100, 80                  # initial window on the object
+roi = frame[y:y+h, x:x+w]
+hsv_roi = cv2.cvtColor(roi, cv2.COLOR_BGR2HSV)
+mask = cv2.inRange(hsv_roi, np.array((0., 60., 32.)), np.array((180., 255., 255.)))
+roi_hist = cv2.calcHist([hsv_roi], [0], mask, [180], [0, 180])   # hue histogram q
+cv2.normalize(roi_hist, roi_hist, 0, 255, cv2.NORM_MINMAX)
+term = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)  # 10 iterations or 1 px
+window = (x, y, w, h)
+while True:
+    ok, frame = cap.read()
+    if not ok:
+        break
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+    dst = cv2.calcBackProject([hsv], [0], roi_hist, [0, 180], 1) # weight image
+    ret, window = cv2.meanShift(dst, window, term)              # move the window
+    x, y, w, h = window
+    cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    cv2.imshow("tracking", frame)
+    if cv2.waitKey(30) == 27:                   # Esc quits
+        break
+cap.release()
+cv2.destroyAllWindows()
+\end{lstlisting}
+\begin{enumerate}[nosep,leftmargin=*]
+\item \keyword{Initialise}: open the video, read the first frame, choose the object window $(x,y,w,h)$.
+\item \keyword{Target model}: convert the ROI to HSV; \texttt{inRange} masks dark and unsaturated pixels (unreliable
+hue); \texttt{calcHist} of the hue channel (180 bins, H is 0--179 in OpenCV) and \texttt{normalize} to 0--255.
+\item \keyword{Back-projection}: each new frame is converted to HSV and \texttt{calcBackProject} replaces every pixel
+by the histogram value of its hue: a likelihood (weight) image.
+\item \keyword{Mean shift}: \texttt{meanShift} moves the window to the centroid of the weights inside it, repeating
+until the shift is below 1 px or 10 iterations (\texttt{term}); the result seeds the next frame.
+\item \keyword{Output}: draw the window; \texttt{CamShift} (same arguments) would also adapt the window size and angle.
+\end{enumerate}
+\begin{examtip}OpenCV frames are BGR: use \texttt{COLOR\_BGR2HSV}, not \texttt{RGB2HSV}. The algorithm behind
+\texttt{meanShift}: \S\ref{sec:T35}; the call list and frame-extraction loop: \S\ref{sec:T40}.\end{examtip}
+\end{solvedidea}

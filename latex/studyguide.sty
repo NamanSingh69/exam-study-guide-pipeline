@@ -1,0 +1,520 @@
+% =============================================================================
+%  studyguide.sty — shared style for every subject guide (pipeline v2)
+%  Agents NEVER write a preamble. Chapters are bare bodies (\chapter{...} ...).
+%  Everything a chapter may use is defined here and demonstrated in
+%  _pipeline/latex/visual_cookbook.tex (compile it to see every pattern).
+% =============================================================================
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{studyguide}[2026/11/05 v2.1 exam study guide style (Round 4)]
+
+% ---------------------------------------------------------------- options
+% Default = PRINT edition: \stepanim prints a storyboard (works in every viewer and on paper).
+% [interactive] = SCREEN edition: \stepanim becomes an animation (Acrobat/Okular/Foxit) AND the
+%                 storyboard is still printed under it, so viewers that cannot play it lose nothing.
+% [phone]       = single-column small page (105 x 187 mm, 10.5 pt) for reading on a phone; tables and
+%                 TikZ pictures are shrunk to \linewidth, storyboards become one frame per row.
+% [cheatsheet]  = dense landscape layout.
+% (build.py makes <Subj>_<Scope>_Guide.pdf, _Guide_Interactive.pdf, _Guide_Phone.pdf, _Cheatsheet.pdf)
+\newif\ifsg@animate \sg@animatefalse
+\newif\ifsg@cheat   \sg@cheatfalse         % [cheatsheet] -> dense landscape layout
+\newif\ifsg@phone   \sg@phonefalse         % [phone] -> small single-column page
+\DeclareOption{interactive}{\sg@animatetrue}
+\DeclareOption{noanim}{\sg@animatefalse}   % kept for compatibility (= default)
+\DeclareOption{cheatsheet}{\sg@cheattrue}
+\DeclareOption{phone}{\sg@phonetrue}
+\ProcessOptions\relax
+\ifsg@phone\sg@animatefalse\sg@cheatfalse\fi   % phone viewers cannot play animate; never landscape
+
+% ---------------------------------------------------------------- core
+\RequirePackage[T1]{fontenc}
+\RequirePackage{lmodern}
+\RequirePackage{microtype}
+\RequirePackage{xcolor}
+\ifsg@cheat
+  \RequirePackage[a4paper,landscape,margin=9mm,includefoot,footskip=5mm]{geometry}
+\else\ifsg@phone
+  \RequirePackage[paperwidth=105mm,paperheight=187mm,left=5.5mm,right=5.5mm,top=11mm,bottom=10mm,
+    headheight=11pt,headsep=3mm,footskip=5mm]{geometry}
+\else
+  \RequirePackage[a4paper,left=20mm,right=20mm,top=22mm,bottom=22mm,headheight=15pt]{geometry}
+\fi\fi
+\RequirePackage{amsmath,amssymb,amsfonts,mathtools,bm}
+\RequirePackage{graphicx}
+\RequirePackage[export]{adjustbox}       % \includegraphics[max width=\linewidth]
+\RequirePackage{float}
+\RequirePackage{booktabs,array,tabularx,multirow,makecell}
+\RequirePackage{xltabular}          % page-breaking tabularx: use for any table longer than ~1/3 page
+\RequirePackage[table]{xcolor}
+\RequirePackage{enumitem}
+\RequirePackage{multicol}
+\RequirePackage{etoolbox}
+\RequirePackage{xparse}
+\RequirePackage{caption}
+\RequirePackage{siunitx}
+\RequirePackage{listings}
+\RequirePackage{fancyhdr}
+\RequirePackage{titlesec}
+\RequirePackage{needspace}
+\RequirePackage{tikz}
+\RequirePackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usetikzlibrary{arrows.meta,positioning,calc,fit,backgrounds,shapes.geometric,
+  shapes.misc,shapes.multipart,decorations.pathreplacing,decorations.markings,
+  patterns,matrix,trees,automata,chains,shadows,quotes}
+\ifsg@animate\RequirePackage{animate}\fi
+\RequirePackage[skins,breakable,most]{tcolorbox}
+\RequirePackage[hidelinks,bookmarksnumbered]{hyperref}
+
+% Unicode that agents tend to type -> safe LaTeX (pdflatex would otherwise abort)
+\RequirePackage{newunicodechar}
+\newunicodechar{→}{\ensuremath{\rightarrow}}\newunicodechar{←}{\ensuremath{\leftarrow}}
+\newunicodechar{⇒}{\ensuremath{\Rightarrow}}\newunicodechar{⇔}{\ensuremath{\Leftrightarrow}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}\newunicodechar{≤}{\ensuremath{\le}}
+\newunicodechar{≥}{\ensuremath{\ge}}\newunicodechar{≠}{\ensuremath{\ne}}
+\newunicodechar{≈}{\ensuremath{\approx}}\newunicodechar{×}{\ensuremath{\times}}
+\newunicodechar{÷}{\ensuremath{\div}}\newunicodechar{±}{\ensuremath{\pm}}
+\newunicodechar{∞}{\ensuremath{\infty}}\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∑}{\ensuremath{\sum}}\newunicodechar{√}{\ensuremath{\surd}}
+\newunicodechar{α}{\ensuremath{\alpha}}\newunicodechar{β}{\ensuremath{\beta}}
+\newunicodechar{γ}{\ensuremath{\gamma}}\newunicodechar{δ}{\ensuremath{\delta}}
+\newunicodechar{Δ}{\ensuremath{\Delta}}\newunicodechar{θ}{\ensuremath{\theta}}
+\newunicodechar{λ}{\ensuremath{\lambda}}\newunicodechar{μ}{\ensuremath{\mu}}
+\newunicodechar{π}{\ensuremath{\pi}}\newunicodechar{σ}{\ensuremath{\sigma}}
+\newunicodechar{Σ}{\ensuremath{\Sigma}}\newunicodechar{Ω}{\ensuremath{\Omega}}
+\newunicodechar{ω}{\ensuremath{\omega}}\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{✓}{\ensuremath{\checkmark}}\newunicodechar{✗}{\ensuremath{\times}}
+\newunicodechar{•}{\textbullet}\newunicodechar{…}{\ldots}
+\newunicodechar{’}{'}\newunicodechar{‘}{`}\newunicodechar{“}{``}\newunicodechar{”}{''}
+\newunicodechar{−}{\ensuremath{-}}\newunicodechar{ }{~}
+
+\emergencystretch=3em
+\setlength{\parskip}{3pt}
+\setlength{\parindent}{0pt}
+\setlist{itemsep=1pt,topsep=2pt,parsep=0pt,leftmargin=*}
+\captionsetup{font=small,labelfont={bf,color=sgnavy}}
+\sisetup{per-mode=symbol}
+
+% ---------------------------------------------------------------- phone geometry helpers
+% 10.5 pt body on a ~94 mm text block. Wide TikZ pictures and plain tabulars are shrunk to
+% \linewidth (outermost one only; never enlarged). tabularx with fixed-width columns is typeset wider,
+% then shrunk; xltabular (breaks across pages) cannot be boxed. Display maths is shrunk to fit.
+\newif\ifsg@infit   % defined outside \ifsg@phone: an undefined \if.. inside a skipped branch would unbalance it
+\ifsg@phone
+  \renewcommand\normalsize{\@setfontsize\normalsize{10.5}{12.8}%
+    \abovedisplayskip 6\p@ \@plus2\p@ \@minus3\p@
+    \abovedisplayshortskip \z@ \@plus2\p@
+    \belowdisplayshortskip 4\p@ \@plus2\p@ \@minus2\p@
+    \belowdisplayskip \abovedisplayskip
+    \let\@listi\@listI}
+  \normalsize
+  \sloppy\setlength{\emergencystretch}{6em}   % long unbreakable slugs/pills on a 94 mm line
+  % Only the outermost picture/table is boxed. Group-local bookkeeping (no global counter that an
+  % environment with unusual end handling could leave unbalanced): the outermost level defines
+  % \sg@closeme inside its adjustbox group; nested levels make it undefined inside their own group.
+  \newcommand{\sg@fitbegin}{\ifsg@infit\let\sg@closeme\@undefined\else
+    \begin{adjustbox}{max width=\linewidth,max totalheight=0.8\textheight}\sg@infittrue\def\sg@closeme{}\fi}
+  \newcommand{\sg@fitend}{\ifdefined\sg@closeme\end{adjustbox}\fi}
+  \BeforeBeginEnvironment{tikzpicture}{\sg@fitbegin}
+  \AfterEndEnvironment{tikzpicture}{\sg@fitend}
+  \BeforeBeginEnvironment{tabular}{\sg@fitbegin}
+  \AfterEndEnvironment{tabular}{\sg@fitend}
+  % tabularx with fixed or natural-width columns (p/m/b/L{..}, l/c/r) was sized for A4: typeset it 1.4x wider,
+  % then shrink, instead of squeezing its X columns until words overflow (pure X/Y tables keep \linewidth).
+  \BeforeBeginEnvironment{tabularx}{\sg@fitbegin}
+  \AfterEndEnvironment{tabularx}{\sg@fitend}
+  \AtBeginDocument{%
+    \let\sg@tabularx\tabularx
+    \def\tabularx#1#2{\ifdefined\sg@closeme\sg@iffixedcols{#2}{\setlength{\linewidth}{1.4\linewidth}}{}\fi
+      \sg@tabularx{#1}{#2}}}
+  \newcommand{\sg@iffixedcols}[3]{\@tempswafalse
+    \in@{p}{#1}\ifin@\@tempswatrue\fi \in@{m}{#1}\ifin@\@tempswatrue\fi
+    \in@{b}{#1}\ifin@\@tempswatrue\fi \in@{L}{#1}\ifin@\@tempswatrue\fi
+    \in@{l}{#1}\ifin@\@tempswatrue\fi \in@{c}{#1}\ifin@\@tempswatrue\fi \in@{r}{#1}\ifin@\@tempswatrue\fi
+    \if@tempswa #2\else #3\fi}
+  % a final-answer box cannot break: never wider than the line
+  \AtBeginDocument{\tcbset{every box/.append style={before upper app={\sloppy\emergencystretch=4em}}}}
+  \newdimen\sg@answd   % measured outside the box: inside \tcbox, \linewidth is not the line's width
+  \AtBeginDocument{\let\sg@answerbox\answer
+    \renewcommand{\answer}[1]{\sg@answd=0.8\linewidth
+      \ifmmode\else\hfil\penalty\z@\hfilneg\fi   % a painless break before the box (in boxes TeX refuses a bad line)
+      \sg@answerbox{\adjustbox{max width=\sg@answd}{#1}}}}
+  % display maths cannot break: shrink \[..\], equation* and align* that are wider than the line
+  \newcommand{\sg@fitdisplay}[1]{\par\addvspace{\abovedisplayskip}\noindent
+    \makebox[\linewidth]{\adjustbox{max width=\linewidth}{$\displaystyle #1$}}\par\addvspace{\belowdisplayskip}}
+  \RequirePackage{environ}
+  \AtBeginDocument{%
+    \protected\def\[#1\]{\sg@fitdisplay{#1}}%
+    \RenewEnviron{equation*}{\sg@fitdisplay{\BODY}}%
+    \RenewEnviron{align*}{\sg@fitdisplay{\begin{aligned}\BODY\end{aligned}}}%
+    % real SVP T05/T06 (2026-11-06): multi-line gather* formula boxes overflowed the phone page by 80-110 pt
+    \RenewEnviron{gather*}{\sg@fitdisplay{\begin{gathered}\BODY\end{gathered}}}}
+\fi
+
+% ---------------------------------------------------------------- palette
+\definecolor{sgnavy}{RGB}{27,54,93}
+\definecolor{sgteal}{RGB}{0,128,128}
+\definecolor{sgamber}{RGB}{217,119,6}
+\definecolor{sgred}{RGB}{185,28,28}
+\definecolor{sggreen}{RGB}{21,128,61}
+\definecolor{sgpurple}{RGB}{109,40,217}
+\definecolor{sgslate}{RGB}{45,55,72}
+\definecolor{sgtint}{RGB}{244,247,251}
+\definecolor{sggrid}{RGB}{203,213,225}
+% semantic aliases for diagrams (use these, not raw colours)
+\colorlet{hl}{sgamber}        % "the thing to look at"
+\colorlet{ok}{sggreen}        % success / ACK / correct
+\colorlet{bad}{sgred}         % loss / error / wrong
+\colorlet{info}{sgteal}
+\colorlet{muted}{sgslate!45}
+% legacy names used by older chapters
+\colorlet{primaryblue}{sgnavy}\colorlet{accentteal}{sgteal}
+\colorlet{accentorange}{sgamber}\colorlet{softblue}{sgtint}\colorlet{darkgray}{sgslate}
+
+% ---------------------------------------------------------------- headings
+\titleformat{\chapter}[display]{\sffamily\bfseries\color{sgnavy}}
+  {\large\color{sgteal}\MakeUppercase{\chaptertitlename}\ \thechapter}{4pt}
+  {\LARGE}[\vspace{2pt}{\color{sgamber}\titlerule[1.2pt]}]
+\titlespacing*{\chapter}{0pt}{-10pt}{14pt}
+\titleformat{\section}{\sffamily\Large\bfseries\color{sgnavy}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\sffamily\large\bfseries\color{sgteal}}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries\color{sgslate}}{\thesubsubsection}{0.6em}{}
+\setcounter{secnumdepth}{2}\setcounter{tocdepth}{1}
+% keep headings with their first lines (no heading stranded at a page foot)
+\pretocmd{\section}{\needspace{7\baselineskip}}{}{}
+\pretocmd{\subsection}{\needspace{5\baselineskip}}{}{}
+
+\newcommand{\sgsubject}{Subject}\newcommand{\sgcode}{}\newcommand{\sgscope}{Exam}
+\newcommand{\setsubject}[3]{\renewcommand{\sgsubject}{#1}\renewcommand{\sgcode}{#2}\renewcommand{\sgscope}{#3}}
+\pagestyle{fancy}\fancyhf{}
+\ifsg@phone
+  \titleformat{\chapter}[display]{\sffamily\bfseries\color{sgnavy}}
+    {\normalsize\color{sgteal}\MakeUppercase{\chaptertitlename}\ \thechapter}{2pt}
+    {\Large}[\vspace{1pt}{\color{sgamber}\titlerule[1pt]}]
+  \titlespacing*{\chapter}{0pt}{-14pt}{8pt}
+  \titleformat{\section}{\sffamily\large\bfseries\color{sgnavy}}{\thesection}{0.5em}{}
+  \titleformat{\subsection}{\sffamily\normalsize\bfseries\color{sgteal}}{\thesubsection}{0.5em}{}
+  \fancyhead[L]{\scriptsize\sffamily\color{sgnavy}\textbf{\sgsubject}}
+  \fancyhead[R]{\scriptsize\sffamily\color{sgslate}\thepage}
+  \fancyfoot[C]{}
+  \renewcommand{\headrulewidth}{0.3pt}
+\else
+  \fancyhead[L]{\small\sffamily\color{sgnavy}\textbf{\sgsubject}\ \sgcode}
+  \fancyhead[R]{\small\sffamily\color{sgslate}\nouppercase{\leftmark}}
+  \fancyfoot[C]{\small\sffamily\thepage}
+  \fancyfoot[R]{\scriptsize\sffamily\color{muted}\sgscope}
+  \renewcommand{\headrulewidth}{0.4pt}
+\fi
+
+% ---------------------------------------------------------------- exam metadata badges
+% \mks{2.5}              -> [2.5 M] pill   (NOT \marks — that is a TeX primitive)
+% \asked{2022 Q3a, 2024 Q1b}  -> "Asked: ..." tag
+% \clusterbadge{C05}     -> tier pill + P pill (or band pill), read from badges.tex (score.py output)
+% \topicbadge{T07}       -> the topic's P pill (or band pill), read from badges.tex
+%     WRITERS USE ONLY THESE TWO for tier/probability. Hand-typed \prob/\tier go stale when score.py
+%     re-runs; lint flags them outside the auto chapters (05_how_to_use, 20_exam_radar).
+% \prob{78}              -> "P 78%" pill coloured by band (high >= 50, med >= 25, low)
+% \tier{A}               -> study-order badge: A = 3 h plan, B = added by 6 h, C = added by 12 h,
+%                           D = wildcard (never asked, strong prior), E = the rest
+% \src{N_slug p12}       -> grey source citation (traceability to instructor notes)
+% All pills are robust: they may sit in moving arguments (\section titles, bookmarks), although
+% lint asks you to put them after the heading instead.
+\newcommand{\sg@pill}[3]{\tikz[baseline=(p.base)]\node[fill=#1,text=#2,rounded corners=2pt,
+  inner xsep=3pt,inner ysep=1.2pt,font=\scriptsize\sffamily\bfseries](p){#3};}
+\DeclareRobustCommand{\mks}[1]{\sg@pill{sgnavy}{white}{#1\,M}}
+\DeclareRobustCommand{\asked}[1]{{\scriptsize\sffamily\color{sgteal}\textbf{Asked:} #1}}
+\DeclareRobustCommand{\prob}[1]{\ifnum#1>49 \sg@pill{sgred}{white}{P #1\%}\else\ifnum#1>24
+  \sg@pill{sgamber}{white}{P #1\%}\else\sg@pill{sggrid}{sgslate}{P #1\%}\fi\fi}
+\newcommand{\sg@band}[1]{\ifstrequal{#1}{high}{\sg@pill{sgred}{white}{P high}}{%
+  \ifstrequal{#1}{med}{\sg@pill{sgamber}{white}{P med}}{\sg@pill{sggrid}{sgslate}{P #1}}}}
+\DeclareRobustCommand{\tier}[1]{\ifstrequal{#1}{A}{\sg@pill{sgred}{white}{A\,$\cdot$\,3\,h}}{%
+  \ifstrequal{#1}{B}{\sg@pill{sgamber}{white}{B\,$\cdot$\,6\,h}}{%
+  \ifstrequal{#1}{C}{\sg@pill{sgteal}{white}{C\,$\cdot$\,12\,h}}{%
+  \ifstrequal{#1}{D}{\sg@pill{sgpurple}{white}{D\,$\cdot$\,\ifsg@phone wild\else wildcard\fi}}{%
+  \sg@pill{sggrid}{sgslate}{#1\,$\cdot$\,later}}}}}}
+\ifsg@phone
+  % phone: a long corpus slug (N_SVP_Week6_Theory_Lecture2_Pattern_Matching_HMM) is one word wider than a box on
+  % the 94 mm line (real SVP, 2026-11-06); seqsplit lets the grey citation break between any two characters
+  \RequirePackage{seqsplit}
+  % split only the slug (seqsplit drops spaces); " p2-3, p14" after the first space is kept as written
+  \def\sg@srcA#1 #2\@nil{\seqsplit{#1}\if\relax\detokenize{#2}\relax\else\ \sg@srcB#2\@nil\fi}
+  \def\sg@srcB#1 \@nil{#1}   % drop the space \src appended before \@nil
+  \DeclareRobustCommand{\src}[1]{{\scriptsize\sffamily\color{muted}[\expandafter\sg@srcA\detokenize{#1} \@nil]}}
+\else
+  \DeclareRobustCommand{\src}[1]{{\scriptsize\sffamily\color{muted}[\detokenize{#1}]}}
+\fi
+\DeclareRobustCommand{\ev}[1]{\sg@pill{sggreen}{white}{EV #1}}   % expected marks
+
+% badges.tex (written by score.py on every run; \input automatically when it is on the path):
+%   \sgdefbadge{C05}{A}{79}{high}{1.58}   cluster: tier, P integer percent or "-", band, EV
+%   \sgdeftopic{T07}{84}{high}            topic:   P integer percent or "-", band
+\newcommand{\sg@ppill}[2]{\ifstrequal{#1}{-}{\sg@band{#2}}{\prob{#1}}}
+\newcommand{\sgdefbadge}[5]{%
+  % breakable gap: in narrow table cells (phone edition) the P pill wraps under the tier pill
+  \csgdef{sg@b@#1}{\tier{#2}\hspace{0.17em plus 0.1em}\allowbreak\sg@ppill{#3}{#4}}%
+  \ifstrequal{#3}{-}{\csgdef{sg@bt@#1}{[#2, P #4]}}{\csgdef{sg@bt@#1}{[#2, P #3\%]}}%
+  \csgdef{sg@ev@#1}{#5}}
+\newcommand{\sgdeftopic}[3]{%
+  \csgdef{sg@t@#1}{\sg@ppill{#2}{#3}}%
+  \ifstrequal{#2}{-}{\csgdef{sg@tt@#1}{[P #3]}}{\csgdef{sg@tt@#1}{[P #2\%]}}}
+\newcommand{\sg@missingbadge}[1]{\typeout{SG-BADGE-MISSING:#1}\sg@pill{sgred}{white}{?#1}}
+\DeclareRobustCommand{\clusterbadge}[1]{\ifcsdef{sg@b@#1}{\csuse{sg@b@#1}}{\sg@missingbadge{#1}}}
+\DeclareRobustCommand{\topicbadge}[1]{\ifcsdef{sg@t@#1}{\csuse{sg@t@#1}}{\sg@missingbadge{#1}}}
+\AtBeginDocument{\IfFileExists{badges.tex}{\input{badges.tex}}{}}
+% text forms for PDF bookmarks (hyperref expands section titles into plain strings)
+\pdfstringdefDisableCommands{%
+  \def\mks#1{[#1 M]}\def\prob#1{[P #1\%]}\def\tier#1{[#1]}\def\ev#1{[EV #1]}%
+  \def\asked#1{}\def\src#1{}\def\stepno#1{#1}\def\answer#1{#1}\def\keyword#1{#1}%
+  \def\clusterbadge#1{\ifcsname sg@bt@#1\endcsname\csname sg@bt@#1\endcsname\else[?#1]\fi}%
+  \def\topicbadge#1{\ifcsname sg@tt@#1\endcsname\csname sg@tt@#1\endcsname\else[?#1]\fi}%
+  \def\flashcard#1#2{}\def\notfromnotes#1{}}
+
+% ---------------------------------------------------------------- boxes
+\tcbset{sgbase/.style={enhanced,breakable,arc=2mm,boxrule=0.8pt,left=6pt,right=6pt,
+  top=4pt,bottom=4pt,fonttitle=\sffamily\bfseries\small,before skip=6pt,after skip=6pt}}
+\newtcolorbox{definitionbox}[1][]{sgbase,colback=sgtint,colframe=sgnavy,
+  title={Definition\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{keyconceptbox}[1][]{sgbase,colback=sgteal!5,colframe=sgteal,
+  title={Key idea\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{formulabox}[1][]{sgbase,colback=sgamber!6,colframe=sgamber,
+  title={Formula\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{algorithmbox}[1][]{sgbase,colback=white,colframe=sgslate,
+  title={Algorithm\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{warningbox}[1][]{sgbase,colback=sgred!4,colframe=sgred,
+  title={Exam pitfall\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{intuitionbox}[1][]{sgbase,colback=sgpurple!4,colframe=sgpurple,
+  title={Intuition\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{mnemonicbox}[1][]{sgbase,colback=sggreen!5,colframe=sggreen,
+  title={Remember it\ifstrempty{#1}{}{: #1}}}
+% How to write the answer in the exam (structure + keywords examiners look for)
+\newtcolorbox{answerplan}[1][]{sgbase,colback=white,colframe=sggreen,borderline west={3pt}{0pt}{sggreen},
+  title={Answer plan for full marks\ifstrempty{#1}{}{ — #1}}}
+\newtcolorbox{examtip}[1][]{sgbase,colback=sgamber!4,colframe=sgamber!80!black,
+  title={Exam tip\ifstrempty{#1}{}{: #1}}}
+\newtcolorbox{checkpoint}[1][]{sgbase,colback=white,colframe=sgteal,boxrule=0.6pt,
+  title={Self-check\ifstrempty{#1}{}{: #1}}}
+
+% Question box: \begin{question}{2024 Midsem Q2(a)}{2.5}  verbatim text \end{question}
+% optional 3rd arg: frequency tag text, e.g. {Asked 3/3 papers}
+\NewDocumentEnvironment{question}{m m O{}}{%
+  \begin{tcolorbox}[sgbase,colback=sgnavy!4,colframe=sgnavy,
+    title={\textsf{#1}\hfill\ifstrempty{#3}{}{{\scriptsize #3}\ }\mks{#2}}]\itshape}{\end{tcolorbox}}
+\newtcolorbox{solution}[1][]{sgbase,colback=white,colframe=sgteal,boxrule=0.6pt,
+  title={Solution\ifstrempty{#1}{}{ — #1}}}
+% final answer highlight usable in text and math
+\newcommand{\answer}[1]{\tcbox[on line,colback=sgamber!12,colframe=sgamber,boxrule=0.6pt,
+  arc=1.5pt,left=2pt,right=2pt,top=1pt,bottom=1pt]{#1}}
+
+% ---------------------------------------------------------------- tables
+% L{w}: fixed ragged column. Writers size w for the A4 text width (~160 mm); on the phone page the same
+% widths starve the X/Y column (real CN T10: 70 mm of fixed columns, 50 pt overfull), so [phone] scales
+% them by 0.6 (about the phone/A4 text-width ratio).
+\ifsg@phone
+  % 0.7 x w, but never below min(w, 16 mm): a short column must still hold one word ("CNAME") or one pill
+  \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{\sg@phonecol{#1}}}
+  \AtBeginEnvironment{tabularx}{\footnotesize}   % phone: tables one size down so cells hold their words
+  \newcommand{\sg@phonecol}[1]{\dimexpr\ifdim\dimexpr(#1)*7/10\relax<\ifdim#1<16mm #1\else16mm\fi
+    \ifdim#1<16mm #1\else16mm\fi\else(#1)*7/10\fi\relax}
+\else
+  \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\fi
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\zebra}{\rowcolors{2}{sgtint}{white}}
+\renewcommand{\theadfont}{\bfseries\sffamily}
+
+% ---------------------------------------------------------------- TikZ style library
+\tikzset{
+  >={Stealth[length=2.4mm]},
+  every picture/.append style={font=\small},
+  % boxes / nodes
+  blk/.style={draw=sgnavy,fill=sgtint,rounded corners=2pt,minimum height=7mm,
+      minimum width=16mm,align=center,inner sep=3pt,line width=0.6pt},
+  blkhl/.style={blk,draw=hl,fill=hl!15,line width=0.9pt},
+  blkok/.style={blk,draw=ok,fill=ok!12},
+  blkbad/.style={blk,draw=bad,fill=bad!10},
+  layerblk/.style={blk,minimum width=60mm,minimum height=7mm},
+  circ/.style={circle,draw=sgnavy,fill=sgtint,minimum size=8mm,inner sep=1pt,line width=0.6pt},
+  circhl/.style={circ,draw=hl,fill=hl!20,line width=0.9pt},
+  decision/.style={diamond,aspect=2,draw=sgnavy,fill=sgtint,inner sep=1.5pt,align=center},
+  term/.style={rounded rectangle,draw=sgnavy,fill=sgnavy!10,minimum height=7mm,inner xsep=8pt},
+  % edges and labels — elabel masks the line so text never collides
+  arr/.style={->,line width=0.7pt,color=sgslate},
+  arrhl/.style={->,line width=1pt,color=hl},
+  arrok/.style={->,line width=0.8pt,color=ok},
+  arrbad/.style={->,line width=0.8pt,color=bad,dashed},
+  elabel/.style={fill=white,fill opacity=0.92,text opacity=1,inner sep=1.2pt,
+      rounded corners=1pt,font=\scriptsize},
+  note/.style={font=\scriptsize\itshape,text=sgslate,align=center},
+  % array / memory cells:  \node[cell] {5};
+  cell/.style={draw=sgslate,minimum width=7mm,minimum height=7mm,inner sep=0pt,anchor=center},
+  cellhl/.style={cell,fill=hl!25,draw=hl,line width=0.8pt},
+  cellok/.style={cell,fill=ok!15},
+  cellbad/.style={cell,fill=bad!12},
+  celldim/.style={cell,text=muted,fill=black!4},
+  % timing / sequence diagrams
+  lifeline/.style={line width=1pt,color=sgslate},
+  msg/.style={->,line width=0.7pt,color=sgnavy},
+  msgok/.style={->,line width=0.7pt,color=ok},
+  msglost/.style={->,line width=0.7pt,color=bad,dashed},
+  timeout/.style={decorate,decoration={brace,amplitude=4pt,mirror},color=bad},
+  % state machines
+  state/.append style={circ,minimum size=15mm,font=\scriptsize\sffamily,align=center},
+  smstate/.style={blk,rounded corners=6pt,minimum width=20mm}, % rounded-rect state for long names
+  % trees
+  treenode/.style={circ,minimum size=7mm},
+  % grouping
+  group/.style={draw=muted,dashed,rounded corners=4pt,inner sep=6pt},
+  grouplabel/.style={font=\scriptsize\sffamily\bfseries,text=muted,fill=white,inner sep=1pt},
+  % step number bubble
+  stepbubble/.style={circle,fill=hl,text=white,font=\scriptsize\bfseries,inner sep=1pt,minimum size=4.2mm},
+}
+% \stepno{3} inline numbered bubble (for "steps" in explanations and diagrams)
+\newcommand{\stepno}[1]{\tikz[baseline=(s.base)]\node[stepbubble](s){#1};}
+
+% ---------------------------------------------------------------- storyboards & animations
+% \stepanim{<frames>}{<cols>}{<frame width>}{<caption>}{<tikz body using \f>}
+%   Write ONE parametrised tikz body. Inside it, \f is the current frame number (1..N);
+%   use \ifnum\f>2 ... \fi to reveal things progressively, and \framecap{...} (optional) is
+%   ignored by LaTeX but documents intent.
+%   Output: print edition  -> storyboard grid "Step 1 .. Step N" (every viewer, paper)
+%           [interactive]  -> an animation with play controls (Acrobat / Okular / Foxit), followed
+%                             by the same storyboard (Chrome/Edge/phone viewers show frame 1 only)
+%           [phone]        -> the storyboard, one frame per row, inline (may break across pages)
+%   Keep the bounding box constant across frames: draw an invisible frame box first, e.g.
+%   \path[use as bounding box] (-0.3,-0.3) rectangle (6,3.2);
+%   Legibility: at most 2 frames per row (frame width >= 0.45\linewidth) unless frames are tiny strips;
+%   labels >= \scriptsize, horizontal where possible.
+%   Placement is [!htbp] so big storyboards float instead of leaving half-empty pages.
+\newcounter{sganim}
+\newcommand{\sg@frametitle}[1]{\node[anchor=north west,font=\scriptsize\sffamily\bfseries,
+  text=white,fill=sgnavy,rounded corners=1pt,inner sep=1.5pt] at (current bounding box.north west) {Step #1};}
+% Starred forms \stepanim* / \storyboard* are INLINE (no float, \captionof): use them inside boxes
+% (solution, answerplan ...) where floats are not allowed ("Float(s) lost").
+\newcommand{\sg@frames}[4]{% #1 frames #2 cols #3 width #4 body
+  \ifsg@phone\sg@framesgrid{#1}{1}{\linewidth}{#4}\else\sg@framesgrid{#1}{#2}{#3}{#4}\fi}
+\newcommand{\sg@framesgrid}[4]{%
+  \foreach \sg@k in {1,...,#1}{%
+    \begin{minipage}[t]{#3}\centering
+      \begin{tikzpicture}\edef\f{\sg@k}#4\sg@frametitle{\sg@k}\end{tikzpicture}
+    \end{minipage}%
+    \pgfmathparse{int(mod(\sg@k,#2))}%
+    \ifnum\pgfmathresult=0 \par\vspace{4pt}\else\hfill\fi
+  }}
+\newcommand{\sg@anim}[2]{% #1 frames #2 body
+  \begin{animateinline}[controls=all,loop,palindrome=false,poster=first,
+     begin={\begin{tikzpicture}},end={\end{tikzpicture}}]{0.7}
+    \multiframe{#1}{iF=1+1}{\edef\f{\iF}#2\sg@frametitle{\f}}
+  \end{animateinline}}
+\newcommand{\sg@animnote}[1]{{\scriptsize\color{muted}(animation: press play; #1 steps. The same
+  steps are printed as a storyboard below for viewers that cannot play it)}}
+\NewDocumentCommand{\stepanim}{s m m m m +m}{%
+  \refstepcounter{sganim}%
+  \ifsg@animate
+    \IfBooleanTF{#1}%
+      {\par\begin{center}\sg@anim{#2}{#6}\captionof{figure}{#5 \sg@animnote{#2}}\end{center}%
+       \begingroup\let\label\@gobble   % the caption prints twice: only the animation keeps its \label
+       \storyboard*{#2}{#3}{#4}{#5 {\scriptsize\color{muted}(storyboard)}}{#6}\endgroup}%
+      {\begin{figure}[!htbp]\centering\sg@anim{#2}{#6}%
+         \caption{#5 \sg@animnote{#2}}\end{figure}%
+       \begingroup\let\label\@gobble
+       \storyboard{#2}{#3}{#4}{#5 {\scriptsize\color{muted}(storyboard)}}{#6}\endgroup}%
+  \else
+    \IfBooleanTF{#1}{\storyboard*{#2}{#3}{#4}{#5}{#6}}{\storyboard{#2}{#3}{#4}{#5}{#6}}%
+  \fi}
+
+% \storyboard is the print-only variant (no animation even in the interactive edition).
+% In the phone edition every storyboard is inline (one frame per row; it may break across pages).
+\NewDocumentCommand{\storyboard}{s m m m m +m}{%
+  \ifsg@phone\sg@inlineboard{#2}{#3}{#4}{#5}{#6}\else
+  \IfBooleanTF{#1}%
+    {\sg@inlineboard{#2}{#3}{#4}{#5}{#6}}%
+    {\begin{figure}[!htbp]\centering\sg@frames{#2}{#3}{#4}{#6}\caption{#5}\end{figure}}\fi}
+\newcommand{\sg@inlineboard}[5]{\par\begin{center}\sg@frames{#1}{#2}{#3}{#5}\captionof{figure}{#4}\end{center}}
+
+% ---------------------------------------------------------------- misc helpers
+\newcommand{\figfromnotes}[3][0.8]{% \figfromnotes[width]{figures/src/x.png}{caption (source)}
+  \begin{figure}[!htbp]\centering\includegraphics[max width=#1\linewidth,max height=0.42\textheight]{#2}
+  \caption{#3}\end{figure}}
+\DeclareRobustCommand{\keyword}[1]{\textbf{\color{sgnavy}#1}}
+
+% ---------------------------------------------------------------- Round 4: receipts, provenance, atoms
+% \receipt{MS2024-1c}   the question as printed on the paper: receipts/<qid>.png (receipts.py output)
+%                       in a thin grey frame, captioned "From the paper". Missing file -> red box +
+%                       \typeout{SG-RECEIPT-MISSING:<qid>} (metrics.py counts these).
+% Receipts are evidence, not reading text: about 60% of the paper's own size on A4 (full width on phone),
+% so a PYQ chapter is not doubled in length by its crops (Round 4: older-paper chapters ran 2-3x budget).
+\newcommand{\sg@receiptw}{\ifsg@phone\dimexpr\linewidth-6pt\relax\else0.62\linewidth\fi}% -6pt: the frame's sep + rule
+\newcommand{\receipt}[1]{\par\IfFileExists{receipts/#1.png}{%
+    \begin{center}\setlength{\fboxsep}{2pt}\setlength{\fboxrule}{0.4pt}%
+    \fcolorbox{sggrid}{white}{\includegraphics[max width=\sg@receiptw,max height=0.2\textheight]{receipts/#1.png}}\par
+    \nopagebreak\vspace{1pt}{\upshape\scriptsize\sffamily\color{muted}From the paper (\detokenize{#1})}\end{center}}%
+  {\typeout{SG-RECEIPT-MISSING:#1}%
+    \begin{center}\setlength{\fboxsep}{3pt}\fcolorbox{sgred}{sgred!6}{\upshape\scriptsize\sffamily
+    \color{sgred}\textbf{receipt missing:} \detokenize{#1}}\end{center}}}
+% \notfromnotes{Forouzan, ch. 5}   red banner at the top of a section whose content is NOT in the
+%                       instructor's notes (unfillable coverage gap). Use instead of \src there.
+\newcommand{\notfromnotes}[1]{\par
+  \begin{tcolorbox}[enhanced,colback=sgred!7,colframe=sgred,boxrule=0.8pt,arc=1mm,left=5pt,right=5pt,
+    top=2pt,bottom=2pt,before skip=4pt,after skip=6pt,fontupper=\small\sffamily]
+  \textbf{\color{sgred}Not in your instructor's notes} --- written from #1; check it against class material.
+  \end{tcolorbox}}
+% \begin{solvedidea}{C05}{Stop-and-wait with periodic loss} ... \end{solvedidea}
+%                       THE one full model solution of a question idea (atoms/solve/C05.tex).
+%                       Sets \label{solve:C05}; every other place uses \seesolved{C05}.
+\newcounter{sgsolve}
+\NewDocumentEnvironment{solvedidea}{m +m}{%
+  \begin{tcolorbox}[sgbase,colback=white,colframe=sggreen!70!black,borderline west={3pt}{0pt}{sggreen},
+    title={Solved idea: #2\hfill\clusterbadge{#1}}]%
+  \refstepcounter{sgsolve}\def\@currentlabelname{#2}\label{solve:#1}}%
+  {\end{tcolorbox}}
+% ---------------------------------------------------------------- two documents: Guide <-> PYQ archive
+% Older papers (assignments.json kind pyq_older) are built into a separate PYQ archive PDF. build.py writes a
+% table of the OTHER document's labels (from its sources; pages and numbers from its .aux when it has been
+% built) into _xref_<job>.tex, read in the preamble:
+%   \sgxdoc{G}{Guide}{<file>.pdf}          a document: key, display name, PDF file (same folder)
+%   \sgxlabel{G}{solve:C05}{num}{page}{title}   one of its labels (page may be empty: not built yet)
+%   \sgxq{MS2022-1a}{MS2022}{1(a)}         paper id and question number of an archived question
+% Labels defined in this document never appear in the table, so local refs are unchanged. A ref to a label
+% that is in neither document is an ordinary undefined reference (a hard error on full builds).
+% Every external use writes \typeout{SG-XREF:<doc>:<label>:resolved|pending} for build.py / metrics.py.
+\newcommand{\sgxdoc}[3]{\csgdef{sgx@name@#1}{#2}\csgdef{sgx@file@#1}{#3}}
+% Each external label is also defined the way xr does it (\r@<label>, empty anchor = no local link), so plain
+% \ref / \pageref / \nameref print "3.2", "12 (Guide)" (or "(Guide)" before it is built) and the title.
+\newcommand{\sgxlabel}[5]{\csgdef{sgx@d@#2}{#1}\csgdef{sgx@n@#2}{#3}\csgdef{sgx@p@#2}{#4}\csgdef{sgx@t@#2}{#5}%
+  \ifstrempty{#4}{\csgdef{r@#2}{{#3}{(\csuse{sgx@name@#1})}{#5}{}{}}}%
+                 {\csgdef{r@#2}{{#3}{#4 (\csuse{sgx@name@#1})}{#5}{}{}}}}
+\newcommand{\sgxq}[3]{\csgdef{sgx@qp@#1}{#2}\csgdef{sgx@qn@#1}{#3}}
+% \sg@xlink{label}{text}: "text, p. N" linked to page N of the other PDF ("text" alone while it is unbuilt)
+\newcommand{\sg@xlink}[2]{\edef\sg@xd{\csuse{sgx@d@#1}}%
+  \ifcsempty{sgx@p@#1}{\typeout{SG-XREF:\sg@xd:#1:pending}#2}%
+    {\typeout{SG-XREF:\sg@xd:#1:resolved}%
+     \href[page=\csuse{sgx@p@#1}]{\csuse{sgx@file@\sg@xd}}{#2, p.~\csuse{sgx@p@#1}}}}
+\newcommand{\sg@xname}[1]{\csuse{sgx@name@\csuse{sgx@d@#1}}}
+% \seesolved{C05}       "Same idea as <title>: full solution on p. N" (links to solve:C05); when the solution
+%                       is in the other document: "... full solution in the Guide, p. N"
+\newcommand{\seesolved}[1]{\typeout{SG-REF:solve:#1}%
+  \ifcsdef{sgx@d@solve:#1}%
+    {{\sffamily\small\color{sgteal}Same idea as \textit{\csuse{sgx@t@solve:#1}}: full solution in the
+      \sg@xlink{solve:#1}{\sg@xname{solve:#1}}}}%
+    {{\sffamily\small\color{sgteal}Same idea as \textit{\nameref{solve:#1}}: full solution on
+      p.~\pageref{solve:#1}}}}
+% \pyqsolved{MS2024-1c} link text "solved on p. N" to q:<qid>; \typeout{SG-REF:q:<qid>} lets the
+%                       build tell a dangling link from a chapter that is missing. A question of an archived
+%                       paper prints "PYQ archive, MS2022 1(a), p. N"; one solved in the Guide (seen from
+%                       the archive) prints "solved in the Guide, p. N".
+\newcommand{\pyqsolved}[1]{\typeout{SG-REF:q:#1}%
+  \ifcsdef{sgx@d@q:#1}%
+    {\ifcsdef{sgx@qp@#1}%
+      {\sg@xlink{q:#1}{\sg@xname{q:#1}, \csuse{sgx@qp@#1} \csuse{sgx@qn@#1}}}%
+      {\sg@xlink{q:#1}{solved in the \sg@xname{q:#1}}}}%
+    {\hyperref[q:#1]{solved on p.~\pageref*{q:#1}}}}
+% \flashcard{front}{back}  prints nothing; flashcards.py collects them (2-5 per topic).
+\NewDocumentCommand{\flashcard}{+m +m}{\@bsphack\@esphack}
+% chapter-end page markers written by build.py's wrapper (metrics: pages per chapter)
+\newcommand{\sgchapterend}[2]{}
+\newcommand{\sgmarkchapterend}[1]{\protected@write\@auxout{}{\string\sgchapterend{#1}{\thepage}}}
+\newcommand{\vs}{\textit{vs.}\ }
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,rulecolor=\color{sggrid},
+  backgroundcolor=\color{black!2},keywordstyle=\color{sgnavy}\bfseries,
+  commentstyle=\color{sgteal}\itshape,numbers=left,numberstyle=\tiny\color{muted},
+  showstringspaces=false,tabsize=2,columns=fullflexible,keepspaces=true}
+\endinput

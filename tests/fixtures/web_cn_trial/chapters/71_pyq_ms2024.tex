@@ -1,0 +1,553 @@
+\chapter{2024 Midsem paper — solutions}
+\label{ch:pyq_ms2024}
+
+\textbf{Autumn Mid Semester Examination 2024}, Network Systems [XX 3003], School of Engineering, Example Univ.
+\textbf{Full Mark:} 20 \quad \textbf{Time:} 1\,\textonehalf{} Hours \quad \src{PYQM_2024_Midsem_1_Network_Systems_1 p1-p2}
+
+\emph{Instructions (synthetic sample):} ``Answer any four questions, including question 1, which is compulsory. Marks are shown in the margin. Give all parts of a question in one place.''
+
+\textbf{Pattern:} Q1 compulsory ($5\times1$); answer any 3 of Q2--Q5, each $2.5+2.5$.
+
+\begin{table}[H]\centering\small\zebra
+\begin{tabularx}{\linewidth}{L{11mm}YL{10mm}L{30mm}}\toprule
+\thead{Q} & \thead{Topic} & \thead{Marks} & \thead{Tier / P}\\\midrule
+1(a) & DNS: FQDN vs PQDN, CNAME record & 1 & \tier{A} \prob{72}\\
+1(b) & UDP header decoding (hex dump) & 1 & \tier{B} \prob{50}\\
+1(c) & Stop-and-wait with periodic loss & 1 & \tier{B} \prob{35}\\
+1(d) & Writing an HTTP request message & 1 & \tier{B} \prob{35}\\
+1(e) & TCP sequence numbers consumed by SYN/ACK/data & 1 & \tier{B} \prob{36}\\
+2(a) & Persistent vs non-persistent HTTP (time) & 2.5 & \tier{B} \prob{35}\\
+2(b) & E-mail: architecture, transfer phases, MAA, MIME & 2.5 & \tier{C} \prob{32}\\
+3(a) & Delay types + file-transfer time numerical & 2.5 & \tier{B} \prob{36}\\
+3(b) & TCP header format & 2.5 & \tier{B} \prob{46}\\
+4(a) & GBN / SR window size vs sequence bits & 2.5 & \tier{B} \prob{36}\\
+4(b) & Go-Back-N with every 5th packet lost & 2.5 & \tier{A} \prob{79}\\
+5(a) & TCP sequence numbers of SYN, data, FIN & 2.5 & \tier{B} \prob{36}\\
+5(b) & TCP states and state transition diagram & 2.5 & \tier{C} \prob{34}\\\bottomrule
+\end{tabularx}
+\caption{Shape of the 2024 paper: Unit~II (application layer) and Unit~III (transport layer) only.}
+\end{table}
+
+% =====================================================================
+\section{Question 1 (compulsory, 1 mark each)}
+
+% ---------------------------------------------------------------- 1(a)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q1(a)}{1}[\tier{A} \prob{72}]
+State the key distinction between a fully qualified and a partially qualified domain name. What is a CNAME record used for?
+\end{question}
+\label{q:MS2024-1a}
+\begin{solution}
+\begin{tabularx}{\linewidth}{L{20mm}YY}\toprule
+\thead{} & \thead{FQDN} & \thead{PQDN}\\\midrule
+Ends at & the root: complete label list, terminated by a dot (null label) & stops before the root: not terminated\\
+Example & \texttt{www.example.edu.} & \texttt{www} (resolver appends the suffix \texttt{example.edu.})\\
+Scope & names exactly one host anywhere in the Internet & meaningful only inside the local domain\\\bottomrule
+\end{tabularx}
+
+\smallskip
+\textbf{CNAME record}: an \keyword{alias} record. It maps an alias host name to its \keyword{canonical (real) host name},
+e.g.\ \texttt{[www.facebook.com, star.c10r.facebook.com, CNAME, 2362]}. \src{N_Network_Systems_compressed p58}
+\end{solution}
+\begin{examtip}Write the trailing dot in the FQDN example: that one dot shows the examiner you know the difference. Notes: \S\ref{sec:T10}.\end{examtip}
+
+% ---------------------------------------------------------------- 1(b)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q1(b)}{1}[\tier{B} \prob{50}]
+A UDP header is shown in hexadecimal: \textbf{0045 DF00 0058 0000}\\
+ Give the source and destination port numbers and the length of the data, and say whether the sender computed a checksum.
+\end{question}
+\label{q:MS2024-1b}
+\begin{solution}
+The UDP header is 8 bytes: four 16-bit fields, in order source port, destination port, total length, checksum. \src{N_Network_Systems_compressed p74}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \node[note] at (0.15,0.65) {0}; \node[note] at (4.65,0.65) {15}; \node[note] at (5.15,0.65) {16}; \node[note] at (9.65,0.65) {31};
+  \node[blk,minimum width=48mm,minimum height=8mm,text width=45mm,align=center] at (2.4,0) {Source port: \texttt{0045} $=$ \textbf{69}};
+  \node[blk,minimum width=48mm,minimum height=8mm,text width=45mm,align=center] at (7.2,0) {Dest.\ port: \texttt{DF00} $=$ \textbf{57088}};
+  \node[blk,minimum width=48mm,minimum height=8mm,text width=45mm,align=center] at (2.4,-0.8) {Total length: \texttt{0058} $=$ \textbf{88 B}};
+  \node[blkbad,minimum width=48mm,minimum height=8mm,text width=45mm,align=center] at (7.2,-0.8) {Checksum: \texttt{0000} (none)};
+\end{tikzpicture}
+\caption{The hex dump placed into the four 16-bit UDP header fields.}
+\end{figure}
+Source port $=\texttt{0045}_{16}=4\times16+5=$ \answer{69} (TFTP); destination port $=\texttt{DF00}_{16}=13\times4096+15\times256=$ \answer{57088} (ephemeral).
+Total length $=\texttt{0058}_{16}=88$ B, so data length $=88-8=$ \answer{80 bytes}. Checksum $=\texttt{0000}$ (all 0s): the sender \answer{did not calculate a checksum}.
+\end{solution}
+\begin{warningbox}The length field counts header \emph{plus} data: subtract the 8-byte header. Notes: \S\ref{sec:T17}.\end{warningbox}
+
+% ---------------------------------------------------------------- 1(c)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q1(c)}{1}[\tier{B} \prob{35}]
+In stop-and-wait every 4th packet is lost and 15 (fifteen) packets must be delivered. How many transmissions are needed in all?
+\end{question}
+\label{q:MS2024-1c}
+\begin{solution}
+\textbf{Convention:} ``every 4th packet'' counts every \emph{transmission}, retransmissions included; ACKs are never lost; nothing is sent after the last needed packet. \src{N_Network_Systems_compressed p65}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \node[note,anchor=east] at (0.3,0) {packet}; \node[note,anchor=east] at (0.3,-0.5) {tx \#};
+  \foreach \p/\s [count=\i] in {1/cellok,2/cellok,3/cellok,4/cellbad,4/cellok,5/cellok,6/cellok,7/cellbad,7/cellok,8/cellok,
+                                 9/cellok,10/cellbad,10/cellok,11/cellok,12/cellok,13/cellbad,13/cellok,14/cellok,15/cellok}{
+    \node[\s,minimum width=6mm,minimum height=6mm,font=\scriptsize] at (\i*0.66,0) {\p};
+    \node[font=\scriptsize,text=sgslate] at (\i*0.66,-0.5) {\i};
+  }
+\end{tikzpicture}
+\caption{Transmissions 4, 8, 12, 16 (red) are lost and repeated; packet 15 finally gets through on transmission 19.}
+\end{figure}
+Every 4 transmissions deliver 3 packets: $T-\lfloor T/4\rfloor \ge 15 \Rightarrow T_{\min}=19$ ($19-4=15$). Total transmissions $=$ \answer{19}.
+(Counting only first copies as lost would give $15+3=18$.)
+\end{solution}
+\begin{warningbox}Not 20: a 20th transmission would itself be lost, and it is never sent. Notes: \S\ref{sec:T14}.\end{warningbox}
+
+% ---------------------------------------------------------------- 1(d)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q1(d)}{1}[\tier{B} \prob{35}]
+A server has the domain name www.example.edu. Write the HTTP request that retrieves the document \textbf{/usr/users/doc}. The client accepts MIME version 1 and GIF or JPEG images.
+\end{question}
+\label{q:MS2024-1d}
+\begin{solution}
+Request message = request line (method SP URL SP version CR LF) + header lines (name: value) + blank line + body (absent for GET). \src{N_Network_Systems_compressed p41, p43}
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \draw[sgnavy,fill=sgtint,line width=0.6pt] (0,0.3) rectangle (7.2,-2.75);
+  \draw[sgnavy] (0,-0.25) -- (7.2,-0.25); \draw[sgnavy] (0,-2.25) -- (7.2,-2.25);
+  \node[anchor=west,font=\ttfamily\small] at (0.15,0) {GET /usr/users/doc HTTP/1.1};
+  \node[anchor=west,font=\ttfamily\small] at (0.15,-0.5) {Host: www.example.edu};
+  \node[anchor=west,font=\ttfamily\small] at (0.15,-1.0) {Accept: image/gif};
+  \node[anchor=west,font=\ttfamily\small] at (0.15,-1.5) {Accept: image/jpeg};
+  \node[anchor=west,font=\ttfamily\small] at (0.15,-2.0) {MIME-version: 1.0};
+  \node[anchor=west,note] at (0.15,-2.5) {(blank line: CR LF; no body for GET)};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (7.35,0.28) -- node[right=5pt,note]{request line} (7.35,-0.23);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (7.35,-0.27) -- node[right=5pt,note]{header lines} (7.35,-2.23);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (7.35,-2.27) -- node[right=5pt,note]{blank line} (7.35,-2.73);
+\end{tikzpicture}
+\caption{The required HTTP request: GET for the document, two \texttt{Accept} lines for GIF/JPEG, \texttt{MIME-version: 1.0}.}
+\end{figure}
+\end{solution}
+\begin{examtip}The path goes in the request line and the domain in the \texttt{Host} header. Do not write \texttt{GET www.example.edu/usr/users/doc}. Notes: \S\ref{sec:T08}.\end{examtip}
+
+% ---------------------------------------------------------------- 1(e)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q1(e)}{1}[\tier{B} \prob{36}]
+How many sequence numbers does each of these TCP segments use up? (i) SYN (ii) ACK (iii) SYN+ACK (iv) Data
+\end{question}
+\label{q:MS2024-1e}
+\begin{solution}
+TCP numbers \emph{bytes}; a control segment with SYN or FIN consumes one number, a segment carrying neither control flag nor data consumes none. \src{N_Network_Systems_compressed p77, p80}
+
+\smallskip
+{\centering\small
+\begin{tabular}{lcccc}\toprule
+\thead{Segment} & (i) SYN & (ii) pure ACK & (iii) SYN+ACK & (iv) Data ($n$ bytes)\\\midrule
+Numbers consumed & \answer{1} & \answer{0} & \answer{1} & \answer{$n$}\\\bottomrule
+\end{tabular}\par}
+\end{solution}
+\begin{examtip}FIN also consumes 1 when it carries no data. 5(a) of this paper uses exactly these rules. Notes: \S\ref{sec:T18}.\end{examtip}
+
+% =====================================================================
+\section{Question 2}
+
+% ---------------------------------------------------------------- 2(a)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q2(a)}{2.5}[\tier{B} \prob{35}]
+A browser sends an HTTP request to a web server. The server answers by opening a TCP connection, which takes 8.4 milliseconds (ms) including the RTT. The browser then asks for the site's index file, which refers to 22 (twenty two) more images that the browser must fetch. Taking all other conditions as equal, how much longer does non-persistent HTTP take than persistent HTTP?
+\end{question}
+\label{q:MS2024-2a}
+\begin{solution}
+\textbf{Given:} TCP connection setup $T_{setup}=8.4$ ms; objects $=1$ index file $+\,22$ images $=23$.\\
+\textbf{Find:} extra time of non-persistent HTTP over persistent HTTP.\\
+\keyword{Non-persistent}: a new TCP connection (3-way handshake) \emph{per object}, closed after each response. \keyword{Persistent}: one connection, kept open for all objects. \src{N_Network_Systems_compressed p39-p40}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \node[anchor=east,font=\scriptsize\bfseries] at (-0.2,0) {Non-persistent};
+  \node[anchor=east,font=\scriptsize\bfseries] at (-0.2,-1.2) {Persistent};
+  \foreach \k in {0,1,2,3}{
+    \node[cellhl,minimum width=8mm,minimum height=5mm,font=\scriptsize,anchor=west] at (\k*1.3,0) {S};
+    \node[cellok,minimum width=5mm,minimum height=5mm,font=\scriptsize,anchor=west] at (\k*1.3+0.8,0) {R};
+  }
+  \node at (5.7,0) {$\cdots$};
+  \node[cellhl,minimum width=8mm,minimum height=5mm,font=\scriptsize,anchor=west] at (6.3,0) {S};
+  \node[cellok,minimum width=5mm,minimum height=5mm,font=\scriptsize,anchor=west] at (7.1,0) {R};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (0,0.35) -- node[above=4pt,note]{23 setups + 23 request/response} (7.6,0.35);
+  \node[cellhl,minimum width=8mm,minimum height=5mm,font=\scriptsize,anchor=west] at (0,-1.2) {S};
+  \foreach \k in {0,1,2,3}{
+    \node[cellok,minimum width=5mm,minimum height=5mm,font=\scriptsize,anchor=west] at (0.8+\k*0.5,-1.2) {R};
+  }
+  \node at (3.2,-1.2) {$\cdots$};
+  \node[cellok,minimum width=5mm,minimum height=5mm,font=\scriptsize,anchor=west] at (3.6,-1.2) {R};
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (0,-1.55) -- node[below=4pt,note]{1 setup + 23 request/response} (4.1,-1.55);
+  \draw[arrbad,<->] (4.2,-1.2) -- node[elabel,above]{extra $=22\times8.4$ ms} (7.6,-1.2);
+\end{tikzpicture}
+\caption{S $=$ TCP connection setup (8.4 ms), R $=$ request + response of one object. Not to scale.}
+\end{figure}
+Request/response times are equal in both cases (``all other conditions are equal''), so only the setups differ:
+\[
+  T_{non\text{-}pers}-T_{pers} = (23-1)\times T_{setup} = 22\times 8.4\ \text{ms} = \answer{$184.8$ ms}
+\]
+\textbf{Conclusion:} non-persistent HTTP is about 185 ms slower: one extra handshake for each of the 22 images.
+\end{solution}
+\begin{warningbox}Not $23\times8.4$: the index file needs one setup in \emph{both} schemes. Notes: \S\ref{sec:T08}.\end{warningbox}
+
+% ---------------------------------------------------------------- 2(b)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q2(b)}{2.5}[\tier{C} \prob{32}]
+Describe each of these e-mail concepts: (i) the architecture of an e-mail system, (ii) the phases of mail transfer, (iii) a message access agent, (iv) MIME (Multipurpose Internet Mail Extension).
+\end{question}
+\label{q:MS2024-2b}
+\begin{solution}
+\textbf{(i) E-mail architecture.} The sender and receiver are not always on, so mail goes through intermediate \keyword{mail servers}. Three agents are used: \keyword{UA} (user agent, composes and reads), \keyword{MTA} (message transfer agent, client/server, \emph{pushes} mail with SMTP) and \keyword{MAA} (message access agent, \emph{pulls} mail with POP3/IMAP4). \src{N_Network_Systems_compressed p47-p49}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[font=\scriptsize]
+  \node[blk,minimum width=11mm] (ua1) at (0,0) {UA};
+  \node[blk,minimum width=13mm] (mc1) at (2.2,0) {MTA\\client};
+  \node[blk,minimum width=13mm] (ms1) at (4.7,0) {MTA\\server};
+  \node[blk,minimum width=13mm] (sp)  at (4.7,-1.3) {spool\\(queue)};
+  \node[blk,minimum width=13mm] (mc2) at (4.7,-2.6) {MTA\\client};
+  \node[blk,minimum width=13mm,rounded corners=6pt] (net) at (7.25,-2.6) {Internet};
+  \node[blk,minimum width=13mm] (ms2) at (9.8,-2.6) {MTA\\server};
+  \node[blk,minimum width=13mm] (mb)  at (9.8,-1.3) {mailbox};
+  \node[blk,minimum width=13mm] (as)  at (9.8,0) {MAA\\server};
+  \node[blk,minimum width=13mm] (ac)  at (12.3,0) {MAA\\client};
+  \node[blk,minimum width=11mm] (ua2) at (14.4,0) {UA};
+  \node[note,above=1mm of ua1] {Alice};  \node[note,above=1mm of ua2] {Bob};
+  \node[group,fit=(ms1)(mc2)] (g1) {}; \node[grouplabel,anchor=north] at (g1.south) {sender's mail server};
+  \node[group,fit=(as)(ms2)] (g2) {};  \node[grouplabel,anchor=north] at (g2.south) {receiver's mail server};
+  \draw[arr] (ua1) -- (mc1);
+  \draw[arrhl] (mc1) -- (ms1);
+  \draw[arr] (ms1) -- (sp); \draw[arr] (sp) -- (mc2);
+  \draw[arrhl] (mc2) -- (net);
+  \draw[arrhl] (net) -- (ms2);
+  \draw[arr] (ms2) -- (mb); \draw[arr] (mb) -- (as);
+  \draw[arrok] (as) -- (ac);
+  \draw[arr] (ac) -- (ua2);
+  \node[note,text=hl] at (2.6,-0.9) {\textbf{1} MTA (push)\\SMTP};
+  \node[note,text=hl] at (7.25,-1.75) {\textbf{2} MTA (push)\\SMTP};
+  \node[note,text=ok] at (11.85,-0.9) {\textbf{3} MAA (pull)\\POP3 / IMAP4};
+\end{tikzpicture}
+\caption{E-mail architecture: two MTA (SMTP) stages push the mail, one MAA (POP3/IMAP4) stage pulls it. Redrawn from the notes p48--p49.}
+\end{figure}
+
+\textbf{(ii) Mail transfer phases} (SMTP over TCP, port 25) \src{N_Network_Systems_compressed p50-p51}
+
+\smallskip
+{\small\zebra
+\begin{tabularx}{\linewidth}{L{30mm}Y}\toprule
+\thead{Phase} & \thead{Commands / responses}\\\midrule
+1. Connection establishment & server \texttt{220 service ready}; client \texttt{HELO}; server \texttt{250 OK}\\
+2. Mail (data) transfer & envelope \texttt{MAIL FROM:}, \texttt{RCPT TO:} (each \texttt{250 OK}); \texttt{DATA} $\to$ \texttt{354 start mail input}; header lines, blank line, body; a line with a single ``.'' ends it $\to$ \texttt{250 OK}\\
+3. Connection termination & client \texttt{QUIT}; server \texttt{221 service closed}\\\bottomrule
+\end{tabularx}}
+
+\smallskip
+\textbf{(iii) Message access agent (MAA)}: the receiver's \emph{pull} protocol that fetches mail from the mailbox to the UA (SMTP only pushes).
+\keyword{POP3} (port 110): simple, downloads the mail, delete or keep mode. \keyword{IMAP4} (port 143): mail stays on the server; folders, search, headers first, partial download.
+
+\textbf{(iv) MIME}: SMTP carries only 7-bit NVT ASCII; MIME converts non-ASCII data (other languages, images, audio, video, binaries) to 7-bit ASCII at the sender and back at the receiver.
+Headers: \texttt{MIME-Version}, \texttt{Content-Type}, \texttt{Content-Transfer-Encoding} (7bit, 8bit, binary, base64, quoted-printable), \texttt{Content-Id}, \texttt{Content-Description}.
+\end{solution}
+\begin{examtip}The architecture diagram earns most of this question's marks: draw it first, then write two lines for each of (ii)--(iv). Notes: \S\ref{sec:T09}.\end{examtip}
+
+% =====================================================================
+\section{Question 3}
+
+% ---------------------------------------------------------------- 3(a)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q3(a)}{2.5}[\tier{B} \prob{36}]
+Explain how the different packet delays are computed, and say which of them are constant and which vary. Then find the total time to transfer a 1.5MB file, given: the bandwidth is 10Mbps; after each data packet the sender waits one RTT before sending the next; the RTT is 80 ms; a packet carries 1 KB of data; and an initial 2$\times$RTT of handshaking precedes the data.
+\end{question}
+\label{q:MS2024-3a}
+\begin{solution}
+\textbf{Delay types} \src{N_Network_Systems_compressed p91}
+
+\smallskip
+{\small\zebra
+\begin{tabularx}{\linewidth}{L{33mm}YL{30mm}L{15mm}}\toprule
+\thead{Delay} & \thead{Meaning} & \thead{Formula} & \thead{Nature}\\\midrule
+Processing $d_{proc}$ & examine header, check errors, route & fixed by router ($\mu$s) & constant\\
+Queuing $d_{queue}$ & wait in the output queue & depends on traffic & \textbf{variable}\\
+Transmission $d_{trans}$ & put all bits on the link & $L/R$ & constant\\
+Propagation $d_{prop}$ & a bit crosses the medium & $D/S$ & constant\\\bottomrule
+\end{tabularx}}
+\[
+  d_{total}=d_{proc}+d_{queue}+d_{trans}+d_{prop},\qquad RTT = 2\,d_{prop}
+\]
+For a given packet size and link, transmission, propagation and processing delays are \keyword{constant}; queuing delay is \keyword{variable} (it changes with load).
+
+\medskip
+\textbf{Numerical.} \textbf{Assumption:} sizes binary (1 KB $=1024$ B, 1.5 MB $=1.5\times1024$ KB), data rate decimal ($R=10\times10^6$ bit/s).\\
+\textbf{Given:} $R=10$ Mbps, $RTT=80$ ms, packet $=1$ KB, handshake $=2\,RTT$. \textbf{Find:} total transfer time.
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=1cm,y=1cm,font=\scriptsize]
+  \draw[arr] (0,-0.45) -- (11.6,-0.45) node[right,note]{time};
+  \node[blkhl,minimum width=24mm,minimum height=6mm,anchor=west] at (0,0) {handshake $2\,RTT$};
+  \node[blkok,minimum width=6mm,minimum height=6mm,inner sep=1pt,anchor=west] at (2.5,0) {P1};
+  \node[blk,minimum width=16mm,minimum height=6mm,anchor=west] at (3.1,0) {wait $RTT$};
+  \node[blkok,minimum width=6mm,minimum height=6mm,inner sep=1pt,anchor=west] at (4.8,0) {P2};
+  \node[blk,minimum width=16mm,minimum height=6mm,anchor=west] at (5.4,0) {wait $RTT$};
+  \node at (7.45,0) {$\cdots$};
+  \node[blkok,minimum width=10mm,minimum height=6mm,inner sep=1pt,anchor=west] at (8.0,0) {P1536};
+  \node[blk,minimum width=14mm,minimum height=6mm,anchor=west] at (9.1,0) {$RTT/2$};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (2.5,0.4) -- node[above=4pt,note]{1536 packets, $T_t=0.8192$ ms each; 1535 waits of 80 ms} (9.05,0.4);
+\end{tikzpicture}
+\caption{Timeline of the transfer (not to scale): the last packet still needs $RTT/2$ to reach the receiver.}
+\end{figure}
+\begin{align*}
+  N &= \tfrac{1.5\times1024\ \text{KB}}{1\ \text{KB}} = 1536 \text{ packets},\quad
+  T_{t} = \tfrac{L}{R}=\tfrac{1024\times8}{10\times10^{6}} = 0.8192\ \text{ms},\quad N\,T_t = 1.2583\ \text{s}\\
+  T_{total} &= 2\,RTT + N\,T_t + (N-1)\,RTT + \tfrac{RTT}{2}\\
+  &= 0.16 + 1.2583 + 1535\times0.08 + 0.04 = \answer{$\approx 124.26$ s}
+\end{align*}
+\textbf{Other conventions:} fully decimal (1 KB $=1000$ B, $N=1500$): $121.32$ s. Waiting an RTT after the last packet too: $2RTT+N(T_t+RTT)=124.30$ s.
+\end{solution}
+\begin{examtip}State the unit assumption on the first line. The 1535 RTT waits are 99\% of the answer. Notes: \S\ref{sec:T11}.\end{examtip}
+
+% ---------------------------------------------------------------- 3(b)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q3(b)}{2.5}[\tier{B} \prob{46}]
+Draw the TCP header format and briefly describe each field.
+\end{question}
+\label{q:MS2024-3b}
+\begin{solution}
+A TCP \keyword{segment} = header (20--60 bytes) + data. The header is 20 bytes fixed plus up to 40 bytes of options. \src{N_Network_Systems_compressed p78}
+\begin{figure}[H]\centering
+\begin{tikzpicture}[x=4.3mm,y=10.5mm]
+  \node[note] at (0.5,0.35) {0}; \node[note] at (15.5,0.35) {15}; \node[note] at (16.5,0.35) {16}; \node[note] at (31.5,0.35) {31};
+  \foreach \a/\b/\r/\t in {0/16/0/{Source port address (16)}, 16/32/0/{Destination port address (16)},
+                           0/32/1/{Sequence number (32)}, 0/32/2/{Acknowledgment number (32)},
+                           0/4/3/{HLEN\\(4)}, 4/10/3/{Reserved\\(6)}, 16/32/3/{Window size (16)},
+                           0/16/4/{Checksum (16)}, 16/32/4/{Urgent pointer (16)}}{
+    \draw[sgnavy,fill=sgtint,line width=0.6pt] (\a,-\r) rectangle (\b,-\r-1);
+    \node[font=\scriptsize,align=center] at ({(\a+\b)/2},{-\r-0.5}) {\t};
+  }
+  \foreach \x/\y/\z [count=\i from 0] in {U/R/G, A/C/K, P/S/H, R/S/T, S/Y/N, F/I/N}{
+    \draw[sgnavy,fill=hl!20,line width=0.6pt] (10+\i,-3) rectangle (11+\i,-4);
+    \node[font=\scriptsize,align=center,inner sep=0pt] at (10.5+\i,-3.5) {\x\\[-3pt]\y\\[-3pt]\z};
+  }
+  \draw[sgnavy,fill=white,line width=0.6pt] (0,-5) rectangle (32,-6);
+  \node[font=\scriptsize] at (16,-5.5) {Options and padding (0--40 bytes)};
+  \draw[decorate,decoration={brace,amplitude=4pt}] (-0.4,-5) -- node[left=5pt,note]{20 B fixed} (-0.4,0);
+  \draw[decorate,decoration={brace,amplitude=4pt}] (-0.4,-6) -- node[left=5pt,note]{options} (-0.4,-5.05);
+\end{tikzpicture}
+\caption{TCP header (rows of 32 bits), as drawn in the notes p78: HLEN 4 bits, reserved 6 bits, 6 one-bit flags.}
+\end{figure}
+\begin{itemize}
+  \item \keyword{Source / destination port} (16 + 16): identify the sending and receiving processes.
+  \item \keyword{Sequence number} (32): number of the first data byte in this segment (a SYN carries the ISN).
+  \item \keyword{Acknowledgment number} (32): next byte expected from the other side; valid when ACK $=1$.
+  \item \keyword{HLEN} (4): header length in 4-byte words (5--15, i.e.\ 20--60 B). \keyword{Reserved} (6): future use.
+  \item \keyword{Flags} (6): URG urgent pointer valid; ACK acknowledgment valid; PSH push; RST reset; SYN synchronise sequence numbers; FIN terminate.
+  \item \keyword{Window size} (16): receiver window \texttt{rwnd} in bytes, for flow control. \keyword{Checksum} (16): pseudo-header + header + data; mandatory.
+  \item \keyword{Urgent pointer} (16): valid when URG $=1$; offset from the sequence number where urgent data ends, so the urgent bytes are seq \ldots\ seq $+$ UP $-1$.
+  \item \keyword{Options} (0--40 B): e.g.\ MSS, window scale, timestamp, SACK, plus padding.
+\end{itemize}
+\end{solution}
+\begin{warningbox}Draw the bit scale (0, 15, 16, 31) and the field widths: they carry the marks. HLEN counts 4-byte words: HLEN $=5$ means 20 bytes. Notes: \S\ref{sec:T19}.\end{warningbox}
+
+% =====================================================================
+\section{Question 4}
+
+% ---------------------------------------------------------------- 4(a)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q4(a)}{2.5}[\tier{B} \prob{36}]
+Derive how the window size relates to the sequence-number space in Go-Back-N (GBN) and Selective Repeat (SR). With three-bit sequence numbers, find the window size for each. Using a neat diagram for each, show what goes wrong when the window exceeds the value you found.
+\end{question}
+\label{q:MS2024-4a}
+\begin{solution}
+With $m$-bit sequence numbers the numbers are $0,1,\dots,2^m-1$ and then they wrap (modulo $2^m$). \src{N_Network_Systems_compressed p68, p70-p71}
+
+\textbf{Derivation} (worst case: a whole window arrives, every ACK is lost, the sender times out and resends frame 0):
+\begin{itemize}
+  \item \keyword{GBN} ($W_r=1$): after frames $0,\dots,W_s-1$ the receiver expects $W_s \bmod 2^m$. The resent frame 0 must not match it, so $W_s<2^m$: \quad $W_s \le 2^m-1$.
+  \item \keyword{SR} ($W_r=W_s=W$): after frames $0,\dots,W-1$ the receiver window is $W,\dots,2W-1 \pmod{2^m}$. Old and new numbers must not overlap: $2W\le 2^m$: \quad $W \le 2^{m-1}$.
+\end{itemize}
+\textbf{For $m=3$} (numbers 0--7):\quad GBN: $W_s = 2^3-1=$ \answer{7} ($W_r=1$);\quad SR: $W_s=W_r=2^{3-1}=$ \answer{4}.
+
+\textbf{Window too large} (the diagrams to write; frame 0 resent after all ACKs are lost):
+
+\smallskip
+{\centering
+% ---- GBN W=8 (wrong)
+\begin{tikzpicture}[x=1.1cm,y=-0.95cm,font=\scriptsize]
+  \path[use as bounding box] (-1.4,-0.55) rectangle (4.5,5.0);
+  \node[font=\scriptsize\bfseries,text=bad] at (1.8,-0.35) {(b) GBN, $W_s=8=2^3$: fails};
+  \node[font=\scriptsize\bfseries] at (0,0.05) {Sender}; \node[font=\scriptsize\bfseries] at (3.6,0.05) {Receiver};
+  \draw[lifeline] (0,0.3) -- (0,3.6); \draw[lifeline] (3.6,0.3) -- (3.6,3.6);
+  \foreach \y in {0.5,0.7,0.9} \draw[msg] (0,\y) -- (3.6,\y+0.45);
+  \node[elabel,anchor=south] at (1.8,0.55) {frames 0--7};
+  \draw[msglost] (3.6,1.6) -- (2.0,1.95); \draw[msglost] (3.6,1.8) -- (2.0,2.15);
+  \node[bad,font=\bfseries] at (1.85,2.05) {$\times$}; \node[note,text=bad] at (2.75,2.4) {ACKs lost};
+  \draw[timeout] (-0.15,0.5) -- node[left=4pt,note,text=bad]{timeout} (-0.15,2.6);
+  \draw[msg] (0,2.7) -- node[elabel,above,sloped]{frame 0 resent} (3.6,3.2);
+  \node[note,text=bad,anchor=north] at (1.8,3.3) {expects 0\\$\Rightarrow$ accepted as NEW};
+  \foreach \v [count=\i from 0] in {0,1,2,3,4,5,6,7,0,1,2}{
+    \pgfmathtruncatemacro{\w}{\i==8 ? 1 : 0}
+    \ifnum\w=1 \node[cellbad,minimum size=5mm,font=\scriptsize] at (-0.7+\i*0.49,4.45) {\v};
+    \else \node[celldim,minimum size=5mm,font=\scriptsize] at (-0.7+\i*0.49,4.45) {\v};\fi
+  }
+  \node[note] at (1.75,4.95) {receiver window wrapped to 0 (duplicate!)};
+\end{tikzpicture}\hspace{8mm}%
+% ---- SR W=5 (wrong)
+\begin{tikzpicture}[x=1.1cm,y=-0.95cm,font=\scriptsize]
+  \path[use as bounding box] (-1.4,-0.55) rectangle (4.5,5.0);
+  \node[font=\scriptsize\bfseries,text=bad] at (1.8,-0.35) {(d) SR, $W=5>2^{3-1}$: fails};
+  \node[font=\scriptsize\bfseries] at (0,0.05) {Sender}; \node[font=\scriptsize\bfseries] at (3.6,0.05) {Receiver};
+  \draw[lifeline] (0,0.3) -- (0,3.6); \draw[lifeline] (3.6,0.3) -- (3.6,3.6);
+  \foreach \y in {0.5,0.7,0.9} \draw[msg] (0,\y) -- (3.6,\y+0.45);
+  \node[elabel,anchor=south] at (1.8,0.55) {frames 0--4};
+  \draw[msglost] (3.6,1.6) -- (2.0,1.95); \draw[msglost] (3.6,1.8) -- (2.0,2.15);
+  \node[bad,font=\bfseries] at (1.85,2.05) {$\times$}; \node[note,text=bad] at (2.75,2.4) {ACKs lost};
+  \draw[timeout] (-0.15,0.5) -- node[left=4pt,note,text=bad]{timeout} (-0.15,2.6);
+  \draw[msg] (0,2.7) -- node[elabel,above,sloped]{frame 0 resent} (3.6,3.2);
+  \node[note,text=bad,anchor=north] at (1.8,3.3) {0 inside window\\$\Rightarrow$ stored as NEW};
+  \foreach \v [count=\i from 0] in {0,1,2,3,4,5,6,7,0,1,2}{
+    \pgfmathtruncatemacro{\w}{(\i>4 && \i<10) ? 1 : 0}
+    \pgfmathtruncatemacro{\z}{\i==8 ? 1 : 0}
+    \ifnum\z=1 \node[cellbad,minimum size=5mm,font=\scriptsize] at (-0.7+\i*0.49,4.45) {\v};
+    \else\ifnum\w=1 \node[cellhl,minimum size=5mm,font=\scriptsize] at (-0.7+\i*0.49,4.45) {\v};
+    \else \node[celldim,minimum size=5mm,font=\scriptsize] at (-0.7+\i*0.49,4.45) {\v};\fi\fi
+  }
+  \node[note] at (1.75,4.95) {receiver window $=\{5,6,7,0,1\}$ contains 0};
+\end{tikzpicture}
+\captionof{figure}{$m=3$, windows one larger than allowed: the old frame 0 is wrongly delivered as new data. Same construction as the notes p68 and p71 (drawn there for $m=2$).}\par}
+
+\smallskip
+\textbf{Calculated windows} (one line each): (a) GBN, $W_s=7$: after 0--6 the receiver expects 7, so the resent 0 is \keyword{discarded}. (c) SR, $W=4$: the receiver window is $\{4,5,6,7\}$, 0 is outside it, so it is \keyword{discarded}.
+
+\textbf{Conclusion:} a window larger than $2^m-1$ (GBN) or $2^{m-1}$ (SR) makes an old duplicate look like a new frame, so the receiver delivers wrong data.
+\end{solution}
+\begin{examtip}Write (b) and (d) with the receiver window marked on the sequence-number strip; the full four-case picture (correct and too-large windows) is in the notes \S\ref{sec:T16}, \S\ref{sec:T15} and the instructor's notes p68, p71.\end{examtip}
+
+% ---------------------------------------------------------------- 4(b)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q4(b)}{2.5}[\tier{A} \prob{79}]
+Node A must send a message of nine (9) packets to node B with a sliding window of size 3 and Go-Back-N (GBN) recovery. All packets are available at once. Every 5th packet that A transmits is lost, but no acknowledgement from B is ever lost. How many packets does A transmit to deliver the message?
+\end{question}
+\label{q:MS2024-4b}
+\begin{solution}
+\textbf{Given:} $N=9$ packets, $W_s=3$, every 5th \emph{transmission} lost, ACKs never lost.\\
+\textbf{Rule (GBN)} \src{N_Network_Systems_compressed p66-p67}: the receiver accepts only the next in-order packet and discards later ones; on timeout the sender resends the lost packet \emph{and every packet sent after it} (the whole outstanding window).
+The storyboard in Figure~\ref{fig:ms24-4b} shows the four rounds.
+\begin{tabularx}{\linewidth}{L{22mm}Y}\toprule
+\thead{Round} & \thead{Transmissions (lost one in brackets)}\\\midrule
+1 & 1, 2, 3, 4, [5], 6, 7 \quad (tx 1--7)\\
+2 & 5, 6, [7], 8, 9 \quad (tx 8--12)\\
+3 & 7, 8, [9] \quad (tx 13--15)\\
+4 & 9 \quad (tx 16)\\\bottomrule
+\end{tabularx}
+\[
+  \text{Total} = 7+5+3+1 = \answer{16 \text{ transmissions}}
+\]
+\textbf{Convention:} every transmission counts toward ``every 5th'', ACKs are never lost and return fast enough that the window slides after each accepted packet.
+\end{solution}
+\begin{warningbox}Count \emph{every} transmission, including the discarded ones (6, 7, 8, 9 in the grey cells); the loss counter runs over retransmissions too. Notes: \S\ref{sec:T15}.\end{warningbox}
+\stepanim{4}{2}{0.48\linewidth}{GBN, $W_s=3$, every 5th transmission lost. Green: accepted; red: lost; grey: discarded (out of order). The number under each cell is the transmission count.\label{fig:ms24-4b}}{%
+  \path[use as bounding box] (-0.6,-1.3) rectangle (7.0,0.75);
+  \pgfmathtruncatemacro{\lim}{\f==1 ? 7 : (\f==2 ? 12 : (\f==3 ? 15 : 16))}
+  \node[font=\scriptsize,text=sgslate,anchor=east] at (0.2,0) {pkt};
+  \node[font=\scriptsize,text=sgslate,anchor=east] at (0.2,-0.4) {tx};
+  \foreach \p/\s [count=\i] in {1/cellok,2/cellok,3/cellok,4/cellok,5/cellbad,6/celldim,7/celldim,5/cellok,
+                                 6/cellok,7/cellbad,8/celldim,9/celldim,7/cellok,8/cellok,9/cellbad,9/cellok}{
+    \ifnum\i>\lim
+      \node[cell,minimum size=4mm,draw=sggrid] at (\i*0.42,0) {};
+    \else
+      \node[\s,minimum size=4mm,font=\scriptsize] at (\i*0.42,0) {\p};
+    \fi
+    \node[font=\scriptsize,text=sgslate] at (\i*0.42,-0.4) {\i};
+  }
+  \ifcase\f\or
+    \node[note] at (3.4,-0.95) {tx 5 (pkt 5) lost; 6, 7 discarded; timeout};
+  \or
+    \node[note] at (3.4,-0.95) {resend 5, 6, 7; tx 10 (pkt 7) lost; 8, 9 discarded};
+  \or
+    \node[note] at (3.4,-0.95) {resend 7, 8, 9; tx 15 (pkt 9) lost};
+  \or
+    \node[note,text=ok] at (3.4,-0.95) {resend 9: all 9 delivered after 16 transmissions};
+  \fi
+}
+
+% =====================================================================
+\section{Question 5}
+
+% ---------------------------------------------------------------- 5(a)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q5(a)}{2.5}[\tier{B} \prob{36}]
+A TCP connection starts with initial sequence number 2171. The client opens it, sends three segments (the second carrying 1000 bytes of data) and then closes the connection. Give the sequence number of each segment the client sends: (i) the SYN segment (ii) the data segment (iii) the FIN segment.
+\end{question}
+\label{q:MS2024-5a}
+\begin{solution}
+\textbf{Interpretation:} the three client segments are SYN, data (1000 B) and FIN; the pure ACK of the handshake carries no data and consumes no number.\\
+\textbf{Rules} \src{N_Network_Systems_compressed p77, p80}: SYN and FIN each consume 1 sequence number; a data segment consumes one number per byte; the sequence number of a segment is the number of its first byte.
+\begin{figure}[H]\centering
+\begin{tikzpicture}[yscale=-0.8]
+  \node[blk] at (0,0) {Client}; \node[blk] at (7,0) {Server};
+  \draw[lifeline] (0,0.4) -- (0,6.0); \draw[lifeline] (7,0.4) -- (7,6.0);
+  \draw[msg] (0,1.0) -- (7,1.6);            \node[elabel] at (3.5,0.85) {SYN, seq $=2171$};
+  \draw[msgok] (7,2.0) -- (0,2.6);          \node[elabel,text=ok] at (3.5,1.85) {SYN+ACK, ack $=2172$};
+  \draw[msg,dashed] (0,3.0) -- (7,3.6);     \node[elabel] at (3.5,2.85) {ACK, seq $=2172$ (0 used)};
+  \draw[msg,line width=1.2pt] (0,4.0) -- (7,4.6); \node[elabel] at (3.5,3.85) {data, seq $=2172$};
+  \draw[msg] (0,5.0) -- (7,5.6);            \node[elabel] at (3.5,4.85) {FIN, seq $=3172$};
+  \node[note,anchor=east] at (-0.2,1.0) {ISN};
+  \node[note,anchor=east] at (-0.2,4.0) {$+1$};
+  \node[note,anchor=east] at (-0.2,5.0) {$+1000$};
+\end{tikzpicture}
+\caption{Client-side sequence numbers (time runs downward).}
+\end{figure}
+\begin{align*}
+  \text{(i) SYN} &: \text{seq} = \text{ISN} = \answer{2171}\\
+  \text{(ii) Data} &: \text{seq} = 2171+1 = \answer{2172}\quad(\text{bytes } 2172\text{ to } 2172+1000-1=3171)\\
+  \text{(iii) FIN} &: \text{seq} = 2172+1000 = \answer{3172}
+\end{align*}
+\end{solution}
+\begin{examtip}The SYN's ``+1'' is the point of the question: data starts at ISN$+1$, never at the ISN itself. Notes: \S\ref{sec:T18}.\end{examtip}
+
+% ---------------------------------------------------------------- 5(b)
+\needspace{8\baselineskip}
+\begin{question}{2024 Midsem Q5(b)}{2.5}[\tier{C} \prob{34}]
+List the TCP states and give the TCP state transition diagram.
+\end{question}
+\label{q:MS2024-5b}
+\begin{solution}
+\textbf{TCP states} \src{N_Network_Systems_compressed p85}
+
+\smallskip
+{\small\zebra
+\begin{tabularx}{\linewidth}{L{23mm}YL{23mm}Y}\toprule
+\thead{State} & \thead{Meaning} & \thead{State} & \thead{Meaning}\\\midrule
+CLOSED & no connection & FIN-WAIT-1 & first FIN sent; wait for ACK\\
+LISTEN & passive open; wait for SYN & FIN-WAIT-2 & FIN acked; wait for second FIN\\
+SYN-SENT & SYN sent; wait for ACK & CLOSE-WAIT & FIN received, ACKed; wait for app\\
+SYN-RCVD & SYN+ACK sent; wait for ACK & TIME-WAIT & 2nd FIN ACKed; wait 2MSL\\
+ESTABLISHED & data transfer & LAST-ACK & 2nd FIN sent; wait for ACK\\
+CLOSING & both close simultaneously & & \\\bottomrule
+\end{tabularx}}
+
+\begin{figure}[H]\centering
+\begin{tikzpicture}[font=\scriptsize,y=1.45cm]
+  \node[font=\scriptsize\bfseries,text=sgnavy] at (0,0.7) {Client (active open)};
+  \node[font=\scriptsize\bfseries,text=sgteal] at (7.6,0.7) {Server (passive open)};
+  \foreach \n/\t [count=\i from 0] in {c0/CLOSED,c1/SYN-SENT,c2/ESTABLISHED,c3/FIN-WAIT-1,c4/FIN-WAIT-2,c5/TIME-WAIT}{
+    \node[smstate,minimum width=24mm] (\n) at (0,-\i) {\t};
+  }
+  \foreach \n/\t [count=\i from 0] in {s0/CLOSED,s1/LISTEN,s2/SYN-RCVD,s3/ESTABLISHED,s4/CLOSE-WAIT,s5/LAST-ACK}{
+    \node[smstate,minimum width=24mm,draw=sgteal] (\n) at (7.6,-\i) {\t};
+  }
+  \draw[arr] (c0) -- node[elabel,right=3pt]{active open / SYN} (c1);
+  \draw[arr] (c1) -- node[elabel,right=3pt]{SYN+ACK / ACK} (c2);
+  \draw[arr] (c2) -- node[elabel,right=3pt]{close / FIN} (c3);
+  \draw[arr] (c3) -- node[elabel,right=3pt]{ACK / --} (c4);
+  \draw[arr] (c4) -- node[elabel,right=3pt]{FIN / ACK} (c5);
+  \draw[arr] (c5.west) -- ++(-0.6,0) |- (c0.west);
+  \node[elabel,anchor=east,align=center] at (-1.95,-2.5) {timeout\\(2MSL) / --};
+  \draw[arr,dashed,color=sgteal] (s0) -- node[elabel,left=4pt]{passive open / --} (s1);
+  \draw[arr,dashed,color=sgteal] (s1) -- node[elabel,left=4pt]{SYN / SYN+ACK} (s2);
+  \draw[arr,dashed,color=sgteal] (s2) -- node[elabel,left=4pt]{ACK / --} (s3);
+  \draw[arr,dashed,color=sgteal] (s3) -- node[elabel,left=4pt]{FIN / ACK} (s4);
+  \draw[arr,dashed,color=sgteal] (s4) -- node[elabel,left=4pt]{close / FIN} (s5);
+  \draw[arr,dashed,color=sgteal] (s5.east) -- ++(0.6,0) |- (s0.east);
+  \node[elabel,anchor=west,text=sgteal] at (9.55,-2.5) {ACK / --};
+\end{tikzpicture}
+\caption{TCP state transition diagram with half-close termination (label = event\,/\,segment sent). Solid: client; dashed: server. Redrawn from the notes p85.}
+\end{figure}
+\textbf{Conclusion:} the active closer (client) passes FIN-WAIT-1, FIN-WAIT-2, TIME-WAIT; the passive closer (server) passes CLOSE-WAIT, LAST-ACK.
+\end{solution}
+\begin{examtip}Label every arrow ``event / action'' (e.g.\ SYN / SYN+ACK); unlabelled boxes get half marks. Notes: \S\ref{sec:T21}.\end{examtip}

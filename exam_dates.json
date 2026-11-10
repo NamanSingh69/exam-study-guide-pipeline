@@ -1,0 +1,15 @@
+{
+  "_note": "Exam dates per subject and scope, used by the orchestrator to run subjects soonest-first (3-4 per session) and to pick the scope when a request names none. Fill each date as \"YYYY-MM-DD\" when the timetable is out; leave null when unknown (null subjects run last, alphabetically). Keys are the subject folder names; add a new folder's name the same way.",
+  "AI": {"midsem": null, "endsem": null},
+  "CI": {"midsem": null, "endsem": null},
+  "CN": {"midsem": null, "endsem": null},
+  "DAA": {"midsem": null, "endsem": null},
+  "DMDW": {"midsem": null, "endsem": null},
+  "DOS": {"midsem": null, "endsem": null},
+  "EE": {"midsem": null, "endsem": null},
+  "HPC": {"midsem": null, "endsem": null},
+  "IPA": {"midsem": null, "endsem": null},
+  "ML": {"midsem": null, "endsem": null},
+  "SE": {"midsem": null, "endsem": null},
+  "SVP": {"midsem": null, "endsem": null}
+}

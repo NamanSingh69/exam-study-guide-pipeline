@@ -1,0 +1,152 @@
+\chapter{Mock paper: a predicted Midsem}
+\label{ch:mock}
+A full paper in the exact 2025 pattern \src{PYQM_2025_Midsem_1_Network_Systems_1 p1}, built from the tier A and B ideas of Chapter~\ref{ch:iq} with fresh numbers, plus one wildcard. Sit it in 90 minutes with the book closed, then mark it with the key and the marking hints that follow.
+
+\begin{center}
+\rule{\linewidth}{0.6pt}\\[2pt]
+{\small Subject Name: Network Systems \& Code: XX3003 \hfill Branch(s): all}\\[4pt]
+{\large\bfseries AUTUMN MID SEMESTER EXAMINATION (MOCK, predicted paper)}\\[2pt]
+School of Engineering\\
+Example University\\[2pt]
+{\bfseries Network Systems [XX 3003]}\\[4pt]
+{\small Time: 1\,\textonehalf\ Hours \hfill Full Mark: 20}\\
+\rule{\linewidth}{0.6pt}
+\end{center}
+{\small\itshape Answer any four questions, including question No.~1, which is compulsory. Marks are shown in the margin. Give all parts of a question in one place.}
+
+\medskip
+\begin{enumerate}[label=\textbf{\arabic*.},leftmargin=7mm,itemsep=6pt]
+\item Answer all the questions. \hfill\mbox{[1 Mark $\times$ 5]}
+\begin{enumerate}[label=\alph*),leftmargin=6mm,itemsep=2pt]
+\item Hosts A and B are 1,200 km apart on a single 5 Mbps link with propagation speed $2\times10^{8}$ m/s. How long does a 2,500-byte packet take to reach B from A? (Ignore processing and queuing delays.)
+\item Is \texttt{student.example} a FQDN or a PQDN? Which resource-record type holds the IPv4 address of a host, and which holds the canonical name of an alias?
+\item The SYN segment of a TCP client carries sequence number 9,001. The client then sends two data segments of 300 and 700 bytes, followed by a FIN. Find the sequence numbers of the two data segments and of the FIN. How many sequence numbers does a pure ACK consume?
+\item The contents of a UDP header in hexadecimal are \texttt{0035 C0A8 0034 3A5F}. Find the source and destination port numbers and the length of the data. Why does this application use UDP rather than TCP?
+\item A file of $4\times10^{6}$ bytes crosses three links in series with rates 20 Mbps, 5 Mbps and 10 Mbps. What is the end-to-end throughput, and how long does the transfer take? (Ignore propagation and processing delays.)
+\end{enumerate}
+
+\item \begin{enumerate}[label=(\alph*),leftmargin=6mm,itemsep=2pt]
+\item A student on a hostel network opens \texttt{www.nptel.ac.in} for the first time. Explain, with a diagram, how the name is resolved to an IP address using \emph{recursive} resolution. What changes when the same name is looked up again a minute later? \hfill\mbox{[3 Marks]}
+\item Station A sends a message of 12 packets to station B using a sliding window of size 4 and Go-Back-N error control. All packets are ready at the start. If every 7th packet that A transmits is lost (no ACK is ever lost), how many packets does A transmit in total? Explain with a transition diagram. \hfill\mbox{[2 Marks]}
+\end{enumerate}
+
+\item \begin{enumerate}[label=(\alph*),leftmargin=6mm,itemsep=2pt]
+\item In a stop-and-wait ARQ system the bandwidth of the line is 8 Mbps and 1 bit takes 24 ms to make a round trip. Calculate the bandwidth-delay product. If data packets are 4,000 bits long, calculate the link utilisation for stop-and-wait. If a protocol may send up to 30 packets before waiting for acknowledgments, calculate the utilisation. \hfill\mbox{[3 Marks]}
+\item A web page has a base HTML file and 5 images, all on the same server, and the RTT is 20 ms. Ignoring transmission times, how long does the whole page take with non-persistent HTTP and with persistent HTTP using pipelining? Draw the timeline for the persistent case. \hfill\mbox{[2 Marks]}
+\end{enumerate}
+
+\item \begin{enumerate}[label=(\alph*),leftmargin=6mm,itemsep=2pt]
+\item A client with initial sequence number 3,000 connects to a server with initial sequence number 7,500. The client sends 400 bytes, the server replies with 600 bytes, and then the client closes the connection. Draw the timing diagram of connection establishment, data transfer and connection termination, showing the flags, sequence number and acknowledgment number of every segment. \hfill\mbox{[3 Marks]}
+\item Six offices are to be connected in a full mesh. How many links and how many I/O ports are needed? Give one advantage of a mesh over a star, and one of a star over a mesh. \hfill\mbox{[2 Marks]}
+\end{enumerate}
+
+\item Write down short notes on the following topics (any two). \hfill\mbox{[2.5 Marks $\times$ 2]}
+\begin{enumerate}[label=(\roman*),leftmargin=8mm,itemsep=2pt]
+\item TCP congestion control
+\item Simple Mail Transfer Protocol: commands and phases
+\item TCP segment header format
+\end{enumerate}
+\end{enumerate}
+\begin{center}\rule{0.4\linewidth}{0.4pt}\end{center}
+
+% =====================================================================
+\clearpage
+\section*{Answer key}
+Compact answers: final values and the points that earn the marks. Full model answers are in Chapter~\ref{ch:iq} (page numbers given). All numbers are checked in \texttt{work/midsem/checks/mock\_*.py}.
+
+\subsection*{Q1 (compulsory, 5 $\times$ 1)}
+\begin{enumerate}[label=\textbf{(\alph*)},leftmargin=8mm]
+\item $d_{trans}=L/R=20000/(5\times10^{6})=4$ ms; $d_{prop}=D/S=1.2\times10^{6}/(2\times10^{8})=6$ ms; total $=\answer{10 ms}$. \hfill (page~\pageref{iq:C01})\\
+\textit{Marking:} formula 0.5, value with units 0.5.
+\item \answer{PQDN}: it does not end at the root (no trailing dot), so the resolver appends a suffix. IPv4 address: \answer{A} record; canonical name: \answer{CNAME} record. \hfill (page~\pageref{iq:C17})\\
+\textit{Marking:} classification with reason 0.5, the two record types 0.5.
+\item SYN consumes 9001, so data 1 has seq \answer{9002} (bytes 9002--9301), data 2 has seq \answer{9302} (bytes 9302--10001), FIN has seq \answer{10002}. A pure ACK consumes \answer{0}. \hfill (page~\pageref{iq:C29})\\
+\textit{Marking:} three sequence numbers 0.5, ACK rule 0.5.
+\item Source port $\texttt{0035}_{16}=\answer{53}$ (DNS server), destination $\texttt{C0A8}_{16}=\answer{49320}$ (client), total length $\texttt{0034}_{16}=52$ so data $=\answer{44 bytes}$; checksum $\neq0$ (computed). DNS uses UDP because a query is one short request and reply: no handshake delay, low overhead (8-byte header), and the resolver simply retries. \hfill (pages~\pageref{iq:C28}, \pageref{iq:C19})\\
+\textit{Marking:} decoding 0.5, reason 0.5.
+\item Throughput is set by the \keyword{bottleneck} link: $\min(20,5,10)=\answer{5 Mbps}$. Time $=32\times10^{6}/5\times10^{6}=\answer{6.4 s}$. \hfill (wildcard, page~\pageref{iq:C03})\\
+\textit{Marking:} bottleneck rule 0.5, time 0.5.
+\end{enumerate}
+
+\subsection*{Q2}
+\textbf{(a) Recursive DNS resolution} [3] \hfill (page~\pageref{iq:C18})
+\begin{itemize}
+\item Host's resolver checks its cache, then sends a recursive query (UDP port 53) to the local DNS server.
+\item Local server $\to$ root server $\to$ \texttt{.in} TLD server $\to$ authoritative server of \texttt{nptel.ac.in}: in recursive mode \emph{each} server forwards the query on behalf of the previous one.
+\item The authoritative server returns the \keyword{A record}; the answer travels back along the chain to the local server and the host.
+\item \textbf{Second lookup:} the local server (and the host) have \keyword{cached} the record for its TTL, so the answer comes back immediately with no queries to root, TLD or authoritative servers.
+\end{itemize}
+\textit{Marking:} diagram with numbered arrows 1.5; steps with the terms root, TLD, authoritative, A record 1; caching 0.5.
+
+\textbf{(b) Go-Back-N, 12 packets, window 4, every 7th transmission lost} [2] \hfill (page~\pageref{iq:C25})\\
+Transmissions 1--6 deliver packets 1--6; the 7th (packet 7) is lost and 8, 9, 10 are discarded; timeout, resend 7, 8, 9, then the 14th transmission (packet 10) is lost and 11, 12 are discarded; timeout, resend 10, 11, 12. Total $=10+6+3=\answer{19 transmissions}$.
+\begin{figure}[H]\centering
+\begin{tikzpicture}
+  \foreach \p/\s [count=\i] in {1/cellok,2/cellok,3/cellok,4/cellok,5/cellok,6/cellok,7/cellbad,8/celldim,9/celldim,10/celldim,7/cellok,8/cellok,9/cellok,10/cellbad,11/celldim,12/celldim,10/cellok,11/cellok,12/cellok}{
+    \node[\s,minimum width=6mm,minimum height=6mm,font=\scriptsize] at (\i*0.72,0) {\p};
+    \node[font=\scriptsize,text=muted] at (\i*0.72,-0.52) {\i};}
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (5.0,-0.75) -- node[below=5pt,note,text=bad]{timeout: go back to 7} (7.5,-0.75);
+  \draw[decorate,decoration={brace,amplitude=4pt,mirror}] (10.1,-0.75) -- node[below=5pt,note,text=bad]{timeout: go back to 10} (11.9,-0.75);
+\end{tikzpicture}
+\caption{Answer to Q2(b): cell $=$ one transmission (small number), packet inside; red lost, grey discarded, green delivered.}\end{figure}
+\textit{Marking:} assumptions and diagram 1, correct count 1.
+
+\subsection*{Q3}
+\textbf{(a) Stop-and-wait utilisation} [3] \hfill (page~\pageref{iq:C23})\\
+BDP $=8\times10^{6}\times0.024=\answer{192,000 bits}$. $d_{trans}=4000/(8\times10^{6})=0.5$ ms, $d_{prop}=12$ ms, $a=24$. Stop-and-wait: $U=1/(1+2a)=1/49=\answer{2.04\%}$. Window 30: $U=\min(1,30/49)=\answer{61.2\%}$.
+BDP intuition (also accepted): $4000/192000=2.08\%$ and $120000/192000=62.5\%$.\\
+\textit{Marking:} BDP 1, stop-and-wait 1, window 1.
+
+\textbf{(b) Page-load time} [2] \hfill (pages~\pageref{iq:C11}, \pageref{iq:C12})\\
+6 objects. Non-persistent: $6\times2\,\text{RTT}=12\times20=\answer{240 ms}$. Persistent with pipelining: 1 RTT handshake $+$ 1 RTT base file $+$ 1 RTT for all 5 images $=3\times20=\answer{60 ms}$ (without pipelining it would be $7\times20=140$ ms).\\
+\textit{Marking:} timeline 1, the two times 1.
+
+\subsection*{Q4}
+\textbf{(a) TCP connection with data in both directions} [3] \hfill (page~\pageref{iq:C32})
+\begin{center}\small\zebra
+\begin{tabular}{rllll}\toprule
+\# & Direction & Flags & SEQ & ACK no.\\\midrule
+1 & client $\to$ server & SYN & 3000 & --\\
+2 & server $\to$ client & SYN, ACK & 7500 & 3001\\
+3 & client $\to$ server & ACK & 3001 & 7501\\
+4 & client $\to$ server & ACK, data 3001--3400 & 3001 & 7501\\
+5 & server $\to$ client & ACK, data 7501--8100 & 7501 & 3401\\
+6 & client $\to$ server & FIN, ACK & 3401 & 8101\\
+7 & server $\to$ client & FIN, ACK & 8101 & 3402\\
+8 & client $\to$ server & ACK & 3402 & 8102\\\bottomrule
+\end{tabular}\end{center}
+Key points: SYN and FIN consume one sequence number, the pure ACK (3) consumes none so data starts at 3001; ACK numbers are the next byte expected; the client then waits in TIME-WAIT.\\
+\textit{Marking:} timing diagram 1.5, correct numbers 1, phases named 0.5.
+
+\textbf{(b) Mesh of 6 offices} [2] \hfill (page~\pageref{iq:C05})\\
+Links $=n(n-1)/2=\answer{15}$; ports $=n-1=5$ per office, $\answer{30}$ in total. Mesh over star: no single point of failure, dedicated private links. Star over mesh: far fewer links and ports (6 links, one port per device), cheaper and easier to install.\\
+\textit{Marking:} links 0.5, ports 0.5, one advantage each 1.
+
+\subsection*{Q5 (any two, 2.5 each)}
+\begin{enumerate}[label=\textbf{(\roman*)},leftmargin=8mm]
+\item \textbf{TCP congestion control} (page~\pageref{iq:C36}): cwnd; detection by timeout or 3 duplicate ACKs; slow start ($1\to2\to4$, doubles per RTT up to ssthresh); congestion avoidance (additive increase, $+1$ MSS per RTT); multiplicative decrease (ssthresh $=$ cwnd$/2$); timeout $\Rightarrow$ cwnd $=1$ and slow start; 3 dup ACKs $\Rightarrow$ Reno fast recovery (cwnd $=$ ssthresh $+3$ while dup ACKs arrive, then cwnd $=$ ssthresh and congestion avoidance). \textit{Marking:} sawtooth graph 1, the phases 1.5.
+\item \textbf{SMTP} (page~\pageref{iq:C16}): push protocol between MTAs on TCP port 25; UA $\to$ MTA $\to$ MTA $\to$ mailbox, retrieved by POP3/IMAP; phases: connection establishment (220, HELO, 250), mail transfer (MAIL FROM, RCPT TO, DATA, 354, message ending in ``.'', 250), termination (QUIT, 221); MIME for non-ASCII. \textit{Marking:} command ladder 1, phases 1, architecture 0.5.
+\item \textbf{TCP header} (page~\pageref{iq:C30}): 20--60 bytes; source and destination ports (16 each), sequence and acknowledgment numbers (32 each), HLEN (4, in words), reserved (6), flags URG ACK PSH RST SYN FIN, window size (16), checksum (16), urgent pointer (16), options (0--40 B). \textit{Marking:} diagram 1.5, fields 1.
+\end{enumerate}
+
+% =====================================================================
+\section*{Why these questions: mock question $\to$ idea $\to$ tier}
+\begin{center}\small\zebra
+\begin{tabularx}{\linewidth}{lYccl}\toprule
+\thead{Mock Q} & \thead{Idea (cluster)} & \thead{Tier} & \thead{EV} & \thead{Unit}\\\midrule
+1(a) & Delay of a packet on a link (C01) & \tier{B} & 0.42 & U2\\
+1(b) & DNS names and records (C17) & \tier{A} & 0.72 & U2\\
+1(c) & TCP sequence numbering (C29) & \tier{B} & 1.27 & U3\\
+1(d) & UDP header decode (C28) $+$ TCP vs UDP (C19) & \tier{B} & 0.50 $+$ 0.89 & U3\\
+1(e) & Throughput of a packet-switched path (C03) & \tier{D} & 0.29 & U2\\
+2(a) & DNS lookup, recursive and iterative (C18) & \tier{B} & 0.85 & U2\\
+2(b) & GBN transmissions with periodic loss (C25) & \tier{A} & 1.58 & U3\\
+3(a) & BDP and stop-and-wait utilisation (C23) & \tier{B} & 1.19 & U3\\
+3(b) & Persistent vs non-persistent HTTP (C11, C12) & \tier{B} & 0.67 $+$ 0.66 & U2\\
+4(a) & TCP connection management (C32, with C33) & \tier{B} & 0.94 & U3\\
+4(b) & Network topologies (C05) & \tier{B} & 0.71 & U1\\
+5(i) & TCP congestion control (C36) & \tier{B} & 1.03 & U3\\
+5(ii) & SMTP (C16) & \tier{B} & 0.78 & U2\\
+5(iii) & TCP header format (C30) & \tier{B} & 0.86 & U3\\\bottomrule
+\end{tabularx}\end{center}
+Both tier A ideas and 13 of the 19 tier B ideas are covered; every optional question pairs two units (Q2: U2 $+$ U3, Q3: U3 $+$ U2, Q4: U3 $+$ U1). Not covered here, so revise them separately: file-transfer time (C02), GBN/SR window limits (C26), TCP hex dump (C31), data-communication components (C04), HTTP request message (C13) and stop-and-wait loss counting (C24).

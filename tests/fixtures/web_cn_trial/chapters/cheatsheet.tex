@@ -1,0 +1,338 @@
+\chapter*{Cheatsheet}
+\addcontentsline{toc}{chapter}{Cheatsheet}
+
+\begin{multicols*}{3}\footnotesize
+\raggedright\setlength{\parindent}{0pt}\setlength{\parskip}{1pt}
+\setlist[itemize]{nosep,leftmargin=3mm,label=\textbullet}
+\setlist[enumerate]{nosep,leftmargin=4mm,label=\arabic*.}
+\newcommand{\cshead}[1]{\par\smallskip{\sffamily\bfseries\color{sgteal}#1}\par\nopagebreak}
+\setlength{\tabcolsep}{2.5pt}\raggedcolumns
+
+\textbf{XX 3003 Midsem} = Data Communication $\to$ Transport layer. Q1 $5\times1$ (compulsory) + any 3 of Q2--Q5 ($5$ each).
+Transport carries the most marks: \textbf{14.5--20.5 of 25--27.5} printed marks per paper (2022--2025). \src{PYQM_2025_Midsem_1_Network_Systems_1 p1}
+
+% =====================================================================
+\section*{Transport layer (U3)}
+
+\cshead{Services and ports} \src{N_Network_Systems_compressed p60-62}
+\begin{itemize}
+  \item \keyword{Process-to-process} delivery over a \keyword{logical connection} (IP does host-to-host).
+  \item Port: 16 bit, 0--65535. \textbf{0--1023} well-known (ICANN), \textbf{1024--49151} registered, \textbf{49152--65535} dynamic (client, ephemeral).
+  \item \keyword{Socket address} = IP + port; a connection = the pair of socket addresses.
+  \item \keyword{Multiplexing}: sender, many-to-one, adds src + dst port. \keyword{Demultiplexing}: receiver, one-to-many, uses the \emph{destination} port.
+  \item Minimum over IP = process-to-process delivery (ports) + error detection (checksum) $=$ exactly UDP.
+  \item \textbf{Flow control} protects the receiver (push needs it, pull does not); \textbf{error control}: discard corrupted, resend lost, discard duplicates, buffer out-of-order (seq.\ no., ACK, timer); \textbf{congestion control} protects the network.
+  \item Simple protocol: no flow or error control, no ACK, no seq.\ numbers.
+\end{itemize}
+
+\begin{formulabox}[ARQ numbers]
+$\text{BDP}=B\times RTT$ (bits)\quad $T_t=L/B$,\ $T_p=d/v$,\ $a=T_p/T_t$\\[2pt]
+\raggedright
+$U_{SW}=\dfrac{T_t}{T_t+2T_p}=\dfrac{1}{1+2a}$;\quad window of $W$ pkts: $U=\min\!\left(1,\frac{W}{1+2a}\right)$\\[2pt]
+intuition: BDP $=$ bits that fill the round trip, so $U\approx \dfrac{W\,L}{\text{BDP}}$ (use $\frac{1}{1+2a}$ as the answer)\\[2pt]
+SW, every $k$-th \emph{transmission} lost (ACKs safe), $N$ packets: $T=N+\left\lfloor\dfrac{N-1}{k-1}\right\rfloor$\\[2pt]
+bits for window: GBN $m=\lceil\log_2(W+1)\rceil$, SR $m=\lceil\log_2 W\rceil+1$
+\end{formulabox}
+
+\noindent\begin{minipage}{\linewidth}
+\cshead{Stop-and-wait / GBN / SR} \src{N_Network_Systems_compressed p65-71}
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{11mm}YYY@{}}\toprule
+ & \thead{SW} & \thead{GBN} & \thead{SR}\\\midrule
+Windows & $1/1$, seq mod 2 & $2^m-1\,/\,1$ & $2^{m-1}/2^{m-1}$\\
+ACK & next expected & cumulative, next expected & individual: no.\ of pkt received\\
+Timers & 1 & 1 (on $S_f$) & 1 per packet\\
+On loss & resend it & resend all $S_f..S_n{-}1$; rcvr discards out-of-order & resend only lost; rcvr buffers\\\bottomrule
+\end{tabularx}
+\end{center}
+\end{minipage}\par
+\textbf{SW:} send pkt, keep copy, start timer; rcvr gets $R$: deliver, ACK $R{+}1$ (Pkt 0 $\to$ ACK 1); timeout $\Rightarrow$ resend; duplicate (ACK lost) $\Rightarrow$ discard \emph{and} re-ACK; corrupted $\Rightarrow$ silently drop.\\
+\textbf{GBN:} $S_f$ = first outstanding, $S_n$ = next to send, $R_n$ = next expected. ACK $n$ $\Rightarrow S_f=n$. Timeout $\Rightarrow$ ``go back'' to $S_f$.\\
+\textbf{Loss count:} number \emph{all} transmissions 1, 2, 3\dots\ (retransmissions included); every $k$-th is lost; ACKs are never lost unless stated. After loss $p$ the sender still sends $p{+}1..p{+}W{-}1$ (discarded but \emph{counted}), then restarts at $p$. Stop once the last packet is delivered: no extra sends.
+
+\begin{center}
+\begin{tikzpicture}[x=4.9mm,y=1mm]
+  \foreach \p/\s [count=\i] in {1/cellok,2/cellok,3/cellok,4/cellok,5/cellbad,6/celldim,7/celldim,5/cellok,6/cellok,7/cellbad,8/celldim,9/celldim,7/cellok,8/cellok,9/cellbad,9/cellok}{
+    \node[\s,minimum width=4.4mm,minimum height=4.4mm,font=\scriptsize] at (\i,0) {\p};
+    \node[font=\scriptsize,text=sgslate] at (\i,4.8) {\i};}
+  \node[font=\scriptsize,anchor=east,text=sgslate] at (0.45,4.8) {tx};
+  \node[font=\scriptsize,anchor=east] at (0.45,0) {pkt};
+\end{tikzpicture}\\[-1pt]
+{\scriptsize GBN PYQ: 9 pkts, $W=3$, every 5th tx lost (red), grey discarded $\Rightarrow$ \answer{16}}
+\end{center}
+
+\textbf{SR:} accepts any pkt inside its window, buffers it, delivers the run when $R_n$ arrives.
+\textbf{Why the limits:} $m$ bits $\Rightarrow 2^m$ numbers; whole window arrives, all ACKs lost, old pkt 0 resent. GBN with $2^m$: $R_n$ wrapped to 0 $\Rightarrow$ duplicate accepted as new. SR: $S_{size}+R_{size}\le 2^m \Rightarrow 2^{m-1}$.
+$m=3$: GBN 7, SR 4.\quad $m=4$: GBN 15, SR 8.
+
+\cshead{UDP} \src{N_Network_Systems_compressed p72-75}
+\begin{itemize}
+  \item Connectionless, unreliable; packet = \keyword{user datagram}, 8 to 65\,535 B.
+  \item Header \textbf{8 B} = src port $|$ dst port $|$ total length $|$ checksum (16 bits each). Hex dump: 4 hex digits per field, left to right.
+  \item Data length $=$ total length $-8$. Efficiency (UDP level) $=\dfrac{\text{data}}{\text{data}+8}$.
+  \item Checksum \texttt{0000} = not computed; a computed 0 is sent as all 1s. Covers pseudoheader (src IP, dst IP, 0s, protocol \textbf{17}, length) + header + data.
+  \item No flow, congestion or error control (only checksum). Users: DNS, SNMP, TFTP, RIP, DHCP, real-time media, multicast.
+\end{itemize}
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{13mm}YY@{}}\toprule
+ & \thead{TCP} & \thead{UDP}\\\midrule
+Service & connection-oriented (3-way HS) & connectionless\\
+Reliability & ACK, retransmit, in-order byte stream & best effort, may reorder/lose\\
+Control & flow (rwnd) + congestion (cwnd) & none (checksum only)\\
+Header / use & 20--60 B; HTTP, SMTP, FTP & 8 B; DNS, SNMP, TFTP, VoIP\\\bottomrule
+\end{tabularx}
+\end{center}
+\textbf{DNS on port 53:} UDP for normal queries (one short request/reply $\le512$ B, no set-up, client retries); TCP when the reply $>512$ B and for \keyword{zone transfers}.
+
+\cshead{TCP byte numbering} \src{N_Network_Systems_compressed p76-77, p82}
+\begin{itemize}
+  \item Connection-oriented, reliable, full-duplex \keyword{byte stream}; uses a mix of GBN and SR.
+  \item \keyword{ISN} random ($0..2^{32}-1$). \textbf{seq} = number of the first data byte. \textbf{ack} = next byte expected (cumulative).
+  \item Consumes: SYN 1, SYN+ACK 1, FIN 1, FIN+ACK 1, \textbf{pure ACK 0}, data $n$ bytes $n$.
+  \item SYN seq $=$ ISN; first data byte $=$ ISN$+1$; FIN seq $=$ ISN $+1+$ data bytes.
+\end{itemize}
+
+\cshead{TCP header (20--60 B)} \src{N_Network_Systems_compressed p78-79}
+\begin{center}\scriptsize\renewcommand{\arraystretch}{1.15}
+\begin{tabular}{|p{7mm}|p{5mm}|p{12mm}|p{33mm}|}\hline
+\multicolumn{3}{|c|}{Source port (16)} & \centering Destination port (16)\tabularnewline\hline
+\multicolumn{4}{|c|}{Sequence number (32)}\\\hline
+\multicolumn{4}{|c|}{Acknowledgment number (32)}\\\hline
+\centering HLEN & \centering res & \centering UAPRSF & \centering Window size (16)\tabularnewline\hline
+\multicolumn{3}{|c|}{Checksum (16)} & \centering Urgent pointer (16)\tabularnewline\hline
+\multicolumn{4}{|c|}{Options + padding (0--40 B)}\\\hline
+\end{tabular}
+\end{center}
+\begin{itemize}
+  \item HLEN 4 bits, reserved 6, flags 6. \textbf{HLEN} in 4-byte words (5--15 $\Rightarrow$ 20--60 B); data $=$ segment $-4\times$HLEN.
+  \item Flags: URG (urgent ptr valid), ACK (ack valid), PSH (deliver now), RST (reset), SYN (sync seq.\ numbers), FIN (finish).
+  \item Window $=$ rwnd in bytes (max 65\,535). Checksum \textbf{mandatory} (protocol 6). Options: MSS, window scale, timestamp.
+  \item Hex widths: $4|4|8|8|$ HLEN $1|$ res+flags $3|$ window 4. Flag codes: \texttt{002} SYN, \texttt{012} SYN+ACK, \texttt{010} ACK, \texttt{011} FIN+ACK, \texttt{018} PSH+ACK.
+  \item Urgent (URG $=1$): UP $=$ offset from seq where urgent data \textbf{ends}; urgent bytes $=$ \answer{seq \dots\ seq$+$UP$-1$ (UP bytes)}. (RFC 1122/Forouzan ``last urgent byte'' reading gives UP$+1$: footnote only.)
+\end{itemize}
+
+\noindent\begin{minipage}{\linewidth}
+\cshead{Connection management} \src{N_Network_Systems_compressed p80-83}
+\begin{enumerate}
+  \item Client (active open) $\to$ \textbf{SYN}: seq $x$.
+  \item Server (passive open, LISTEN) $\to$ \textbf{SYN+ACK}: seq $y$, ack $x{+}1$, rwnd.
+  \item Client $\to$ \textbf{ACK}: seq $x{+}1$, ack $y{+}1$ (first data segment also uses seq $x{+}1$).
+\end{enumerate}
+\end{minipage}\par
+Data: ACK \keyword{piggybacked} on data, PSH for immediate delivery, rwnd in every segment.
+Close (3-way): FIN seq $u$ $\to$ FIN+ACK seq $v$, ack $u{+}1$ $\to$ ACK seq $u{+}1$, ack $v{+}1$. \keyword{Half-close}: FIN, ACK, (server keeps sending), FIN, ACK.
+Why not 2-way: the server's ISN must be confirmed; an old duplicate SYN could open a false connection.
+
+\cshead{TCP states (11)} \src{N_Network_Systems_compressed p84-86}
+CLOSED, LISTEN, SYN-SENT, SYN-RCVD, ESTABLISHED, FIN-WAIT-1, FIN-WAIT-2, CLOSE-WAIT, TIME-WAIT, LAST-ACK, CLOSING. Arrow label $=$ \textsf{input / output}.
+\begin{itemize}
+  \item \textbf{Client}: CLOSED $\xrightarrow{\text{act.\ open/SYN}}$ SYN-SENT $\xrightarrow{\text{SYN+ACK/ACK}}$ ESTAB $\xrightarrow{\text{close/FIN}}$ FIN-WAIT-1 $\xrightarrow{\text{ACK/--}}$ FIN-WAIT-2 $\xrightarrow{\text{FIN/ACK}}$ TIME-WAIT $\xrightarrow{\text{2MSL}}$ CLOSED.
+  \item \textbf{Server}: CLOSED $\xrightarrow{\text{pass.\ open/--}}$ LISTEN $\xrightarrow{\text{SYN/SYN+ACK}}$ SYN-RCVD $\xrightarrow{\text{ACK/--}}$ ESTAB $\xrightarrow{\text{FIN/ACK}}$ CLOSE-WAIT $\xrightarrow{\text{close/FIN}}$ LAST-ACK $\xrightarrow{\text{ACK/--}}$ CLOSED.
+  \item Both FIN at once $\Rightarrow$ CLOSING. TIME-WAIT $=2$MSL: resend a lost final ACK; let old duplicates die.
+\end{itemize}
+
+\cshead{Windows and flow control} \src{N_Network_Systems_compressed p81, p87}
+$rwnd=\text{buffer}-\text{bytes waiting to be read}$;\quad \answer{send window $=\min(rwnd,\,cwnd)$}. Window opens/closes, should not shrink; $rwnd=0$ $\Rightarrow$ stop, probe with persist timer.
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{11mm}YY@{}}\toprule
+ & \thead{Window size} & \thead{MSS}\\\midrule
+Meaning & bytes outstanding without ACK & max \emph{data} bytes in one segment\\
+Set by & receiver (rwnd) and cwnd; changes every segment & option in the SYNs; fixed for the connection\\
+Purpose & flow + congestion control & avoid IP fragmentation\\\bottomrule
+\end{tabularx}
+\end{center}
+
+\cshead{Congestion control} \src{N_Network_Systems_compressed p87-90}
+\begin{itemize}
+  \item \textbf{Slow start}: cwnd $=1$ MSS, $+1$ MSS per ACK $\Rightarrow$ doubles per RTT ($1,2,4,8\dots$) up to \keyword{ssthresh}.
+  \item \textbf{Congestion avoidance} (additive increase): $+1$ MSS per RTT ($+1/\text{cwnd}$ per ACK).
+  \item \textbf{Detection}: timeout $=$ strong; 3 duplicate ACKs $=$ mild. Multiplicative decrease: ssthresh $=$ cwnd$/2$ (cwnd \emph{at detection}).
+  \item \textbf{Timeout} (Tahoe \emph{and} Reno): ssthresh $=$ cwnd$/2$, cwnd $=1$ MSS, slow start. \textbf{Tahoe} treats 3 dup ACKs the same way.
+  \item \textbf{Reno, 3 dup ACKs}: ssthresh $=$ cwnd$/2$; \keyword{fast recovery}: cwnd $=$ ssthresh $+3$ MSS while dup ACKs keep arriving ($+1$ MSS per further dup ACK); new ACK $\Rightarrow$ cwnd $=$ ssthresh, congestion avoidance. One-liner: \answer{after fast recovery cwnd $=$ ssthresh}. (Simplified Reno sets cwnd $=$ ssthresh at once: tip only.)
+  \item \keyword{AIMD} sawtooth; \answer{Throughput $=0.75\,W_{max}/RTT$} ($W_{max}$ = average peak window; bytes $\times8$).
+\end{itemize}
+\textbf{QoS} (not yet asked): reliability, delay, jitter, bandwidth; scheduling (FIFO, priority, WFQ), leaky bucket (constant rate) vs token bucket (allows bursts), admission control, RSVP; IntServ vs DiffServ.
+
+% =====================================================================
+\section*{Application layer (U2)}
+
+\cshead{Paradigms and ports} \src{N_Network_Systems_compressed p34-37}
+Client-server: server \textbf{always on} at a fixed IP and well-known port (passive open, LISTEN), because it never knows when a request comes; the client only initiates. P2P: no always-on server, peers come and go, self-scalable.\\
+Ports: FTP 20/21, TELNET 23, SMTP 25, DNS 53, TFTP 69, HTTP 80, POP3 110, IMAP4 143, HTTPS 443. UDP: Echo 7, Discard 9; UDP and TCP: Users 11, Daytime 13, DNS 53.
+
+\cshead{HTTP} \src{N_Network_Systems_compressed p38-46}
+\begin{itemize}
+  \item Over TCP port 80, stateless. Request $=$ request line (\texttt{method SP URL SP version}) + headers (\texttt{name: value}) + blank line + body.
+  \item \textbf{Non-persistent} (HTTP/1.0): new TCP connection per object, server closes after the response; 2 RTT per object $\Rightarrow$ base + $n$ objects $=2(n{+}1)$ RTT.
+  \item \textbf{Persistent} (HTTP/1.1 default): one connection kept open; no pipelining $(n{+}2)$ RTT; pipelined 3 RTT.
+  \item Extra time of non-persistent $=$ (objects $-1$) $\times$ setup time.
+  \item Methods: GET, HEAD, POST, PUT, DELETE. Status: 200 OK, 301 Moved, 304 Not Modified, 400 Bad Request, 404 Not Found.
+  \item \keyword{Cookie}: server sends \texttt{Set-Cookie: id}, browser stores and returns \texttt{Cookie: id}; state kept in server database.
+  \item \keyword{Proxy / web cache}: hit $\Rightarrow$ local copy; miss $\Rightarrow$ fetch, store, return. Stale cache $\Rightarrow$ \keyword{conditional GET}: \texttt{If-Modified-Since: date} $\to$ \texttt{304 Not Modified} (no body) or \texttt{200 OK} + new object.
+\end{itemize}
+{\ttfamily\scriptsize GET /usr/users/doc HTTP/1.1\\ Host: www.example.edu\\ Accept: image/gif\\ Accept: image/jpeg\\ MIME-version: 1.0\\ (blank line)}\quad{\scriptsize(2024 Q1d)}
+
+\cshead{E-mail} \src{N_Network_Systems_compressed p47-51}
+UA $\to$ MTA client $\xrightarrow{\text{SMTP push}}$ sender's server $\xrightarrow{\text{SMTP push}}$ receiver's server (mailbox) $\xrightarrow{\text{POP3/IMAP4 pull}}$ UA. Agents: \keyword{UA} (compose/read), \keyword{MTA} (push), \keyword{MAA} (pull).\\
+\textbf{SMTP} (TCP 25, ASCII commands, 3-digit replies) phases:
+\begin{enumerate}
+  \item Connection: \texttt{220} service ready $\to$ \texttt{HELO} $\to$ \texttt{250 OK}.
+  \item Transfer: \texttt{MAIL FROM:} $\to$ \texttt{250}; \texttt{RCPT TO:} $\to$ \texttt{250}; \texttt{DATA} $\to$ \texttt{354}; header, blank line, body, ``\texttt{.}'' $\to$ \texttt{250 OK}.
+  \item Termination: \texttt{QUIT} $\to$ \texttt{221} service closed.
+\end{enumerate}
+POP3 (110): download, delete or keep mode. IMAP4 (143): mail stays on server, folders, search, partial download.
+\keyword{MIME}: SMTP carries only 7-bit NVT ASCII; MIME converts other data. 5 headers: MIME-Version, Content-Type, Content-Transfer-Encoding (7bit, 8bit, binary, base64, quoted-printable), Content-Id, Content-Description.
+
+\cshead{DNS} \src{N_Network_Systems_compressed p52-59}
+\begin{itemize}
+  \item \keyword{FQDN}: full label path ending at the root, written with the trailing dot (\texttt{cse.example.edu.}). \keyword{PQDN}: stops before the root (\texttt{cse}); the resolver appends the suffix.
+  \item RR: \textbf{A} IPv4, AAAA IPv6, \textbf{NS} authoritative name server, \textbf{CNAME} alias $\to$ canonical name, \textbf{MX} mail server, PTR reverse, SOA zone authority. RR $=$ (name, value, type, TTL).
+  \item Lookup: host $\to$ local DNS (recursive query); local asks root $\to$ referral to TLD $\to$ referral to authoritative $\to$ A record; local caches (TTL), answers host. \textbf{Iterative}: every server replies to the local server. \textbf{Recursive}: each server asks the next; answer returns along the chain.
+\end{itemize}
+
+\cshead{Delay and throughput} \src{N_Network_Systems_compressed p90-91}
+$d_{nodal}=d_{proc}+d_{queue}+d_{trans}+d_{prop}$; $d_{trans}=L/R$, $d_{prop}=D/S$ (constant), $d_{proc}$ constant ($\mu$s), \textbf{$d_{queue}$ variable} (load).\\
+One link A$\to$B: \answer{$L/R+m/s$}.\quad Series links: throughput $=\min(R_1,R_2,\dots)$ (bottleneck).\\
+File with an RTT wait after each packet: $T=2RTT+N\,L/R+(N{-}1)\,RTT+RTT/2$.
+
+% =====================================================================
+\section*{Data communications (U1)}
+
+\cshead{Basics} \src{N_Network_Systems_compressed p1-12}
+\textbf{5 components}: message, sender, receiver, transmission medium, protocol. \textbf{4 characteristics}: delivery, accuracy, timeliness, jitter.
+Data flow: simplex (keyboard), half-duplex (walkie-talkie), full-duplex (telephone). Network criteria: performance, reliability, security. Types by span: PAN $<$ LAN $<$ MAN $<$ WAN.
+
+\cshead{Topologies} \src{N_Network_Systems_compressed p12-20}
+Mesh of $n$: \answer{$n(n{-}1)/2$ links}, $n{-}1$ ports per device ($n=8$: 28 links, 56 ports).
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{8mm}YY@{}}\toprule
+ & \thead{Advantage} & \thead{Disadvantage}\\\midrule
+Mesh & robust, private, easy fault isolation & cabling, ports, cost\\
+Star & $n$ links, cheap; a link failure hits one device & hub $=$ single point of failure\\
+Bus & least cable, easy install & backbone fault stops all; terminators\\
+Ring & easy fault detection (token) & one break disables ring (unless dual)\\\bottomrule
+\end{tabularx}
+\end{center}
+Hybrid $=$ combination (for example a star of buses).
+
+\noindent\begin{minipage}{\linewidth}
+\cshead{Switching} \src{N_Network_Systems_compressed p29-33}
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{12mm}YYY@{}}\toprule
+ & \thead{Circuit} & \thead{Datagram} & \thead{Virtual circuit}\\\midrule
+Set-up & yes & none & yes (VC id)\\
+Resources & reserved for call & shared, on demand & on demand, path fixed\\
+Path, order & one path, in order & per packet, may reorder & one path, in order\\
+Example & telephone & Internet (IP) & ATM, Frame Relay\\\bottomrule
+\end{tabularx}
+\end{center}
+\end{minipage}\par
+
+\cshead{Layers, signals} \src{N_Network_Systems_compressed p3, p21-28}
+OSI 7: physical, data link, network, transport, session, presentation, application. TCP/IP 5: session + presentation folded into application.
+Analog $=$ continuous values; digital $=$ discrete levels. FDM shares bandwidth (carrier bands + guard bands); TDM shares time (slots per frame; synchronous vs statistical).
+
+% =====================================================================
+\section*{Traps}
+\begin{enumerate}
+  \item ``Every $k$-th lost'' counts \emph{transmissions} incl.\ retransmissions; the last tx is never a lost one (SW, 15 pkts, $k=4$: 19, not 20).
+  \item ``1 bit takes 20 ms for a round trip'' already \emph{is} the RTT: do not double it.
+  \item SW/GBN ACK $=$ next expected; SR ACK $=$ the packet received.
+  \item SR window is $2^{m-1}$, not $2^m-1$ ($m=3$: 4 vs 7).
+  \item UDP length is header + data: subtract 8. Checksum \texttt{0000} $=$ not computed.
+  \item TCP HLEN is in 4-byte words; seq/ack are 8 hex digits, not 4.
+  \item ISN is the SYN's seq; data starts at ISN$+1$; a pure ACK consumes nothing.
+  \item ack $=$ last byte received $+1$; after a FIN, ack $=$ FIN seq $+1$.
+  \item Persistent vs non-persistent: extra $=(\text{objects}-1)\times$ setup, not objects $\times$ setup.
+  \item ssthresh $=$ half the cwnd at detection; timeout $\Rightarrow$ cwnd $=1$ in Tahoe \emph{and} Reno.
+  \item Flow control $\ne$ congestion control; window $\ne$ MSS.
+  \item Sizes: 1 KB $=1024$ B, 1 MB $=2^{20}$ B unless the paper gives powers of 10; rates are decimal (1 Mbps $=10^6$ bit/s). State it on line one, give the other result if it differs; bytes $\times8$ $=$ bits.
+\end{enumerate}
+
+% =====================================================================
+\section*{Must-do question ideas}
+\begin{itemize}
+  \item \tier{A} GBN, 9 pkts, $W=3$, every 5th lost: 1 2 3 4 [5] 6 7 $|$ 5 6 [7] 8 9 $|$ 7 8 [9] $|$ 9 $=$ \textbf{16}.
+  \item \tier{A} FQDN ends at the root (trailing dot), PQDN does not; canonical name of a host $=$ \textbf{CNAME} record.
+  \item \tier{B} SW, 1 Mbps, RTT 20 ms, 1000-bit pkts: BDP $=20\,000$ bits; $T_t=1$ ms, $a=10$, $U=1/21=$ \textbf{4.76\%}; 15-pkt window $15/21=$ \textbf{71.4\%} (BDP intuition: 5\%, 75\%).
+  \item \tier{B} ISN 2171, SYN, 1000-B data, FIN: seq \textbf{2171, 2172, 3172}. SYN 1, ACK 0, SYN+ACK 1, data $n$.
+  \item \tier{B} SW, every 4th lost, 15 pkts: $15+\lfloor14/3\rfloor=$ \textbf{19} transmissions.
+  \item \tier{B} UDP \texttt{0045 DF00 0058 0000}: src \textbf{69}, dst \textbf{57088}, data $88-8=$ \textbf{80 B}, no checksum.
+  \item \tier{B} UDP, 16 B data: $16/24=$ \textbf{66.7\%}.
+  \item \tier{B} TCP \texttt{E293 0017 00000001 00000000 5 002 07FF}: ports \textbf{58003 $\to$ 23} (TELNET), seq 1, ack 0, HLEN 20 B, \textbf{SYN}, window 2047.
+  \item \tier{B} 1 KB segment, HLEN 6, seq 3500, URG ptr 45: header 24 B, data $1024-24=1000$ B; urgent \textbf{45 B, 3500--3544}.
+  \item \tier{B} Index + 22 images, setup 8.4 ms: non-persistent slower by $22\times8.4=$ \textbf{184.8 ms}.
+  \item \tier{B} 1.5 MB, 10 Mbps, RTT 80 ms, 1 KB pkts, 2RTT handshake: \textbf{124.26 s} (binary units; 121.32 s decimal).
+  \item \tier{B} $m=3$: GBN \textbf{7}, SR \textbf{4}; draw the ``all ACKs lost, old 0 accepted'' failure.
+  \item \tier{B} Short notes: congestion control (SS, CA, 3 dup ACK vs timeout, sawtooth), SMTP phases, topologies, TCP vs UDP for data transfer (reliable, ordered, flow control).
+\end{itemize}
+
+% =====================================================================
+\section*{Numerical recipes}
+\begin{enumerate}
+  \item \textbf{GBN / SW loss count}: draw the tx row, mark every $k$-th red, grey the rest of the window after a loss, go back, count all cells.
+  \item \textbf{Utilisation}: ``1 bit takes $x$ ms round trip'' $\Rightarrow RTT=x$, $T_p=x/2$; $T_t=L/B$; $a=T_p/T_t$; $U=\frac{1}{1+2a}$; window $W$: $\min(1,\frac{W}{1+2a})$.
+  \item \textbf{UDP hex}: $4|4|4|4$ digits $\to$ src, dst, length, checksum; data $=$ length $-8$; the well-known port names the server process (direction client $\to$ server if dst is well-known).
+  \item \textbf{TCP hex}: $4|4|8|8|1|3|4$ $\to$ src, dst, seq, ack, HLEN$\times4$, flags (last 6 bits UAPRSF), window.
+  \item \textbf{Seq numbers}: SYN $=$ ISN; data starts ISN$+1$; next seq $=$ seq $+$ bytes; FIN seq $=$ ISN$+1+$data; ack $=$ peer's next byte.
+  \item \textbf{File time}: $N=$ file$/$packet (binary units); $T=2RTT+N\frac{L}{R}+(N{-}1)RTT+\frac{RTT}{2}$.
+  \item \textbf{HTTP}: base $+\,n$ objects; extra (non-persistent) $=n\times$ setup.
+  \item \textbf{TCP throughput}: $W_{max}=$ mean of the peaks $\times$ MSS $\times 8$ bits; $0.75\,W_{max}/RTT$.
+\end{enumerate}
+
+\noindent\begin{minipage}{\linewidth}
+\cshead{Reno cwnd trace (ssthresh 16, timeout in round 9, 3 dup ACKs in round 16)} \src{N_Network_Systems_compressed p87-89}
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}L{10mm}YL{40mm}@{}}\toprule
+\thead{Rounds} & \thead{cwnd (MSS)} & \thead{Phase}\\\midrule
+1--5 & 1, 2, 4, 8, 16 & slow start\\
+6--9 & 17, 18, 19, 20 & cong.\ avoidance\\
+10--16 & 1, 2, 4, 8, 10, 11, 12 & timeout: ssthresh 10\\
+17--19 & 6, 7, 8 & 3 dup ACKs: ssthresh 6, cwnd $=$ ssthresh\\\bottomrule
+\end{tabularx}
+\end{center}
+\end{minipage}
+
+\noindent\begin{minipage}{\linewidth}
+\cshead{Full TCP trace (2022 Q3b data): MSS 1000, ISN C 50, S 81; C sends 2000 B, S 3000 B}
+\begin{center}\scriptsize\zebra
+\begin{tabularx}{\linewidth}{@{}cYcccrr@{}}\toprule
+\# & \thead{Segment} & SYN & ACK & FIN & SEQ & ACK no.\\\midrule
+1 & C$\to$S SYN & 1 & 0 & 0 & 50 & --\\
+2 & S$\to$C SYN+ACK & 1 & 1 & 0 & 81 & 51\\
+3 & C$\to$S ACK & 0 & 1 & 0 & 51 & 82\\
+4 & C$\to$S data 51--1050 & 0 & 1 & 0 & 51 & 82\\
+5 & C$\to$S data 1051--2050 & 0 & 1 & 0 & 1051 & 82\\
+6 & S$\to$C data 82--1081 & 0 & 1 & 0 & 82 & 2051\\
+7 & S$\to$C data 1082--2081 & 0 & 1 & 0 & 1082 & 2051\\
+8 & S$\to$C data 2082--3081 & 0 & 1 & 0 & 2082 & 2051\\
+9 & C$\to$S FIN (+ACK) & 0 & 1 & 1 & 2051 & 3082\\
+10 & S$\to$C FIN+ACK & 0 & 1 & 1 & 3082 & 2052\\
+11 & C$\to$S ACK & 0 & 1 & 0 & 2052 & 3083\\\bottomrule
+\end{tabularx}
+\end{center}
+{\scriptsize Assumptions: ACKs piggybacked; client closes first with a 3-way close; row 3 consumes nothing, so row 4 reuses seq 51.}
+\end{minipage}
+
+\cshead{Short-note skeletons (2.5 M: draw first, then 4--6 points)}
+\begin{itemize}
+  \item \textbf{Congestion control}: cwnd vs RTT sawtooth with ssthresh line $\to$ slow start, AI, timeout vs 3 dup ACKs, Reno fast recovery, AIMD.
+  \item \textbf{3-way handshake / close}: two lifelines, SYN / SYN+ACK / ACK with seq--ack, one data pair (piggyback), FIN / FIN+ACK / ACK.
+  \item \textbf{TCP header}: 32-bit-wide grid with 0, 16, 31 marks and field widths; one line per field.
+  \item \textbf{Stop-and-wait}: one timeline: normal, lost packet + timeout, lost ACK + duplicate discarded and re-ACKed.
+  \item \textbf{SMTP}: UA $\to$ MTA $\to$ MTA $\to$ mailbox $\to$ MAA chain, then the command ladder of the 3 phases.
+  \item \textbf{DNS lookup}: host, local, root, TLD, authoritative with numbered arrows; iterative vs recursive in 2 lines.
+  \item \textbf{Persistent vs non-persistent}: two timelines; $2(n{+}1)$ vs $(n{+}2)$ / 3 RTT.
+  \item \textbf{Topology}: four sketches + mesh formula + one pro and one con each.
+  \item \textbf{TCP vs UDP for data transfer}: TCP is reliable (ACK + retransmit), ordered, flow and congestion controlled; UDP loses or reorders silently.
+\end{itemize}
+
+% =====================================================================
+\section*{Mnemonics}
+\begin{itemize}
+  \item TCP flags in header order \textbf{U A P R S F}: ``\emph{U}nskilled \emph{A}ttackers \emph{P}ester \emph{R}eal \emph{S}ecurity \emph{F}olks''.
+  \item OSI bottom-up: ``\emph{P}lease \emph{D}o \emph{N}ot \emph{T}hrow \emph{S}ausage \emph{P}izza \emph{A}way''.
+  \item ``SYN and FIN eat one number, a bare ACK eats none.''
+  \item ``GBN gives up one ($2^m-1$), SR splits in half ($2^{m-1}$).''
+\end{itemize}
+\end{multicols*}

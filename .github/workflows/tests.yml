@@ -1,0 +1,25 @@
+# Manual only (Actions minutes are shared across all projects). The real gate is local:
+#   py tests/run_all.py   (Windows, with MiKTeX, poppler and Tesseract)
+# This runs the tests that need neither TeX nor OCR, as a smoke check of a fresh clone.
+name: tests (TeX-free subset)
+on:
+  workflow_dispatch:
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pymupdf pillow pypdf
+      - name: TeX-free tests
+        run: |
+          set -e
+          for t in test_layout test_pack test_run_subject test_usage_report test_metrics_leaks test_state test_flashcards; do
+            echo "== $t"; python tests/$t.py
+          done

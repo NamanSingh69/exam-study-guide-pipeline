@@ -1,0 +1,675 @@
+{
+ "subject": "Network Systems",
+ "code": "XX 3003",
+ "code_aliases": [
+  "XX3003",
+  "XX-3009",
+  "XX-3005",
+  "XX-3001"
+ ],
+ "scope": "Midsem",
+ "cutoff": "The (synthetic) lesson plan states the mid-semester coverage as the first 23 lectures: units Data Communications, Application Layer and Transport Layer are in scope; later units and topics found only in older plans are out.",
+ "exam_pattern": {
+  "full_marks": 20,
+  "duration": "1.5 h",
+  "structure": "Answer any four questions including Q1 (compulsory). Q1: 5 x 1 mark; answer any 3 of Q2-Q5, 5 marks each. 2025: Q2-Q4 split 3 + 2 marks, Q5 = short notes on any two of three (2.5 x 2). 2022/2024: each 2.5 + 2.5",
+  "compulsory": [
+   "1"
+  ],
+  "choose": {
+   "from": [
+    "2",
+    "3",
+    "4",
+    "5"
+   ],
+   "answer": 3
+  },
+  "source": "PYQM_2025_Midsem_1_Network_Systems_1 p1",
+  "assumed": false
+ },
+ "units": [
+  {
+   "id": "U1",
+   "title": "Data Communications",
+   "in_scope": true,
+   "lectures": 6,
+   "chapter": "30_data_comm",
+   "topics": [
+    {
+     "id": "T01",
+     "title": "Introduction: data communication components, data flow, network criteria, network types (PAN/LAN/MAN/WAN)",
+     "lectures": 1.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p1-13"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Notes: data/medium p1, network types p3-5, devices p6-7, components p7, characteristics p8, data flow p9-10, network criteria p11, connection types p12-13."
+    },
+    {
+     "id": "T02",
+     "title": "Analog and digital signals; data transmission and multiplexing",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p3",
+      "N_Network_Systems_compressed p8",
+      "SYL_Lesson_Plan_NS_sample p2"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Notes give one-line mentions only (p3 'analog / digital transmission', p8 audio as analog or digital signal); no multiplexing pages. Open coverage gap. MS2026SP Q2 asks synchronous and statistical TDM numericals."
+    },
+    {
+     "id": "T03",
+     "title": "Data encoding techniques",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "SYL_Lesson_Plan_NS_sample p2"
+     ],
+     "origin": "none",
+     "visual": "plot",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. No notes pages (handwritten notes and gap-fill slides checked). Open coverage gap. MS2026SP Q3(b) asks Manchester / differential Manchester."
+    },
+    {
+     "id": "T04",
+     "title": "Packet switching vs circuit switching (and virtual-circuit switching)",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p29-33",
+      "N_Network_Systems_compressed p92-94"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Notes p29 head this 'UNIT-02 Switching'; virtual-circuit approach with VCI tables is on p92-94 (taught at the start of the network layer). Storyboard: circuit / VC setup, data transfer, teardown."
+    },
+    {
+     "id": "T05",
+     "title": "Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling)",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p13-20"
+     ],
+     "origin": "instructor",
+     "visual": "graph",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Mesh link count n(n-1)/2 on p14."
+    },
+    {
+     "id": "T06",
+     "title": "Protocol layering; OSI model and TCP/IP protocol suite",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p21-28"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Layering p21-22, TCP/IP suite p23, OSI p24-28, PDU names and addresses per layer p25 (covers physical vs logical addressing). Encapsulation figure is on p60. MS2026SP Q3 is banked under T06 (3 of its 5 marks are encapsulation; its 2-mark line-coding part belongs to T03)."
+    }
+   ]
+  },
+  {
+   "id": "U2",
+   "title": "Application Layer",
+   "in_scope": true,
+   "lectures": 5,
+   "chapter": "31_application_layer",
+   "topics": [
+    {
+     "id": "T07",
+     "title": "Application paradigms: client-server vs peer-to-peer; sockets",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p34-37"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Client-server vs P2P paradigm p34-35, API/socket interface p35-37. BitTorrent / centralized vs decentralized P2P (2019 XX-3001 plan, MS2019 Q4b) is not in the notes. Asked: centralized vs decentralized P2P and DHT (MS2019 4(b), MS2023 5(b)): partial gap."
+    },
+    {
+     "id": "T08",
+     "title": "HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p37-46"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. HTTP p37, persistent / non-persistent timelines p38-41, messages p41-43, methods p42, cookies p44-45, proxy p46."
+    },
+    {
+     "id": "T09",
+     "title": "Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p47-51"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Architecture UA/MTA/MAA p47-49, push/pull p49, SMTP phases p50-51. MIME is not in the notes (p48 lists SMTP, POP3, IMAP4 only; vision transcript checked); asked MS2019 3(b), MS2023 2(b): partial gap."
+    },
+    {
+     "id": "T10",
+     "title": "DNS: name space, FQDN/PQDN, domains, name resolution, resource records",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p52-59"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Roles p52-53, name space and hierarchy p53-54, resolution iterative/recursive p56-57, RRs p58-59, message format p59."
+    },
+    {
+     "id": "T11",
+     "title": "Delay and throughput in packet-switched networks",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p91",
+      "N_Network_Systems_compressed p11"
+     ],
+     "origin": "instructor",
+     "visual": "pipeline",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Lesson plan lists this under Application Layer; the notes teach delay at the end of the transport layer (p91: processing, queuing, transmission L/R, propagation d/s, RTT = 2 d_prop). p11: transit / response time. Throughput of a packet-switched network is not taught separately (TCP throughput is on p90, T23)."
+    }
+   ]
+  },
+  {
+   "id": "U3",
+   "title": "Transport Layer",
+   "in_scope": true,
+   "lectures": 12,
+   "chapter": "32_transport_layer",
+   "topics": [
+    {
+     "id": "T12",
+     "title": "Transport-layer services: process-to-process delivery, port numbers, multiplexing and demultiplexing",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p60-62",
+      "N_Network_Systems_compressed p73",
+      "N_Network_Systems_compressed p76"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Process-to-process delivery and ICANN port ranges p60, encapsulation p60, pushing/pulling p61; multiplexing/demultiplexing only listed (p73, p76)."
+    },
+    {
+     "id": "T13",
+     "title": "Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol",
+     "lectures": 0.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p61-64"
+     ],
+     "origin": "instructor",
+     "visual": "sequence",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Flow control p61, error control and connectionless service p62, connection-oriented service p63, simple protocol p64."
+    },
+    {
+     "id": "T14",
+     "title": "Stop-and-wait protocol",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p65",
+      "N_Network_Systems_compressed p91"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Flow diagram with lost packet and lost ACK p65; utilization U = 1/(1+2a) at the top of p91."
+    },
+    {
+     "id": "T15",
+     "title": "Go-Back-N protocol",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p66-68"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me."
+    },
+    {
+     "id": "T16",
+     "title": "Selective-Repeat protocol; window size vs sequence-number bits",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p69-71"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. SR windows p69-70, GBN vs SR ACK interpretation p70, 2^(m-1) justification p71."
+    },
+    {
+     "id": "T17",
+     "title": "UDP: services, applications, user-datagram format, checksum",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p72-75"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Header + hex-dump example p72-73, services p73, pseudoheader/checksum p74-75, applications/features p75. Note p72 says 'DNS uses TCP ... port 53' but p59 says DNS runs over UDP port 53: needs a convention."
+    },
+    {
+     "id": "T18",
+     "title": "TCP services and features: byte numbering, sequence and acknowledgment numbers",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p75-77"
+     ],
+     "origin": "instructor",
+     "visual": "array",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. TCP intro p75, services and buffers p76, byte/sequence/ack numbering with worked example p77; SYN/ACK sequence-number consumption p82."
+    },
+    {
+     "id": "T19",
+     "title": "TCP segment format (header fields, flags)",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p78-79"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me."
+    },
+    {
+     "id": "T20",
+     "title": "TCP connection management: 3-way handshake, data transfer, connection termination",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p80-83",
+      "N_Network_Systems_compressed p86"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Establishment p80, data transfer with piggybacking p81, 3-way and 4-way termination p82-83, common-scenario timeline p86."
+    },
+    {
+     "id": "T21",
+     "title": "TCP state transition diagram",
+     "lectures": 0.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p84-86"
+     ],
+     "origin": "instructor",
+     "visual": "fsm",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me."
+    },
+    {
+     "id": "T22",
+     "title": "Windows in TCP and TCP flow control",
+     "lectures": 0.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p61",
+      "N_Network_Systems_compressed p76",
+      "N_Network_Systems_compressed p87"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. No dedicated pages: generic transport flow control p61, TCP send/receive buffers p76, congestion window p87. rwnd, window opening/closing/shrinking and silly-window are not in the notes. Open coverage gap. ES2024 4(a) asks TCP transmission/acknowledgment policy and timers: also not in the notes."
+    },
+    {
+     "id": "T23",
+     "title": "TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p87-90"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Policies p87, slow start p87-88, congestion avoidance / additive increase p88-89, AIMD sawtooth and throughput = 0.75 Wmax / RTT p90. Fast recovery / Reno vs Tahoe is not in the notes (lesson plan lists it): partial gap."
+    },
+    {
+     "id": "T24",
+     "title": "Quality of Service (QoS)",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "SYL_Lesson_Plan_NS_sample p2"
+     ],
+     "origin": "none",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Not in the handwritten notes or gap-fill slides. Open coverage gap. ES2026SP asks QoS and the leaky bucket."
+    }
+   ]
+  },
+  {
+   "id": "U4",
+   "title": "Network Layer",
+   "in_scope": false,
+   "lectures": 12,
+   "chapter": "",
+   "topics": [
+    {
+     "id": "T25",
+     "title": "Network-layer services; IPv4 datagram format",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p92",
+      "N_Network_Systems_compressed p95-98"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total. Network-layer services p92; IPv4 datagram format and fields p95-98."
+    },
+    {
+     "id": "T26",
+     "title": "IPv4 fragmentation",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p112-114"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me."
+    },
+    {
+     "id": "T27",
+     "title": "IPv4 addressing: classful addressing, notations",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p99-103"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Hierarchical addressing p99-100, private addresses p100, classes p100-103."
+    },
+    {
+     "id": "T28",
+     "title": "Subnetting (classless addressing, address blocks)",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p104-110"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Class C subnetting p104-106, CIDR / slash notation p105-107, first/last address p108, sub-block allocation p109-110."
+    },
+    {
+     "id": "T29",
+     "title": "Supernetting",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p111"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me."
+    },
+    {
+     "id": "T30",
+     "title": "DHCP, ICMP, NAT",
+     "lectures": 1.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p115",
+      "N_Network_Systems_compressed p120-121",
+      "N_Module_4_Lec_37_39_Protocols_Associated_to_the_Network_Layer p4-11",
+      "N_Module_4_Lec_37_39_Protocols_Associated_to_the_Network_Layer p20-29"
+     ],
+     "origin": "instructor",
+     "visual": "sequence",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. ICMP only in the service-model box on p115; NAT p120; DHCP p121 (one paragraph). Gap-fill slides: special addresses, NAT, DHCP p4-11, ICMP p20-29."
+    },
+    {
+     "id": "T31",
+     "title": "ARP and RARP",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p144",
+      "N_Module_4_Lec_37_39_Protocols_Associated_to_the_Network_Layer p12-19"
+     ],
+     "origin": "gapfill",
+     "visual": "sequence",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Notes p144 list ARP only as a heading; gap-fill slides p12-19 cover ARP and RARP."
+    },
+    {
+     "id": "T32",
+     "title": "Distance-vector and path-vector routing",
+     "lectures": 1.5,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p116-119"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Routing basics p115-116, distance vector + Bellman-Ford p117-118, worked DV example p119. Path vector is not in the notes."
+    },
+    {
+     "id": "T33",
+     "title": "Link-state routing",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p116"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Only a mention on p116 (global-knowledge algorithms, 'refer to Dijkstra')."
+    },
+    {
+     "id": "T34",
+     "title": "Routing protocols: RIP, OSPF",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p115",
+      "N_Network_Systems_compressed p117"
+     ],
+     "origin": "instructor",
+     "visual": "table",
+     "notes": "Lesson plan gives only the unit total; lecture count spread by me. Mentions only: RIP/OSPF/BGP in the service model p115, DV used in RIP p117."
+    }
+   ]
+  },
+  {
+   "id": "U5",
+   "title": "Physical Layer and Data Link Layer",
+   "in_scope": false,
+   "lectures": 5,
+   "chapter": "",
+   "topics": [
+    {
+     "id": "T35",
+     "title": "Transmission media",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p1"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total. No transmission-media pages; p1 only lists wired and wireless media."
+    },
+    {
+     "id": "T36",
+     "title": "Data link layer introduction",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p122-123",
+      "N_Module_5_Lec_43_47_Data_Link_Layer p3-8"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total. DLL responsibilities and DLC/MAC sublayers."
+    },
+    {
+     "id": "T37",
+     "title": "Error detection: block coding, Hamming distance, parity and LRC",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p124-127",
+      "N_Module_5_Lec_43_47_Data_Link_Layer p22-47"
+     ],
+     "origin": "instructor",
+     "visual": "array",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total. Error types, block coding, Hamming distance p125-127; parity / 2-D parity (LRC) in the gap-fill slides p31-47."
+    },
+    {
+     "id": "T38",
+     "title": "Error detection: CRC",
+     "lectures": 1,
+     "senior_imp": true,
+     "sources": [
+      "N_Network_Systems_compressed p131-132",
+      "N_Module_5_Lec_43_47_Data_Link_Layer p60-74"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total."
+    },
+    {
+     "id": "T39",
+     "title": "Error correction: Hamming code",
+     "lectures": 1,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p128-130",
+      "N_Module_5_Lec_43_47_Data_Link_Layer p75-90"
+     ],
+     "origin": "instructor",
+     "visual": "storyboard",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total."
+    },
+    {
+     "id": "T40",
+     "title": "Ethernet frame format",
+     "lectures": 0.5,
+     "senior_imp": false,
+     "sources": [
+      "N_Network_Systems_compressed p144"
+     ],
+     "origin": "instructor",
+     "visual": "block",
+     "notes": "Lecture count estimated from the notes' page share within the plan's unit total. Notes p144 start 'Standard Ethernet' (addressing: unicast/multicast/broadcast) and stop there."
+    }
+   ]
+  }
+ ],
+ "figure_plan": [
+  {
+   "fig": "fig:T06-stack",
+   "owner": "atoms/notes/T06",
+   "desc": "OSI 7 layers beside the TCP/IP 5 layers, with the PDU name (message, segment/user datagram, datagram, frame, bits) and address type (names, ports, IP, MAC) per layer [N p24-25]",
+   "used_by": [
+    "T01",
+    "T07",
+    "T12"
+   ]
+  },
+  {
+   "fig": "fig:T06-encap",
+   "owner": "atoms/notes/T06",
+   "desc": "Encapsulation down the sender stack and decapsulation up the receiver stack: each layer adds its header, payload = upper-layer PDU [N p60]",
+   "used_by": [
+    "T12",
+    "T17",
+    "T19"
+   ]
+  },
+  {
+   "fig": "fig:T11-linktime",
+   "owner": "atoms/notes/T11",
+   "desc": "Space-time diagram of one packet on a link: transmission time L/R, then propagation d/s; RTT = 2 x propagation [N p91]",
+   "used_by": [
+    "T08",
+    "T14",
+    "T23"
+   ]
+  },
+  {
+   "fig": "fig:T15-window",
+   "owner": "atoms/notes/T15",
+   "desc": "Sliding send window over an m-bit sequence-number strip: Sf, Sn, Ssize; regions acked / outstanding / can send / cannot send; wrap-around [N p66-67]",
+   "used_by": [
+    "T14",
+    "T16",
+    "T22"
+   ]
+  },
+  {
+   "fig": "fig:T17-udp-header",
+   "owner": "atoms/notes/T17",
+   "desc": "UDP 8-byte header (source port, destination port, length, checksum) in 32-bit rows, plus the checksum pseudoheader [N p72, p74]",
+   "used_by": [
+    "T12",
+    "T19"
+   ]
+  },
+  {
+   "fig": "fig:T19-tcp-header",
+   "owner": "atoms/notes/T19",
+   "desc": "TCP header in 32-bit rows: ports, sequence, acknowledgment, HLEN, reserved, flags URG ACK PSH RST SYN FIN, window, checksum, urgent pointer, options [N p78]",
+   "used_by": [
+    "T18",
+    "T20",
+    "T22"
+   ]
+  },
+  {
+   "fig": "fig:T20-handshake",
+   "owner": "atoms/notes/T20",
+   "desc": "Three-way handshake timeline client/server: SYN, SYN+ACK, ACK with seq/ack numbers and the state each side enters [N p80, p86]",
+   "used_by": [
+    "T08",
+    "T18",
+    "T21"
+   ]
+  },
+  {
+   "fig": "fig:T21-fsm",
+   "owner": "atoms/notes/T21",
+   "desc": "TCP state transition diagram: client path (solid) and server path (dashed), CLOSED to TIME-WAIT / LAST-ACK [N p84]",
+   "used_by": [
+    "T20"
+   ]
+  },
+  {
+   "fig": "fig:T23-cwnd",
+   "owner": "atoms/notes/T23",
+   "desc": "cwnd (MSS) vs RTT: slow start doubling to ssthresh, linear congestion avoidance, multiplicative decrease sawtooth [N p87-90]",
+   "used_by": [
+    "T22"
+   ]
+  }
+ ],
+ "imp_docs": [
+  "N_NS_IMP",
+  "N_ns_imp_topics_and_pyqs"
+ ],
+ "warnings": [
+  "Exam pattern taken from MS2025, the newest paper of the same course and branch as the target exam.",
+  "Course codes seen across the sample papers: XX 3003 / XX3003 and older aliases XX-3009, XX-3005, XX-3001.",
+  "A newer paper from a different school exists with another format; treat it as a similar-course paper only."
+ ],
+ "_provenance": "SYNTHETIC stand-in (2026-11-10) for the frozen round-3 midsem blueprint: units U1-U5 with the round-3 topic lists (U4 T25-T34, U5 T35-T40, round-3 lecture counts). Course names, codes and source names are invented."
+}

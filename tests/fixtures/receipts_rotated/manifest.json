@@ -1,0 +1,25 @@
+{
+ "files": {
+  "Endsem PYQs/Sample endsem economics (XX2002), sideways scan.pdf": {
+   "slug": "PYQE_sample_endsem_economics_scan",
+   "category": "pyq_endsem",
+   "origin": "instructor",
+   "kind_detected": "pdf",
+   "ext_kind": "pdf",
+   "mismatch": false,
+   "pages": 6,
+   "ocr_pages": 6,
+   "text_pages": 6,
+   "image_only_pages": 0,
+   "blank_pages": 0,
+   "lost_pages": [],
+   "chars": 0,
+   "garble": 0.07,
+   "ocr_conf": 39.0,
+   "figures": 0,
+   "stamp": "165846-synthetic|ocr1|v4",
+   "ocr_available": true,
+   "quality": "POOR - read page images (work/note_pages or work/pyq_pages)"
+  }
+ }
+}

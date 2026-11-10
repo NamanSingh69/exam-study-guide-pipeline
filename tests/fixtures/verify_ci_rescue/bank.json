@@ -1,0 +1,803 @@
+{
+ "papers": [
+  {
+   "id": "MS2024B",
+   "year": 2024,
+   "session": "autumn",
+   "exam": "midsem",
+   "source_slug": "PYQM_synthetic_2024_mid_sample_XX3001",
+   "course_code": "XX3001",
+   "full_marks": 20,
+   "duration": "1.5 h",
+   "pattern": "Q1 compulsory 5x1; any 3 of Q2-Q7 (one each from Section B = Q2,Q3; C = Q4,Q5; D = Q6,Q7)",
+   "instructions": "Section A is compulsory. The figures in the right-hand side indicate full marks. All parts of a question should be answered at one place only.",
+   "pages": [
+    1,
+    2
+   ],
+   "coverage": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "weight": 1
+  },
+  {
+   "id": "MS2025",
+   "year": 2025,
+   "session": "autumn",
+   "exam": "midsem",
+   "source_slug": "PYQM_synthetic_2025_mid_sample_XX3001",
+   "course_code": "XX3001",
+   "full_marks": 20,
+   "duration": "1.5 h",
+   "pattern": "Q1 compulsory 5x1; any 3 of Q2-Q7 (one from each of Section B Q2/Q3, Section C Q4/Q5, Section D Q6/Q7)",
+   "instructions": "Section A is compulsory. The figures in the right-hand side indicate full marks. All parts of a question should be answered at one place only.",
+   "pages": [
+    1,
+    2
+   ],
+   "coverage": [
+    "U1",
+    "U2",
+    "U3"
+   ],
+   "weight": 1
+  }
+ ],
+ "questions": [
+  {
+   "id": "MS2024B-1a",
+   "paper": "MS2024B",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     328.0,
+     510,
+     351.5
+    ]
+   },
+   "text": "State the main stages of a closed-loop feedback controller.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "this row is missing from the corpus OCR; read from the image"
+  },
+  {
+   "id": "MS2024B-1b",
+   "paper": "MS2024B",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "compare",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     349.5,
+     510,
+     373.0
+    ]
+   },
+   "text": "Why does gradient descent become unstable when the step size is too large?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "this row is missing from the corpus OCR; read from the image"
+  },
+  {
+   "id": "MS2024B-1c",
+   "paper": "MS2024B",
+   "qno": "1(c)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     371.0,
+     510,
+     394.5
+    ]
+   },
+   "text": "Name the smallest network depth that can separate the XOR pattern.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "the first line is missing from the corpus OCR; read from the image"
+  },
+  {
+   "id": "MS2024B-1d",
+   "paper": "MS2024B",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     392.5,
+     510,
+     416.0
+    ]
+   },
+   "text": "Why are smooth squashing functions chosen as the activation in a layered model?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-1e",
+   "paper": "MS2024B",
+   "qno": "1(e)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     414.0,
+     510,
+     453.0
+    ]
+   },
+   "text": "A set is given as A={0.2/1, 0.4/2, 0.5/4, 0.9/5, 0.3/6, 0.5/7}. State whether it is convex. Justify.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-2",
+   "paper": "MS2024B",
+   "qno": "2",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     451.0,
+     510,
+     708.0
+    ]
+   },
+   "text": "Consider a universe X of ages X = {5, 15, 25, 35, 45, 55, 65, 75, 85}.\n[table]\nAnswer the following\n1. Build the sets named young, adult and senior over X.\n2. Give the support of each set.\n3. What is the width of the set young?\n4. Is the set adult normal or subnormal?\n5. What is the core of the set senior?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "table": {
+    "header": [
+     "Age",
+     "Young",
+     "Adult",
+     "Senior"
+    ],
+    "rows": [
+     [
+      "5",
+      "0",
+      "0",
+      "0"
+     ],
+     [
+      "15",
+      "0.2",
+      "0.1",
+      "0"
+     ],
+     [
+      "25",
+      "0.8",
+      "0.6",
+      "0"
+     ],
+     [
+      "35",
+      "0.5",
+      "1",
+      "0.1"
+     ],
+     [
+      "45",
+      "0.1",
+      "0.7",
+      "0.4"
+     ],
+     [
+      "55",
+      "0",
+      "0.3",
+      "0.8"
+     ],
+     [
+      "65",
+      "0",
+      "0.1",
+      "1"
+     ],
+     [
+      "75",
+      "0",
+      "0",
+      "1"
+     ],
+     [
+      "85",
+      "0",
+      "0",
+      "1"
+     ]
+    ]
+   },
+   "ocr_fixes": "the table was garbled in OCR"
+  },
+  {
+   "id": "MS2024B-3",
+   "paper": "MS2024B",
+   "qno": "3",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     58.0,
+     510,
+     159.0
+    ]
+   },
+   "text": "Let M be a set describing how mature a person is at a given age. Its membership rule is\n$\\mu_M(x) = \\begin{cases}0, if\\ x \\leq 5\\\\\\left(\\frac{x-5}{20}\\right)^2, if\\ 5 < x \\leq 25\\\\1, if\\ x > 25\\end{cases}$\nThe universe is X={3, 8, 10, 12, 15, 18, 20, 24, 27, 32}. Find the alpha-cut and the strong alpha-cut for alpha=0.4.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "the formula was garbled in OCR; read from the image as a maths span"
+  },
+  {
+   "id": "MS2024B-4a",
+   "paper": "MS2024B",
+   "qno": "4(a)",
+   "marks": 2,
+   "compulsory": false,
+   "type": "diagram",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     157.0,
+     510,
+     180.5
+    ]
+   },
+   "text": "Sketch the block model of a single artificial unit and mark every unknown parameter.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-4b",
+   "paper": "MS2024B",
+   "qno": "4(b)",
+   "marks": 3,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     178.5,
+     510,
+     270.5
+    ]
+   },
+   "text": "A two-class training set is listed below. Find the weights after the first iteration, starting from W=[1 -0.5].\n[table]",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "table": {
+    "header": [
+     "x1",
+     "x2",
+     "d"
+    ],
+    "rows": [
+     [
+      "1",
+      "2",
+      "1"
+     ],
+     [
+      "-1",
+      "2",
+      "0"
+     ]
+    ]
+   },
+   "ocr_fixes": "the table was garbled in OCR"
+  },
+  {
+   "id": "MS2024B-5a",
+   "paper": "MS2024B",
+   "qno": "5(a)",
+   "marks": 2,
+   "compulsory": false,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     268.5,
+     510,
+     292.0
+    ]
+   },
+   "text": "Write down the learning rule of a linear adaptive unit.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-5b",
+   "paper": "MS2024B",
+   "qno": "5(b)",
+   "marks": 3,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     290.0,
+     510,
+     329.0
+    ]
+   },
+   "text": "With starting weights W=[0.2, 0.3], update the weights for the input X=[-1 -1] when the target is d=-1.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-6a",
+   "paper": "MS2024B",
+   "qno": "6(a)",
+   "marks": 1,
+   "compulsory": false,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     327.0,
+     510,
+     366.0
+    ]
+   },
+   "text": "How does a radial basis layer turn a nonlinearly separable task into a linearly separable one?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-6b",
+   "paper": "MS2024B",
+   "qno": "6(b)",
+   "marks": 4,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     364.0,
+     510,
+     387.5
+    ]
+   },
+   "text": "Use the XOR function with Gaussian basis functions to illustrate your answer.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-7a",
+   "paper": "MS2024B",
+   "qno": "7(a)",
+   "marks": 1,
+   "compulsory": false,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     385.5,
+     510,
+     409.0
+    ]
+   },
+   "text": "What is meant by the cooperation step in a self organising map?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": ""
+  },
+  {
+   "id": "MS2024B-7b",
+   "paper": "MS2024B",
+   "qno": "7(b)",
+   "marks": 4,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     407.0,
+     510,
+     477.0
+    ]
+   },
+   "text": "A map has two inputs and two output units with initial weights\n$W = \\begin{bmatrix}0.2 & 0.3\\\\0.7 & 0.4\\end{bmatrix}$\nFind the output unit closest to the input [0.4 0.3] and update its weights with a learning rate of 0.5.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "the formula was garbled in OCR; read from the image as a maths span"
+  },
+  {
+   "id": "MS2025-1a",
+   "paper": "MS2025",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "compare",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     328.0,
+     510,
+     351.5
+    ]
+   },
+   "text": "Compare a living nerve cell with a model unit.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-1b",
+   "paper": "MS2025",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     349.5,
+     510,
+     373.0
+    ]
+   },
+   "text": "How can the behaviour of a model unit be written down mathematically?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-1c",
+   "paper": "MS2025",
+   "qno": "1(c)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     371.0,
+     510,
+     394.5
+    ]
+   },
+   "text": "What does the winner-takes-all learning rule do?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "this row is missing from the corpus OCR; read from the image",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-1d",
+   "paper": "MS2025",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     392.5,
+     510,
+     416.0
+    ]
+   },
+   "text": "Which kind of learning does vector coding by prototypes use?",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-1e",
+   "paper": "MS2025",
+   "qno": "1(e)",
+   "marks": 1,
+   "compulsory": true,
+   "type": "diagram",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     414.0,
+     510,
+     453.0
+    ]
+   },
+   "text": "Draw a fuzzy set to describe the statement the room is warm, over a continuous temperature axis.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-2",
+   "paper": "MS2025",
+   "qno": "2",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     451.0,
+     510,
+     521.0
+    ]
+   },
+   "text": "Two sets are given as P = ((x1, 0.1), (x2, 0.2), (x3, 0.7), (x4, 0.5), (x5, 0.4)) and Q = ((x1, 0.9), (x2, 0.6), (x3, 0.3), (x4, 0.2), (x5, 0.8)). Determine the following. i) $P_{0.2}$ and $Q_{0.3}$ ii) The support of each set iii) The core of set P iv) Convexity of set Q v) Normality of set P",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "the formula was garbled in OCR; read from the image as a maths span",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-3",
+   "paper": "MS2025",
+   "qno": "3",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     519.0,
+     510,
+     573.5
+    ]
+   },
+   "text": "Take the sets L = {(low,1),(medium,0.2),(high,0.5)} and K = {(positive,0.9),(zero,0.4),(negative,0.9)}. Form the product relation R = L x K and then the diagonal of $R\\circ R^{T}$.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "the formula was garbled in OCR; read from the image as a maths span",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-4a",
+   "paper": "MS2025",
+   "qno": "4(a)",
+   "marks": 1,
+   "compulsory": false,
+   "type": "theory",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     571.5,
+     510,
+     595.0
+    ]
+   },
+   "text": "A single linear unit cannot split classes that are not linearly separable. Justify this.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-4b",
+   "paper": "MS2025",
+   "qno": "4(b)",
+   "marks": 4,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     593.0,
+     510,
+     632.0
+    ]
+   },
+   "text": "Train the OR function (binary inputs and targets) on one unit with one neuron for one epoch, with initial weights and bias w1=0.1, w2=-0.5, b=0.1 and learning rate 0.5.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-5",
+   "paper": "MS2025",
+   "qno": "5",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     630.0,
+     510,
+     669.0
+    ]
+   },
+   "text": "Train the AND function (bipolar inputs and targets) on a two-input one-output adaptive unit from w1=0.2, w2=0.2, b=0.2 for one epoch with learning rate 0.5.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-6",
+   "paper": "MS2025",
+   "qno": "6",
+   "marks": 5,
+   "compulsory": false,
+   "type": "derivation",
+   "verified": "vision",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     70,
+     667.0,
+     510,
+     721.5
+    ]
+   },
+   "text": "Design a radial basis network for a classification task and show that the problem becomes linearly separable in the hidden space, taking the XOR function as the example.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "ocr_fixes": "",
+   "figure": ""
+  },
+  {
+   "id": "MS2025-7",
+   "paper": "MS2025",
+   "qno": "7",
+   "marks": 5,
+   "compulsory": false,
+   "type": "numerical",
+   "verified": "vision",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     70,
+     58.0,
+     510,
+     181.0
+    ]
+   },
+   "text": "The output layer of a map is a ring of six nodes A to F (dashed links A-B-C-D-E-F-A). Each node has two inputs x1 and x2 (not shown). The initial weights are\n[table]\na) Find the winning node for the input x = [2, -4].\nb) Adjust the winning node's weights with a learning rate of 0.5.",
+   "topic": "T01",
+   "cluster": "C01",
+   "in_scope": true,
+   "table": {
+    "header": [
+     "-",
+     "A",
+     "B",
+     "C",
+     "D",
+     "E",
+     "F"
+    ],
+    "rows": [
+     [
+      "w1",
+      "-1",
+      "0",
+      "3",
+      "-2",
+      "3",
+      "4"
+     ],
+     [
+      "w2",
+      "2",
+      "4",
+      "-2",
+      "-3",
+      "2",
+      "-1"
+     ]
+    ]
+   },
+   "ocr_fixes": "the table was garbled in OCR",
+   "figure": "Output ring: six nodes A, B, C, D, E, F joined by dashed lines (A-B-C-D-E-F-A)."
+  }
+ ],
+ "clusters": [
+  {
+   "id": "C01",
+   "topic": "T01"
+  }
+ ]
+}

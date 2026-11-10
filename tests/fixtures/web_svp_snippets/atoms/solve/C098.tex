@@ -1,0 +1,31 @@
+\begin{solvedidea}{C098}{Exhaustive block matching in a small search window}
+\noindent\textbf{Expected question} \mks{5}\quad\emph{A $2\times2$ block $B=\left[\begin{smallmatrix}67&76\\61&73\end{smallmatrix}\right]$
+was cut from the current frame at rows 1--2, columns 1--2. The $4\times4$ region $P$ of the previous frame is
+shown below. Use full search with $R=1$ and SAD to find the block's motion vector, and count the absolute differences
+that full search needs for a $16\times16$ block with $R=7$.}
+\[ P=\begin{bmatrix}20&22&21&23\\24&70&80&25\\22&66&75&90\\21&60&72&88\end{bmatrix}\quad(\text{rows and columns } 0\text{--}3) \]
+
+\noindent\textbf{Convention.} $\mathbf d=(d_x,d_y)$: block at $\mathbf x$ in frame $t$ matches $\mathbf x+\mathbf d$ in
+frame $t-1$; $d_x$ = columns (right $+$), $d_y$ = rows (down $+$). $R=1$ gives $(2R+1)^2=9$ candidates; the candidate
+for $\mathbf d$ covers rows $1+d_y$ to $2+d_y$ and columns $1+d_x$ to $2+d_x$.
+
+\noindent\textbf{Two candidates in full.}
+\begin{align*}
+\mathbf d=(0,0):&\;|67-70|+|76-80|+|61-66|+|73-75|=3+4+5+2=14\\
+\mathbf d=(0,1):&\;|67-66|+|76-75|+|61-60|+|73-72|=1+1+1+1=4
+\end{align*}
+
+{\small\zebra
+\begin{tabularx}{\linewidth}{YYYY}\toprule
+\thead{SAD} & \thead{$d_x=-1$} & \thead{$d_x=0$} & \thead{$d_x=+1$}\\\midrule
+$d_y=-1$ & 141 & 116 & 166\\
+$d_y=0$ & 95 & 14 & 95\\
+$d_y=+1$ & 108 & \textbf{4} & 48\\\bottomrule
+\end{tabularx}\par}
+
+\noindent\textbf{Result.} Minimum SAD $=4$ at \answer{$\hat{\mathbf d}=(0,1)$} (MAD $=4/4=1$): the block came from
+one row \emph{below} in the previous frame, so the object moved up by one pixel.
+
+\noindent\textbf{Cost.} $16\times16$, $R=7$: $(2\cdot7+1)^2=225$ candidates $\times$ $256$ pixels
+$=$ \answer{$57\,600$ absolute differences per block} (checks/C098.py); three-step search needs only 25 candidates.
+\end{solvedidea}

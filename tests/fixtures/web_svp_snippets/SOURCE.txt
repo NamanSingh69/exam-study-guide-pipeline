@@ -1,0 +1,9 @@
+SYNTHETIC snippets (2026-11-10) modelled on the SVP endsem run (2026-11-06) that broke tools/web.py
+(4 render failures, 15 fallbacks). The constructs are the ones that failed; the question wording and the
+course code are invented, the numbers and the LaTeX are kept so each construct still exercises the converter:
+  atoms/notes/T38.tex   \providecommand with a TikZ scope body
+  atoms/notes/T31.tex   \flashcard with matrices, \\R row breaks, psmallmatrix, \par\nobreak
+  atoms/solve/C098.tex  \emph{..} argument holding a smallmatrix - whole file
+  atoms/solve/C122.tex  \emph{..} argument, lstlisting - whole file
+  chapters/60_important_questions.tex  the layout of a real chapter around those \inputs
+JSON files are minimal stand-ins (no papers: SVP is the weak-input subject). Used by tests/test_web.py.

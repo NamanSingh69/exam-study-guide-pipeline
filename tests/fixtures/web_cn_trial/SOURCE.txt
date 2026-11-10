@@ -1,0 +1,6 @@
+SYNTHETIC midsem trial for tests/test_web.py (2026-11-10; frozen, do not regenerate).
+chapters/: round-3 trial chapters of a networking course (agent-written notes and solutions) in which every
+  quoted past-paper question and the paper's header / instructions were replaced by questions written for this
+  repo (same numbers, sub-parts and ids, new wording). Course name, code, school and domain names are invented.
+*.json: the papers, questions, clusters and topics the chapters reference (papers MS2022, MS2024, MS2025);
+  question texts are synthetic.

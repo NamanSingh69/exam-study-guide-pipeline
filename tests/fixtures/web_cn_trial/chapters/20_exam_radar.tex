@@ -1,0 +1,118 @@
+\chapter{Exam Radar: what is likely to be asked}
+\label{ch:radar}
+Built from 3 past papers (MS2022, MS2024, MS2025). $P$ = estimated chance the idea appears in your paper (recency-weighted frequency, smoothed with lecture time and seniors' lists). \textbf{EV} = $P\times$ typical marks $\times$ choice factor = marks at stake. This table is ranked by EV; the Important Questions chapter groups ideas by tier (A $\ge$60\%, B 35--59\%, C 15--34\%, D never asked) and orders them by EV inside each tier. \textbf{Yield} = EV per 30 minutes of study; the time-boxed study plans at the end pick by yield. With so few papers treat $P$ as a band (high / medium / low), not a promise.
+
+\section{Topic heatmap (marks asked per paper)}
+{\small\zebra
+\begin{xltabular}{\linewidth}{Ycccc}
+\toprule \thead{Topic} & \thead{MS2022} & \thead{MS2024} & \thead{MS2025} & \thead{P(topic)}\\\midrule\endhead
+Introduction: data communication components, data flow, network criteria, network types (PAN/LAN/MAN/WAN) & \textcolor{muted}{--} & \textcolor{muted}{--} & \cellcolor{sgamber!27}1 & \prob{44}\\
+Analog and digital signals; data transmission and multiplexing & \textcolor{muted}{--} & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{13}\\
+Data encoding techniques & \textcolor{muted}{--} & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{8}\\
+Packet switching vs circuit switching (and virtual-circuit switching) & \cellcolor{sgamber!45}2.5 & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{32}\\
+Network topologies: mesh, bus, star, ring, hybrid (pros/cons, fault handling) & \textcolor{muted}{--} & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \prob{45}\\
+Protocol layering; OSI model and TCP/IP protocol suite & \textcolor{muted}{--} & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{13}\\
+Application paradigms: client-server vs peer-to-peer; sockets & \cellcolor{sgamber!27}1 & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{22}\\
+HTTP: persistent vs non-persistent connections, message format, cookies, web caching/proxy & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!57}3.5 & \cellcolor{sgamber!39}2 & \prob{84}\\
+Electronic mail: architecture, UA/MTA/MAA, SMTP, POP3/IMAP, MIME & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!45}2.5 & \prob{66}\\
+DNS: name space, FQDN/PQDN, domains, name resolution, resource records & \cellcolor{sgamber!27}1 & \cellcolor{sgamber!27}1 & \cellcolor{sgamber!63}4 & \prob{80}\\
+Delay and throughput in packet-switched networks & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!27}1 & \prob{66}\\
+Transport-layer services: process-to-process delivery, port numbers, multiplexing and demultiplexing & \cellcolor{sgamber!57}3.5 & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{26}\\
+Flow control and error control at the transport layer; connectionless vs connection-oriented service; simple protocol & \textcolor{muted}{--} & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{14}\\
+Stop-and-wait protocol & \cellcolor{sgamber!70}5 & \cellcolor{sgamber!27}1 & \cellcolor{sgamber!51}3 & \prob{84}\\
+Go-Back-N protocol & \cellcolor{sgamber!27}1 & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!39}2 & \prob{84}\\
+Selective-Repeat protocol; window size vs sequence-number bits & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \textcolor{muted}{--} & \prob{40}\\
+UDP: services, applications, user-datagram format, checksum & \cellcolor{sgamber!57}3.5 & \cellcolor{sgamber!27}1 & \cellcolor{sgamber!27}1 & \prob{80}\\
+TCP services and features: byte numbering, sequence and acknowledgment numbers & \textcolor{muted}{--} & \cellcolor{sgamber!57}3.5 & \textcolor{muted}{--} & \prob{40}\\
+TCP segment format (header fields, flags) & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!45}2.5 & \cellcolor{sgamber!39}2 & \prob{80}\\
+TCP connection management: 3-way handshake, data transfer, connection termination & \cellcolor{sgamber!45}2.5 & \textcolor{muted}{--} & \cellcolor{sgamber!51}3 & \prob{59}\\
+TCP state transition diagram & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \textcolor{muted}{--} & \prob{35}\\
+Windows in TCP and TCP flow control & \textcolor{muted}{--} & \textcolor{muted}{--} & \cellcolor{sgamber!27}1 & \prob{41}\\
+TCP congestion control: slow start, congestion avoidance, fast recovery; TCP throughput & \cellcolor{sgamber!45}2.5 & \textcolor{muted}{--} & \cellcolor{sgamber!45}2.5 & \prob{59}\\
+Quality of Service (QoS) & \textcolor{muted}{--} & \textcolor{muted}{--} & \textcolor{muted}{--} & \prob{8}\\
+\bottomrule\end{xltabular}}
+
+\section{Ranked question ideas (by EV)}
+{\footnotesize\zebra
+\begin{xltabular}{\linewidth}{r>{\raggedright\arraybackslash}Xccccc}
+\toprule \thead{\#} & \thead{Question idea \textmd{(asked in)}} & \thead{Tier} & \thead{P} & \thead{Marks} & \thead{EV} & \thead{Yield}\\\midrule\endhead
+\bottomrule\endfoot
+1 & Go-Back-N: count transmissions when every k-th packet is lost\newline{\scriptsize\color{sgteal}MS2022 Q1(a); MS2024 Q4(b); MS2025 Q3(b)} & \tier{A} & 79\% & 2 & 1.58 & 1.89\\
+2 & TCP sequence numbering: numbers consumed by SYN/ACK/FIN/data and the sequence number of each segment\newline{\scriptsize\color{sgteal}MS2024 Q1(e), Q5(a)} & \tier{B} & 36\% & 3.5 & 1.27 & 2.54\\
+3 & Compute bandwidth-delay product and link utilization for stop-and-wait (vs a pipelined window)\newline{\scriptsize\color{sgteal}MS2022 Q3(b) [2nd Q3]; MS2025 Q4(a)} & \tier{B} & 58\% & 2.75 & 1.19 & 1.79\\
+4 & Explain TCP congestion control: slow start, congestion avoidance (additive increase), fast recovery\newline{\scriptsize\color{sgteal}MS2022 Q4(c); MS2025 Q5(iii)} & \tier{B} & 55\% & 2.5 & 1.03 & 1.03\\
+5 & Explain TCP connection establishment (3-way handshake), data transfer and termination\newline{\scriptsize\color{sgteal}MS2025 Q3(a)} & \tier{B} & 42\% & 3 & 0.94 & 0.94\\
+6 & Justify TCP vs UDP for an application (data transfer, DNS)\newline{\scriptsize\color{sgteal}MS2022 Q3(a); MS2025 Q1(b)} & \tier{B} & 51\% & 1.75 & 0.89 & 1.79\\
+7 & Draw the TCP header format and explain each field (incl. urgent-pointer numericals)\newline{\scriptsize\color{sgteal}MS2022 Q2(a); MS2024 Q3(b)} & \tier{B} & 46\% & 2.5 & 0.86 & 0.86\\
+8 & Explain the DNS lookup process (recursive and iterative resolution)\newline{\scriptsize\color{sgteal}MS2025 Q2(a)} & \tier{B} & 38\% & 3 & 0.85 & 1.02\\
+9 & Explain how SMTP delivers a mail (commands, connection / mail transfer / termination phases)\newline{\scriptsize\color{sgteal}MS2025 Q5(ii)} & \tier{B} & 42\% & 2.5 & 0.78 & 1.17\\
+10 & Explain transport-layer services over the network layer: process-to-process delivery, multiplexing vs demultiplexing\newline{\scriptsize\color{sgteal}MS2022 Q1(b), Q4(b)} & \tier{C} & 21\% & 3.5 & 0.75 & 1.49\\
+11 & Define DNS name types and records: FQDN vs PQDN, RR types (CNAME, A, NS)\newline{\scriptsize\color{sgteal}MS2022 Q1(d); MS2024 Q1(a); MS2025 Q1(e)} & \tier{A} & 72\% & 1 & 0.72 & 2.16\\
+12 & Short note on network topologies: types with advantages and disadvantages\newline{\scriptsize\color{sgteal}MS2025 Q5(i)} & \tier{B} & 38\% & 2.5 & 0.71 & 1.06\\
+13 & Compute total time for a file transfer with RTT waits and initial handshake\newline{\scriptsize\color{sgteal}MS2024 Q3(a)} & \tier{B} & 36\% & 2.5 & 0.68 & 0.82\\
+14 & Derive the window-size limits for GBN (2\textsuperscript{m} - 1) and SR (2\textsuperscript{m-1}) and show the failure when exceeded\newline{\scriptsize\color{sgteal}MS2024 Q4(a)} & \tier{B} & 36\% & 2.5 & 0.68 & 0.51\\
+15 & Explain persistent vs non-persistent HTTP with timeline diagrams\newline{\scriptsize\color{sgteal}MS2025 Q2(b)} & \tier{B} & 44\% & 2 & 0.67 & 1.00\\
+16 & Compute page-load time: non-persistent vs persistent HTTP (RTT counting)\newline{\scriptsize\color{sgteal}MS2024 Q2(a)} & \tier{B} & 35\% & 2.5 & 0.66 & 0.79\\
+17 & List the TCP states and draw the TCP state transition diagram\newline{\scriptsize\color{sgteal}MS2024 Q5(b)} & \tier{C} & 34\% & 2.5 & 0.63 & 0.63\\
+18 & Describe e-mail architecture and components: UA, MTA, MAA (POP3/IMAP), mail transfer phases, MIME\newline{\scriptsize\color{sgteal}MS2024 Q2(b)} & \tier{C} & 32\% & 2.5 & 0.61 & 0.73\\
+19 & Decode a TCP header from a hexadecimal dump\newline{\scriptsize\color{sgteal}MS2025 Q4(b)} & \tier{B} & 38\% & 2 & 0.56 & 0.85\\
+20 & Explain web caching / proxy server and how HTTP handles stale cache (conditional GET)\newline{\scriptsize\color{sgteal}MS2022 Q2(b)} & \tier{C} & 28\% & 2.5 & 0.52 & 1.03\\
+21 & Draw the stop-and-wait ARQ flow diagram with lost frame and lost ACK\newline{\scriptsize\color{sgteal}MS2022 Q3(a) [2nd Q3]} & \tier{C} & 28\% & 2.5 & 0.52 & 0.78\\
+22 & UDP header numericals: decode a hex dump (ports, length, checksum), transmission efficiency\newline{\scriptsize\color{sgteal}MS2022 Q1(c); MS2024 Q1(b)} & \tier{B} & 50\% & 1 & 0.50 & 1.00\\
+23 & Compare circuit switching and packet switching (and virtual circuits)\newline{\scriptsize\color{sgteal}MS2022 Q4(a)} & \tier{C} & 25\% & 2.5 & 0.47 & 0.93\\
+24 & Trace a complete TCP exchange with SYN/ACK/FIN bits and SEQ/ACK numbers\newline{\scriptsize\color{sgteal}MS2022 Q3(b)} & \tier{C} & 25\% & 2.5 & 0.47 & 0.40\\
+25 & Delay types: compute transmission + propagation (+ queuing, processing) delay of a packet on a link\newline{\scriptsize\color{sgteal}MS2025 Q1(a)} & \tier{B} & 42\% & 1 & 0.42 & 0.62\\
+26 & State the components and characteristics of data communication (and data-flow modes)\newline{\scriptsize\color{sgteal}MS2025 Q1(c)} & \tier{B} & 37\% & 1 & 0.37 & 1.11\\
+27 & Write an HTTP request (or response) message for a given scenario\newline{\scriptsize\color{sgteal}MS2024 Q1(d)} & \tier{B} & 35\% & 1 & 0.35 & 0.70\\
+28 & Stop-and-wait: count transmissions when every k-th packet is lost\newline{\scriptsize\color{sgteal}MS2024 Q1(c)} & \tier{B} & 35\% & 1 & 0.35 & 0.70\\
+29 & Differentiate TCP window size and MSS; explain the receive window (rwnd)\newline{\scriptsize\color{sgteal}MS2025 Q1(d)} & \tier{B} & 35\% & 1 & 0.35 & 0.70\\
+30 & Compute throughput of a packet-switched network or link\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 15\% & 2.5 & 0.29 & 0.58\\
+31 & Selective Repeat: find pending packets/ACKs from Sf, Sn, Rn values\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 15\% & 2.5 & 0.29 & 0.35\\
+32 & Explain flow control vs error control at the transport layer and how TCP does flow control\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 13\% & 2.5 & 0.24 & 0.35\\
+33 & Compute TCP throughput from the cwnd sawtooth (0.75 Wmax / RTT)\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 11\% & 2.5 & 0.21 & 0.32\\
+34 & Client-server vs P2P paradigm: why the server must be always on\newline{\scriptsize\color{sgteal}MS2022 Q1(e)} & \tier{C} & 18\% & 1 & 0.19 & 0.56\\
+35 & Explain the OSI and TCP/IP models: layers and their responsibilities\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 8\% & 2.5 & 0.15 & 0.15\\
+36 & Explain analog vs digital signals and multiplexing (FDM/TDM)\newline{\scriptsize\color{sgteal}never asked} & \tier{D} & 8\% & 2.5 & 0.15 & 0.22\\
+\end{xltabular}}
+
+\section{Study plans by time available}
+Greedy by yield (marks per 30 min), using each idea's effort estimate.
+Work down this list; stop at the line that matches the time you have. Minutes are each idea's effort estimate; the running total is in brackets.
+\begin{enumerate}[itemsep=0pt]
+\item TCP sequence numbering: numbers consumed by SYN/ACK/FIN/data and the sequence number of each segment \tier{B} {\scriptsize\color{muted}15 min (15)}
+\item Define DNS name types and records: FQDN vs PQDN, RR types (CNAME, A, NS) \tier{A} {\scriptsize\color{muted}10 min (25)}
+\item Go-Back-N: count transmissions when every k-th packet is lost \tier{A} {\scriptsize\color{muted}25 min (50)}
+\item Compute bandwidth-delay product and link utilization for stop-and-wait (vs a pipelined window) \tier{B} {\scriptsize\color{muted}20 min (70)}
+\item Justify TCP vs UDP for an application (data transfer, DNS) \tier{B} {\scriptsize\color{muted}15 min (85)}
+\item Explain transport-layer services over the network layer: process-to-process delivery, multiplexing vs demultiplexing \tier{C} {\scriptsize\color{muted}15 min (100)}
+\item Explain how SMTP delivers a mail (commands, connection / mail transfer / termination phases) \tier{B} {\scriptsize\color{muted}20 min (120)}
+\item State the components and characteristics of data communication (and data-flow modes) \tier{B} {\scriptsize\color{muted}10 min (130)}
+\item Short note on network topologies: types with advantages and disadvantages \tier{B} {\scriptsize\color{muted}20 min (150)}
+\item Explain TCP congestion control: slow start, congestion avoidance (additive increase), fast recovery \tier{B} {\scriptsize\color{muted}30 min (180)}
+\item[] \textcolor{sgred}{\rule[0.5ex]{3em}{0.6pt}\ \textbf{3 hours: stop here}\ \rule[0.5ex]{3em}{0.6pt}}
+\item Explain web caching / proxy server and how HTTP handles stale cache (conditional GET) \tier{C} {\scriptsize\color{muted}15 min (195)}
+\item Explain the DNS lookup process (recursive and iterative resolution) \tier{B} {\scriptsize\color{muted}25 min (220)}
+\item Explain persistent vs non-persistent HTTP with timeline diagrams \tier{B} {\scriptsize\color{muted}20 min (240)}
+\item UDP header numericals: decode a hex dump (ports, length, checksum), transmission efficiency \tier{B} {\scriptsize\color{muted}15 min (255)}
+\item Explain TCP connection establishment (3-way handshake), data transfer and termination \tier{B} {\scriptsize\color{muted}30 min (285)}
+\item Compare circuit switching and packet switching (and virtual circuits) \tier{C} {\scriptsize\color{muted}15 min (300)}
+\item Draw the TCP header format and explain each field (incl. urgent-pointer numericals) \tier{B} {\scriptsize\color{muted}30 min (330)}
+\item Decode a TCP header from a hexadecimal dump \tier{B} {\scriptsize\color{muted}20 min (350)}
+\item Client-server vs P2P paradigm: why the server must be always on \tier{C} {\scriptsize\color{muted}10 min (360)}
+\item[] \textcolor{sgamber}{\rule[0.5ex]{3em}{0.6pt}\ \textbf{6 hours: stop here}\ \rule[0.5ex]{3em}{0.6pt}}
+\item Compute total time for a file transfer with RTT waits and initial handshake \tier{B} {\scriptsize\color{muted}25 min (385)}
+\item Compute page-load time: non-persistent vs persistent HTTP (RTT counting) \tier{B} {\scriptsize\color{muted}25 min (410)}
+\item Draw the stop-and-wait ARQ flow diagram with lost frame and lost ACK \tier{C} {\scriptsize\color{muted}20 min (430)}
+\item Describe e-mail architecture and components: UA, MTA, MAA (POP3/IMAP), mail transfer phases, MIME \tier{C} {\scriptsize\color{muted}25 min (455)}
+\item Write an HTTP request (or response) message for a given scenario \tier{B} {\scriptsize\color{muted}15 min (470)}
+\item Stop-and-wait: count transmissions when every k-th packet is lost \tier{B} {\scriptsize\color{muted}15 min (485)}
+\item Differentiate TCP window size and MSS; explain the receive window (rwnd) \tier{B} {\scriptsize\color{muted}15 min (500)}
+\item List the TCP states and draw the TCP state transition diagram \tier{C} {\scriptsize\color{muted}30 min (530)}
+\item Delay types: compute transmission + propagation (+ queuing, processing) delay of a packet on a link \tier{B} {\scriptsize\color{muted}20 min (550)}
+\item Compute throughput of a packet-switched network or link \tier{D} {\scriptsize\color{muted}15 min (565)}
+\item Derive the window-size limits for GBN (2\textsuperscript{m} - 1) and SR (2\textsuperscript{m-1}) and show the failure when exceeded \tier{B} {\scriptsize\color{muted}40 min (605)}
+\item Trace a complete TCP exchange with SYN/ACK/FIN bits and SEQ/ACK numbers \tier{C} {\scriptsize\color{muted}35 min (640)}
+\item Selective Repeat: find pending packets/ACKs from Sf, Sn, Rn values \tier{D} {\scriptsize\color{muted}25 min (665)}
+\item Explain flow control vs error control at the transport layer and how TCP does flow control \tier{D} {\scriptsize\color{muted}20 min (685)}
+\item Compute TCP throughput from the cwnd sawtooth (0.75 Wmax / RTT) \tier{D} {\scriptsize\color{muted}20 min (705)}
+\end{enumerate}

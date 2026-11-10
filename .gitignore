@@ -1,0 +1,8 @@
+latex/build/
+latex/qa/
+__pycache__/
+*.pyc
+tests/_tmp/
+# local only (not published): where course material was downloaded from
+GATHERING_LOG.md
+sources.md

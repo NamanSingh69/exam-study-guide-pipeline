@@ -1,0 +1,195 @@
+{
+ "papers": [
+  {
+   "id": "ES2023SP",
+   "year": 2023,
+   "session": "spring",
+   "exam": "endsem",
+   "source_slug": "PYQE_sample_endsem_economics_scan",
+   "course_code": "XX2002",
+   "full_marks": 50,
+   "duration": "3 h",
+   "pattern": "Q1 compulsory 10x1; any 5 of Q2-Q8",
+   "instructions": "Answer any SIX questions. Section A is compulsory. The figures in the margin indicate full marks.",
+   "pages": [
+    1,
+    6
+   ]
+  }
+ ],
+ "questions": [
+  {
+   "id": "ES2023SP-1a",
+   "paper": "ES2023SP",
+   "qno": "1(a)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Explain how a price floor on farm produce can protect small growers when harvest prices fall and input costs keep rising.",
+   "type": "theory",
+   "verified": "vision",
+   "ocr_fixes": "text layer unusable: every page is scanned rotated 90 deg, so the OCR is noise; whole text read from the rotated page image",
+   "figure": "",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     14.0,
+     12.0,
+     55.8,
+     409.0
+    ]
+   },
+   "cluster": "C01",
+   "topic": "T01",
+   "in_scope": true
+  },
+  {
+   "id": "ES2023SP-1b",
+   "paper": "ES2023SP",
+   "qno": "1(b)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "State the formula that links marginal revenue (MR), price (P) and elasticity of demand (e), and find MR when P = 40 and e = 2.",
+   "type": "numerical",
+   "verified": "vision",
+   "ocr_fixes": "text layer unusable: every page is scanned rotated 90 deg, so the OCR is noise; whole text read from the rotated page image",
+   "figure": "",
+   "receipt": {
+    "page": 1,
+    "rect": [
+     61.8,
+     12.0,
+     103.6,
+     409.0
+    ]
+   },
+   "cluster": "C01",
+   "topic": "T01",
+   "in_scope": true
+  },
+  {
+   "id": "ES2023SP-1d",
+   "paper": "ES2023SP",
+   "qno": "1(d)",
+   "marks": 1,
+   "compulsory": true,
+   "text": "Describe how the average variable cost curve and the marginal cost curve are related to each other.",
+   "type": "theory",
+   "verified": "vision",
+   "ocr_fixes": "text layer unusable: every page is scanned rotated 90 deg, so the OCR is noise; whole text read from the rotated page image",
+   "figure": "",
+   "receipt": {
+    "page": 2,
+    "rect": [
+     14.0,
+     12.0,
+     55.8,
+     409.0
+    ]
+   },
+   "cluster": "C01",
+   "topic": "T01",
+   "in_scope": true
+  },
+  {
+   "id": "ES2023SP-2a",
+   "paper": "ES2023SP",
+   "qno": "2(a)",
+   "marks": 4,
+   "compulsory": false,
+   "text": "(i) What do you understand by consumer surplus and producer surplus? Illustrate both with demand and supply curves.\n(ii) Two buyers (B1 and B2) and two firms (F1 and F2) trade a good Y.\n[table]\nBy using the schedule, find the market clearing price and quantity and name the buyer and the firm that behave rationally. (Where, Py = price of good Y)",
+   "type": "numerical",
+   "verified": "vision",
+   "ocr_fixes": "text layer unusable: every page is scanned rotated 90 deg, so the OCR is noise; whole text read from the rotated page image",
+   "figure": "",
+   "table": {
+    "header": [
+     "Py",
+     "B1",
+     "B2",
+     "F1",
+     "F2"
+    ],
+    "rows": [
+     [
+      "80",
+      "1",
+      "3",
+      "7",
+      "2"
+     ],
+     [
+      "70",
+      "2",
+      "3",
+      "6",
+      "2"
+     ],
+     [
+      "60",
+      "3",
+      "3",
+      "5",
+      "2"
+     ],
+     [
+      "50",
+      "4",
+      "3",
+      "4",
+      "2"
+     ],
+     [
+      "40",
+      "5",
+      "3",
+      "3",
+      "2"
+     ],
+     [
+      "30",
+      "6",
+      "3",
+      "2",
+      "2"
+     ],
+     [
+      "20",
+      "7",
+      "3",
+      "1",
+      "2"
+     ]
+    ]
+   },
+   "receipt": [
+    {
+     "page": 2,
+     "rect": [
+      61.8,
+      12.0,
+      138.1,
+      409.0
+     ]
+    },
+    {
+     "page": 3,
+     "rect": [
+      14.0,
+      12.0,
+      214.9,
+      409.0
+     ]
+    }
+   ],
+   "cluster": "C01",
+   "topic": "T01",
+   "in_scope": true
+  }
+ ],
+ "clusters": [
+  {
+   "id": "C01",
+   "topic": "T01"
+  }
+ ]
+}

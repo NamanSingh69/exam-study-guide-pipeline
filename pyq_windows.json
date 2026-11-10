@@ -1,0 +1,63 @@
+{
+ "_note": "Suggested PYQ windows per subject (R4 rule: the latest 5 calendar years that have papers, counted back from the newest paper; start later at a syllabus/course-code change but keep >= 3 years; extend back only when a scope would have < 3 relevant papers). The blueprint agent confirms or changes each one after transcription shows the course codes, and writes the final choice with its reason to blueprint.pyq_window. Recomputed 2026-11-06 from each paper's SOURCE file name (corpus slugs can lack the year).",
+ "AI": {
+  "from": 2022,
+  "to": 2026,
+  "why": "latest 5 years; 9 midsem + 9 endsem in window; 2018-2021 endsems record only"
+ },
+ "CI": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years (newest paper 2025); 8 midsem + 8 endsem in window"
+ },
+ "CN": {
+  "from": 2022,
+  "to": 2026,
+  "why": "CONFIRMED: course code IT-3001 (2018-2020) was a different syllabus; IT-3005/IT-3009/CS30003 from 2022"
+ },
+ "DAA": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years; 9 midsem + 9 endsem in window; drops the 2012 and 2018-2020 papers"
+ },
+ "DMDW": {
+  "from": 2022,
+  "to": 2026,
+  "why": "latest 5 years; 8 midsem + 9 endsem in window; the 2021 endsem is record only"
+ },
+ "DOS": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years; 5 midsem + 5 endsem in window; 2019 papers are record only"
+ },
+ "EE": {
+  "from": 2022,
+  "to": 2026,
+  "why": "latest 5 years; 5 midsem + 6 endsem in window"
+ },
+ "HPC": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years (newest paper 2025): 3 midsem + 5 endsem, nothing dropped"
+ },
+ "IPA": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years (newest paper 2025): 1 midsem + 3 endsem; fewer than 3 midsem papers, so midsem P stays a band"
+ },
+ "ML": {
+  "from": 2022,
+  "to": 2026,
+  "why": "latest 5 years counted back from the newest paper (spring 2026 midsem and endsem); 11 midsem + 11 endsem in window; ES2021 record only"
+ },
+ "SE": {
+  "from": 2021,
+  "to": 2025,
+  "why": "latest 5 years (newest paper 2025): 3 midsem + 8 endsem; 2018-2020 record only"
+ },
+ "SVP": {
+  "from": null,
+  "to": null,
+  "why": "no papers on disk or at the known sources: weak-input mode"
+ }
+}
