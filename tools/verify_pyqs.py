@@ -84,10 +84,16 @@ class Tok:
         return self.raw
 
 
+DIGIT_RUN_RE = re.compile(r"(?<![\w.,])\d(?:[ \t]\d){2,}(?![\w.,])")
+
+
 def tokenize(s, ocr=False, page=None, box=None):
     s = normalize(s)
     if ocr:                     # OCR reads a lone 1 (or l / I) as a pipe: "by | MSS"
         s = s.replace("|", "1")
+    # a printed digit string "5 4 3 1 6 7 8 2" (chromosomes, bit strings) is one string; OCR and text layers often
+    # run it together ("54316782"), so both sides join runs of 3+ single digits (AI ES2023/ES2024/ES2025, 2026-11-10)
+    s = DIGIT_RUN_RE.sub(lambda m: re.sub(r"\s+", "", m.group(0)), s)
     out = []
     for m in TOKEN_RE.finditer(s):
         raw = m.group(0)
@@ -337,8 +343,9 @@ def _fit(q, c):
     return score, pairs
 
 
-def align(q, c):
-    """Align question tokens q against corpus tokens c. Seeds the DP on the densest stretches."""
+def align(q, c, extra=0):
+    """Align question tokens q against corpus tokens c. Seeds the DP on the densest stretches; extra widens the
+    window for paper tokens that the question's prose leaves out (its table)."""
     n, M = len(q), len(c)
     res = {"pairs": [], "lo": None, "hi": None, "score": float("-inf")}
     if n == 0 or M == 0:
@@ -358,7 +365,7 @@ def align(q, c):
         if len(seeds) == 2:
             break
     for s in seeds:
-        lo, hi = max(0, s - n - 10), min(M, s + 2 * n + 10)
+        lo, hi = max(0, s - n - 10), min(M, s + 2 * n + 10 + extra)
         score, pairs = _fit(q, c[lo:hi])
         if score > res["score"]:
             pairs = [(qi, (cj + lo) if cj is not None else None, e) for qi, cj, e in pairs]
@@ -368,8 +375,10 @@ def align(q, c):
     return res
 
 
-def assess(q, c, al):
-    """Containment metrics of question tokens q in corpus tokens c, given align() output."""
+def assess(q, c, al, ordered_only=False):
+    """Containment metrics of question tokens q in corpus tokens c, given align() output. ordered_only (the receipt
+    rescue of a vision-checked crop): word order is judged on the matched paper tokens only, so OCR speck noise
+    between words ('me ef', 'ce me') does not break the trigrams."""
     n = len(q)
     aligned = {qi: (cj, e) for qi, cj, e in al["pairs"] if cj is not None and e}
     subs = {qi: cj for qi, cj, e in al["pairs"] if cj is not None and not e}
@@ -378,7 +387,8 @@ def assess(q, c, al):
     window = c[lo:hi + 1] if lo is not None else []
     if n >= 3 and window:
         keys = [c[aligned[i][0]].fold if i in aligned else q[i].fold for i in range(n)]
-        wk = [t.fold for t in window]
+        wk = ([c[cj].fold for cj in sorted(cj for cj, _e in aligned.values())] if ordered_only
+              else [t.fold for t in window])
         wtri = {tuple(wk[k:k + 3]) for k in range(len(wk) - 2)}
         qtri = [tuple(keys[k:k + 3]) for k in range(n - 2)]
         tri = sum(t in wtri for t in qtri) / len(qtri)
@@ -412,7 +422,12 @@ def group_key(qno):
     alt_re = r"(?<![A-Za-z])OR(?![A-Za-z])"          # upper-case OR only
     alt = bool(re.search(alt_re, rest))
     rest = re.sub(alt_re, " ", rest)
-    rest = re.sub(r"^\s*[.)]?\s*\(?\s*(?:[ivxlc]+|[a-z])\s*(?:\)|\.(?=\s)|(?=\s|\[|$))", "", rest, count=1, flags=re.I)
+    while True:                                       # nested sub-labels too: 2b(i), 2(b)(ii), 5a(I), 3 (b) (i)
+        nxt = re.sub(r"^\s*[.)]?\s*\(?\s*(?:[ivxlc]+|[a-z])\s*(?:\)|\.(?=\s)|(?=[\s(\[]|$))", "", rest, count=1,
+                     flags=re.I)
+        if nxt == rest:
+            break
+        rest = nxt
     key = (m.group(1) + " " + rest.strip()).strip()
     return key + " OR" if alt else key
 
@@ -421,8 +436,20 @@ def text_sha(s):
     return hashlib.sha1(normalize(s).encode("utf-8")).hexdigest()[:16]
 
 
+ALT_POOL_RE = re.compile(r"\[\s*alt\s+(\d+)\s+of\s+(\d+)\s*\]\s*$", re.I)
+
+
 def check_marks(pid, paper, qs):
-    """Marks must add up to full marks allowing for choice. Returns (problems, summary)."""
+    """Marks must add up to full marks allowing for choice. Returns (problems, summary); a passing paper with
+    printed_gaps names each gap in its summary."""
+    probs, summary = _check_marks(pid, paper, qs)
+    gaps = paper.get("printed_gaps") or {}
+    if summary and gaps:
+        summary += " (" + "; ".join(f"printed gap Q{g}: {d.get('note', '')}" for g, d in gaps.items()) + ")"
+    return probs, summary
+
+
+def _check_marks(pid, paper, qs):
     probs = []
     fm = paper.get("full_marks")
     if not is_number(fm) or fm <= 0:
@@ -446,7 +473,9 @@ def check_marks(pid, paper, qs):
             continue
         marks = sorted((float(q["marks"]) for q in gq), reverse=True)
         k_in = None
-        for q in gq:
+        # a choice across the group's sub-parts is stated in its stem, which is banked with the FIRST sub-part;
+        # "any one of the following approaches" in 5(b) is 5(b)'s own content (AI ES2023, 2026-11-10)
+        for q in sorted(gq, key=lambda x: str(x.get("qno", "")))[:1]:
             t = normalize(q.get("text", ""))
             m = re.search(r"\b(?:any|attempt)\s+(\w+)\b", t, re.I)
             if not (m and _num(m.group(1)) and len(gq) > 1):
@@ -455,7 +484,7 @@ def check_marks(pid, paper, qs):
             # choice (it carries its full marks); only a choice across banked sub-parts is group-level. "Any two:
             # (i) .. (ii) .." over exactly its own two items (labels that are not the group's banked sub-parts) is
             # also its own wording (HPC ES2024 7(b), 2026-11-08)
-            items = set(x.lower() for x in re.findall(r"(?:^|[\s(])([ivx]+|[a-h])[.)]\s", t[m.end():], re.I))
+            items = set(x.lower() for x in re.findall(r"(?:^|[\s(])([ivx]+|[a-h]|\d{1,2})[.)]\s", t[m.end():], re.I))
             banked = {x.lower() for b in gq for x in re.findall(r"\(([ivx]+|[a-z])\)", b.get("qno", ""), re.I)}
             if len(items) > _num(m.group(1)) or len(items - banked) >= _num(m.group(1)):
                 continue
@@ -474,11 +503,45 @@ def check_marks(pid, paper, qs):
                          f"a sub-part is missing")
             continue
         gv[g] = (sum(marks[:k_in] if k_in else marks), flags == {True})
-    # either-or pairs ("Qn ... OR ..."): Qn and Qn OR are ONE choice slot worth one alternative
-    slots = {}
+    # a question printed incomplete on the paper (header "[5+5=10]", only 5(a) printed): the paper entry names it
+    # in printed_gaps {"5": {"header_marks": 10, "note": "..."}}; the slot counts its header marks, the summary says so
+    gaps = paper.get("printed_gaps") or {}
+    for gn, gd in gaps.items():
+        hm = gd.get("header_marks") if isinstance(gd, dict) else None
+        if not is_number(hm) or not str(gd.get("note", "")).strip():
+            probs.append(f"paper {pid}: printed_gaps Q{gn} needs header_marks and a note saying what is missing")
+        elif gn not in gv:
+            probs.append(f"paper {pid}: printed_gaps names Q{gn}, which has no banked part")
+        else:
+            gv[gn] = (float(hm), gv[gn][1])
+    # either-or pairs ("Qn ... OR ..."): Qn and Qn OR are ONE choice slot worth one alternative; so is an
+    # alternative pool "Qn [alt k of N]" (IPA ES2021SP: every question offers N equal alternatives, answer one)
+    slots, pool_n = {}, {}
     for g in gv:
-        slots.setdefault(g[:-3] if g.endswith(" OR") else g, []).append(g)
+        pm = ALT_POOL_RE.search(g)
+        if pm:
+            base = g[:pm.start()].strip()
+            pool_n.setdefault(base, set()).add(int(pm.group(2)))
+        else:
+            base = g[:-3] if g.endswith(" OR") else g
+        slots.setdefault(base, []).append(g)
     for base, alts in slots.items():
+        if base in pool_n:
+            ns = pool_n[base]
+            if len(ns) > 1 or len(alts) != next(iter(ns)) or any(not ALT_POOL_RE.search(a) for a in alts):
+                probs.append(f"paper {pid}: Q{base} alternative pool has {len(alts)} banked of "
+                             f"{'/'.join(map(str, sorted(ns)))}: an alternative is missing or mislabelled")
+                continue
+            if len({(round(gv[a][0], 6), gv[a][1]) for a in alts}) > 1:
+                probs.append(f"paper {pid}: Q{base} alternatives carry different marks "
+                             f"({', '.join(f'{gv[a][0]:g}' for a in alts)}): sub-part missing or extra?")
+                continue
+            val, is_comp = gv[alts[0]]
+            if is_comp:
+                comp += val
+            else:
+                opt[base] = val
+            continue
         if base not in gv:
             probs.append(f"paper {pid}: Q{base} OR is banked but its first alternative Q{base} is not")
             continue
@@ -517,6 +580,37 @@ def check_marks(pid, paper, qs):
         if abs(comp - fm) > 1e-6:
             probs.append(f"paper {pid}: banked marks add up to {comp:g}, full marks {fm:g} (no optional questions)")
         return probs, f"{comp:g} compulsory = {fm:g}"
+    # sectioned choice: two or more "any k of Qa-Qb" clauses (e.g. "any 1 of Q2-Q3; any 1 of Q4-Q5") are separate
+    # sections; marks are equal within a section, and compulsory + sum(k x section marks) = full marks
+    secs = [(_num(a), int(lo), int(hi)) for a, lo, hi in
+            re.findall(r"\bany\s+(\w+)\s+(?:questions?\s+)?(?:of|from)\s+Q\.?\s*(\d+)\s*(?:-|to)\s*Q?\.?\s*(\d+)", pat, re.I)]
+    if len(secs) > 1 and all(s[0] for s in secs):
+        total, parts, seen = comp, [], set()
+        for k_s, lo, hi in secs:
+            want = [str(n) for n in range(lo, hi + 1)]
+            have = [g for g in want if g in opt]
+            seen.update(have)
+            if len(have) != len(want):
+                probs.append(f"paper {pid}: pattern section Q{lo}-Q{hi} lists {len(want)} question(s), bank has "
+                             f"{len(have)} ({', '.join('Q' + g for g in have)})")
+                continue
+            sv = sorted(set(round(opt[g], 6) for g in have))
+            if len(sv) > 1:
+                probs.append(f"paper {pid}: section Q{lo}-Q{hi} carries unequal marks "
+                             f"({', '.join(f'Q{g}={opt[g]:g}' for g in have)}): sub-part missing or extra?")
+                continue
+            if not (1 <= k_s <= len(have)):
+                probs.append(f"paper {pid}: section Q{lo}-Q{hi} says any {k_s} of {len(have)}")
+                continue
+            total += k_s * sv[0]
+            parts.append(f"{k_s} of Q{lo}-Q{hi} x {sv[0]:g}")
+        stray = [g for g in opt if g not in seen]
+        if stray:
+            probs.append(f"paper {pid}: optional {', '.join('Q' + g for g in stray)} outside every pattern section")
+        if not probs and abs(total - fm) > 1e-6:
+            probs.append(f"paper {pid}: compulsory {comp:g} + sections ({'; '.join(parts)}) = {total:g}, "
+                         f"full marks {fm:g}")
+        return probs, ("" if probs else f"{comp:g} compulsory + " + " + ".join(parts) + f" = {fm:g}")
     vals = sorted(set(round(v, 6) for v in opt.values()))
     if len(vals) > 1:
         detail = ", ".join(f"Q{g}={v:g}" for g, v in opt.items())
@@ -535,7 +629,7 @@ def check_marks(pid, paper, qs):
     if want_n is not None and want_n not in (len(opt), n_alts):
         probs.append(f"paper {pid}: pattern lists {want_n} optional questions, bank has {len(opt)} "
                      f"({', '.join('Q' + g for g in opt)})")
-    ors = sum(1 for b in opt if len(slots[b]) == 2)
+    ors = sum(1 for b in opt if len(slots[b]) == 2 and b not in pool_n)
     return probs, (f"{comp:g} compulsory + {k} of {len(opt)} x {v:g} = {fm:g}"
                    + (f" ({ors} either-or pair(s))" if ors else ""))
 
@@ -560,20 +654,27 @@ def _subseq(short, long):
     return len(short) < len(long) and all(ch in it for ch in short)
 
 
+LOOKALIKE = str.maketrans({"5": "s", "0": "o", "1": "l", "i": "l", "8": "b", "2": "z", "6": "g"})
+
+
 def is_swap(t, other):
     """The paper shows a DIFFERENT legible number/acronym where the question has t: a swap, never excused.
     OCR near-misses are not swaps: a number whose digits survive as a strict subsequence ('$00,000' for
     '800,000'), an acronym within edit distance 1 (2 from 5 letters: 'EPRAME' for 'FRAME')."""
     if other is None or not _clean_crit(other) or other.fold == t.fold:
         return False
+    if len(t.plain) == len(other.plain) and t.plain.translate(LOOKALIKE) == other.plain.translate(LOOKALIKE):
+        return False      # OCR letter/digit look-alikes only ('M5' read as 'MS', 'B0' as 'BO'); digit swaps stay swaps
     if t.crit == "number" and other.crit == "number":
+        if re.sub(r"\D", "", other.plain) == re.sub(r"\D", "", t.plain):
+            return False   # same digits, OCR only added or dropped punctuation ('2392128.5' for '23921285')
         return not _subseq(other.plain, t.plain)
     if t.crit == "acronym" and other.crit == "acronym":
         return not _lev_le(t.fold, other.fold, 1 if len(t.plain) <= 4 else 2)
     return True
 
 
-def check_question(q, ctoks, ckey, receipt_ok=False):
+def check_question(q, ctoks, ckey, receipt_ok=False, rescue=False):
     """Text checks of one question against its paper's tokens. Returns (metrics, reasons, notes).
 
     A number or ALL-CAPS token not aligned in place is excused only when ALL of these hold: the matched window
@@ -601,8 +702,12 @@ def check_question(q, ctoks, ckey, receipt_ok=False):
         return {"tok": 0.0, "tri": 0.0, "n": 0}, reasons or ["no tokens"], notes
     k = (ckey, text)
     if k not in _CACHE:
-        al = align(qt, ctoks)
-        _CACHE[k] = (al, assess(qt, ctoks, al))
+        # a table sits inside the question on the paper but not in its matched prose: widen the search window by
+        # its cells (OCR roughly doubles a garbled grid), or the prose after the table falls outside (DMDW ES2023 7(b))
+        tab = q.get("table") if isinstance(q.get("table"), dict) else {}
+        cells = [str(x) for r in ([tab.get("header") or []] + list(tab.get("rows") or [])) for x in (r or [])]
+        al = align(qt, ctoks, extra=2 * len(tokenize(" ".join(cells))))
+        _CACHE[k] = (al, assess(qt, ctoks, al, ordered_only=rescue))
     al, a = _CACHE[k]
     met = {"tok": a["tok"], "tri": a["tri"], "n": len(qt), "lo": a["lo"], "hi": a["hi"],
            "cpos": {cj for cj, _e in a["aligned"].values()}}
@@ -831,7 +936,8 @@ def run(subject, scope, show_all=False, out=print):
                     # (or text layer) of the cropped region; it decides only if it passes in full
                     rt = tokenize(strip_marks(rec["ocr_text"], pmarks.get(pid, set())),
                                   ocr=bool(rec.get("ocr_is_ocr", True)))
-                    m2, r3, n3 = check_question(q, rt, "receipt:" + text_sha(rec["ocr_text"]), receipt_ok)
+                    m2, r3, n3 = check_question(q, rt, "receipt:" + text_sha(rec["ocr_text"]), receipt_ok,
+                                                rescue=bool(manual and q.get("verified") == "vision"))
                     if not r3:
                         notes = n3 + [f"corpus text damaged ({'; '.join(r2)[:80]}...): matched the receipt's "
                                       f"fresh OCR (tok {m2['tok']:.2f}, tri {m2['tri']:.2f})"]
@@ -852,9 +958,13 @@ def run(subject, scope, show_all=False, out=print):
         rows.append((qid, met, reasons, notes, rr))      # rr: this row's receipt reason (or None)
 
     # questions of one paper must not be copies of each other
-    # (either-or alternatives "Qn" and "Qn OR" are not compared with each other: they may share wording)
+    # (either-or alternatives "Qn" and "Qn OR", and the alternatives of a pool "Qn [alt k of N]", are not compared
+    # with each other: they may share wording)
     def branch(q):
         g = group_key(q.get("qno", "")) or ""
+        pm = ALT_POOL_RE.search(g)
+        if pm:
+            return (g[:pm.start()].strip(), "alt" + pm.group(1))
         return (g[:-3], True) if g.endswith(" OR") else (g, False)
 
     for pid, qs in per_paper.items():

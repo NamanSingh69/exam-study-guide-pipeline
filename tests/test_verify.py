@@ -724,6 +724,26 @@ except ImportError as e:
     print(f"FAIL check_marks import: {e}"); fails += 1
 
 try:
+    # sectioned choice (DOS MS2025, School of Electronics "Format-2"): each "any k of Qa-Qb" clause is its own
+    # section with its own marks; full marks = compulsory + sum over sections of k x section marks
+    from verify_pyqs import check_marks
+    pap = {"full_marks": 20, "pattern": "Q1 compulsory 5x1; any 1 of Q2-Q3 (10 marks); any 1 of Q4-Q5 (5 marks)"}
+    q1 = [{"id": f"P-1{c}", "qno": f"1({c})", "marks": 1, "compulsory": True, "text": "x"} for c in "abcde"]
+    def whole(n, m):
+        return {"id": f"P-{n}", "qno": str(n), "marks": m, "compulsory": False, "text": "Explain it."}
+    pr_ok, s_ok = check_marks("P", pap, q1 + [whole(2, 10), whole(3, 10), whole(4, 5), whole(5, 5)])
+    pr_uneq, _s = check_marks("P", pap, q1 + [whole(2, 10), whole(3, 10), whole(4, 5), whole(5, 4)])
+    pr_sum, _s = check_marks("P", pap, q1 + [whole(2, 10), whole(3, 10), whole(4, 6), whole(5, 6)])
+    pr_miss, _s = check_marks("P", pap, q1 + [whole(2, 10), whole(3, 10), whole(4, 5)])
+    ok = not pr_ok and bool(pr_uneq) and bool(pr_sum) and bool(pr_miss)
+    print(("OK   " if ok else "FAIL ") + f"sectioned pattern 'any 1 of Q2-Q3; any 1 of Q4-Q5' adds per section; "
+          f"unequal marks inside a section, a wrong total or a missing question still block  (ok {pr_ok} {s_ok!r}; "
+          f"uneq {pr_uneq}; sum {pr_sum}; miss {pr_miss})")
+    fails += not ok
+except ImportError as e:
+    print(f"FAIL check_marks import: {e}"); fails += 1
+
+try:
     from verify_pyqs import group_key
     gk = {s: group_key(s) for s in ("1(a)", "1(h)", "1(j)", "1(z)", "2(iv)", "5(iii)", "2(A)", "1.(c)",
                                     "3(a) [2nd Q3]", "3(b) [2nd Q3]", "7", "Q2", "1(b) OR", "1(b)OR", "1 OR (b)")}
