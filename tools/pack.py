@@ -69,6 +69,28 @@ def corpus_pages(corpus: Path, slug: str, cache: dict):
     return pages
 
 
+def tidy(txt: str) -> str:
+    """Whitespace collapse only: trailing blanks, inner space runs (indentation kept), runs of blank lines."""
+    lines = [re.sub(r"(?<=\S)[ \t]{2,}", " ", ln.rstrip()) for ln in txt.splitlines()]
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+
+
+def repeated_lines(pages: dict):
+    """Lines (alphanumeric, whitespace-collapsed) that sit on more than half of a deck's pages: slide headers/footers."""
+    if len(pages) < 4:
+        return set()
+    count = {}
+    for txt in pages.values():
+        for ln in {" ".join(x.split()) for x in txt.splitlines()}:
+            if 4 <= len(ln) <= 200 and re.search(r"[A-Za-z0-9]", ln):
+                count[ln] = count.get(ln, 0) + 1
+    return {ln for ln, n in count.items() if n * 2 > len(pages)}
+
+
+def strip_repeated(txt: str, rep: set) -> str:
+    return "\n".join(x for x in txt.splitlines() if " ".join(x.split()) not in rep)
+
+
 def main():
     setup_stdout()
     ap = argparse.ArgumentParser(description=__doc__.split("\n")[0])
@@ -78,6 +100,7 @@ def main():
     g.add_argument("--writer")
     g.add_argument("--role", choices=["notes", "pyq"])
     ap.add_argument("--max-kb", type=float, default=150)
+    ap.add_argument("--out-dir", help="write the pack here instead of work/<scope>/packs/")
     a = ap.parse_args()
     subj, shared, work = resolve(a.subject, a.scope)
     asg = load(work / "assignments.json", {})
@@ -184,7 +207,15 @@ def main():
             quotes.append((t, slug, p))
     corpus = shared / "corpus"
     cache = {}
-    body = [(t, slug, p, corpus_pages(corpus, slug, cache).get(p)) for t, slug, p in quotes]
+    reps = {}
+
+    def page_text(slug, p):
+        pages = corpus_pages(corpus, slug, cache)
+        if slug not in reps:
+            reps[slug] = repeated_lines(pages)
+        txt = pages.get(p)
+        return None if txt is None else tidy(strip_repeated(txt, reps[slug]))
+    body = [(t, slug, p, page_text(slug, p)) for t, slug, p in quotes]
     head = "\n".join(fixed + (["## Topics"] + topic_head + [""] if topic_head else []))
     cap = int(a.max_kb * 1024)
     room = cap - len(head.encode("utf-8")) - 1500          # reserve for the 'also cited' and 'missing' lists
@@ -201,6 +232,18 @@ def main():
             seen[x[0]] = seen.get(x[0], 0) + 1
             (kept if seen[x[0]] <= k else also).append(x)
         present = kept
+    citers = {}
+    for t, slug, p, _ in body:
+        citers.setdefault((slug, p), [])
+        if t not in citers[(slug, p)]:
+            citers[(slug, p)].append(t)
+    uniq, seen_pg = [], set()
+    for x in present:                       # one quote per page, tagged with every topic that cites it
+        if (x[1], x[2]) not in seen_pg:
+            seen_pg.add((x[1], x[2]))
+            uniq.append((", ".join(citers[(x[1], x[2])]),) + x[1:])
+    present = uniq
+    also = [x for x in also if (x[1], x[2]) not in seen_pg]
     per = max(room // max(len(present), 1), 200) if present else 0
     truncated = False
     out = [head]
@@ -217,7 +260,11 @@ def main():
             continue
         used += len(block.encode("utf-8"))
         quoted.append(block)
+    used_reps = sorted({ln for s_, r in reps.items() if any(x[1] == s_ for x in present) for ln in r})
     if quoted:
+        if used_reps:
+            out.append("Repeated header/footer lines (on most pages of their deck, removed from the pages below): "
+                       + " | ".join(used_reps)[:600])
         out.append("## Cited pages (verbatim corpus; cite as \\src{<slug> p<N>})")
         out += quoted
     if also:
@@ -239,7 +286,7 @@ def main():
     if truncated or also:
         out.append(f"\nNote: page excerpts were truncated or left out to fit {a.max_kb:g} KB.")
     body = quoted
-    dst = work / "packs" / f"{name}.md"
+    dst = (Path(a.out_dir) if a.out_dir else work / "packs") / f"{name}.md"
     dst.parent.mkdir(parents=True, exist_ok=True)
     dst.write_text("\n".join(out) + "\n", "utf-8")
     kb = dst.stat().st_size / 1024

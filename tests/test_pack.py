@@ -130,6 +130,39 @@ check("many: cap respected with 40 topics x 7 pages", len(txt.encode("utf-8")) <
 check("many: every topic id kept", all(f"T{i:02d}" in txt for i in range(1, 41)))
 check("many: pages left out are listed by tag", "also cited" in txt.lower(), txt[-400:])
 
+# dedupe: a page cited by two topics is quoted once; a deck's repeated header/footer is quoted at most once
+import subprocess as _sp
+shared2 = TMP / "T2" / "work"
+work2 = shared2 / "endsem"
+w(shared2 / "corpus" / "D_Deck.md", "# SOURCE\n\n" + "".join(
+    f"## [D_Deck p{p}]\nACME UNIVERSITY HEADER\nbody line unique-{p}   with  spaces\n" + f"filler{p} " * 400 + "\n\n\n\n\nlecture footer slide\n\n"
+    for p in range(1, 7)))
+w(work2 / "blueprint.json", {"units": [{"id": "U1", "title": "X", "topics": [
+    {"id": "T01", "title": "Alpha", "visual": "block", "sources": ["D_Deck p1-2"]},
+    {"id": "T02", "title": "Beta", "visual": "block", "sources": ["D_Deck p2-3"]}]}]})
+w(work2 / "assignments.json", {"writers": {"w1": ["T01", "T02"]}, "atoms": {}, "chapters": []})
+w(work2 / "important_questions.json", {})
+
+
+def run2(*args):
+    return _sp.run([sys.executable, str(PIPE / "tools" / "pack.py"), "T2", "--scope", "endsem", "--writer", "w1", *args],
+                   capture_output=True, text=True, encoding="utf-8", errors="replace", env=env).returncode
+
+
+run2()
+t2 = (work2 / "packs" / "w1.md").read_text("utf-8")
+check("dedupe: shared page quoted once with both topic ids", t2.count("## [D_Deck p2]") == 1
+      and "(for T01, T02)" in t2, t2[-900:])
+check("dedupe: every cited page tag present", all(f"[D_Deck p{n}]" in t2 for n in (1, 2, 3)))
+check("dedupe: repeated header quoted at most once, flagged", t2.count("ACME UNIVERSITY HEADER") == 1
+      and "repeated header" in t2.lower(), t2.count("ACME UNIVERSITY HEADER"))
+check("dedupe: unique body kept, whitespace collapsed", "unique-1 with spaces" in t2
+      and "\n\n\n" not in t2.split("## Cited pages")[-1])
+rc3 = run2("--max-kb", "9")
+t3 = (work2 / "packs" / "w1.md").read_text("utf-8")
+check("dedupe: cap still holds, ids kept", rc3 == 0 and len(t3.encode("utf-8")) <= 9.5 * 1024 and "T01" in t3 and "T02" in t3,
+      len(t3.encode("utf-8")))
+
 rc, out = run("--writer", "unit-U9")
 check("unknown writer: exit 2", rc == 2, out)
 
