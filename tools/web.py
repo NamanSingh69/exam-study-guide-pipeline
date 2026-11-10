@@ -1779,6 +1779,20 @@ class Site:
 PREAMBLE_FILE = WEBSRC / "render_preamble.tex"
 
 
+def fail_is_current(cache, key, dh):
+    """A cached render failure is reused only while the chapters' collected definitions are unchanged (a failure
+    such as 'Environment olbox undefined' must be retried once collect_defs supplies the definition). A stale
+    failure is deleted; the definitions hash is written next to every failure after a render pass."""
+    f, fd = cache / f"{key}.fail", cache / f"{key}.faildefs"
+    if not f.exists():
+        return False
+    if fd.exists() and fd.read_text(encoding="utf-8").strip() == dh:
+        return True
+    f.unlink()
+    fd.unlink(missing_ok=True)
+    return False
+
+
 def render_jobs(site, jobs_n=3):
     """Compile every queued job (cached by content hash) and write fig/<hash>.svg."""
     figdir = site.out / "fig"
@@ -1789,14 +1803,15 @@ def render_jobs(site, jobs_n=3):
     ver = hashlib.sha1((pre + STY.read_text(encoding="utf-8", errors="replace") +
                         ((site.scoped / "badges.tex").read_text(encoding="utf-8", errors="replace")
                          if (site.scoped / "badges.tex").exists() else "")).encode()).hexdigest()[:10]
+    defs = "\n".join(site.preamble_defs)
+    dh = hashlib.sha1(defs.encode()).hexdigest()[:10]
     todo = []
     for h, job in site.jobs.items():
         key = f"{h}-{ver}"
         job["key"] = key
-        if (cache / f"{key}.svg").exists() or (cache / f"{key}.fail").exists():
+        if (cache / f"{key}.svg").exists() or fail_is_current(cache, key, dh):
             continue
         todo.append(h)
-    defs = "\n".join(site.preamble_defs)
     batches = [todo[i:i + BATCH] for i in range(0, len(todo), BATCH)]
     t0 = time.time()
     if batches:
@@ -1804,6 +1819,9 @@ def render_jobs(site, jobs_n=3):
         with ThreadPoolExecutor(max_workers=max(1, jobs_n)) as ex:
             list(ex.map(lambda b: compile_batch(site, b, pre, defs, cache), batches))
         print(f"render: done in {time.time() - t0:.0f}s")
+        for h in todo:   # stamp new failures with the definitions they were compiled against
+            if (cache / f"{site.jobs[h]['key']}.fail").exists():
+                (cache / f"{site.jobs[h]['key']}.faildefs").write_text(dh, encoding="utf-8")
     # crop each SVG to what is actually drawn (TikZ may draw outside a 'use as bounding box' rectangle);
     # every frame of one animation gets the union box, so the frames stay aligned
     boxes = {}
@@ -2016,7 +2034,7 @@ def collect_defs(txt):
     figures need when compiled standalone."""
     out = []
     for m in re.finditer(r"\\(newcommand|renewcommand|providecommand|tikzset|pgfplotsset|definecolor|colorlet|"
-                         r"usetikzlibrary|newcolumntype|DeclareMathOperator)\b", txt):
+                         r"usetikzlibrary|newcolumntype|DeclareMathOperator|newenvironment)\b", txt):
         # skip definitions that live inside a tikzpicture or a \stepanim body (they are local there)
         before = txt[:m.start()]
         if before.count("\\begin{tikzpicture}") > before.count("\\end{tikzpicture}"):
@@ -2048,6 +2066,15 @@ def collect_defs(txt):
                 _, j = read_opt(txt, j)
                 _, j = read_opt(txt, j)
                 _, j = read_arg(txt, j)
+            elif m.group(1) == "newenvironment":
+                # \newenvironment{name}[n][default]{begin}{end}; guarded, since several chapters may define it
+                env, j = read_arg(txt, j)
+                _, j = read_opt(txt, j)
+                _, j = read_opt(txt, j)
+                for _ in range(2):
+                    _, j = read_arg(txt, j)
+                out.append("\\ifcsundef{%s}{%s}{}" % (env.strip(), txt[m.start():j]))
+                continue
             elif m.group(1) in ("definecolor",):
                 _, j = read_opt(txt, j)
                 for _ in range(3):
@@ -2061,6 +2088,16 @@ def collect_defs(txt):
         except (Unsupported, IndexError):
             continue
         out.append(txt[m.start():j])
+    return out
+
+
+def dedupe_defs(defs):
+    """Identical definitions collected from several chapters, once each (first occurrence kept)."""
+    seen, out = set(), []
+    for d in defs:
+        if d not in seen:
+            seen.add(d)
+            out.append(d)
     return out
 
 
@@ -2204,6 +2241,7 @@ def build(site):
     site.preamble_defs = []
     for _stem, txt in chs:
         site.preamble_defs += collect_defs(txt)
+    site.preamble_defs = dedupe_defs(site.preamble_defs)
     S, sc = site.S, site.scope
     unit_by_stem = {u.get("chapter"): u for u in site.units if u.get("chapter")}
     index_extra = []          # (kind, title, url)
