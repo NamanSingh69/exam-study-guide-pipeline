@@ -53,6 +53,7 @@
 \RequirePackage{siunitx}
 \RequirePackage{listings}
 \RequirePackage{fancyhdr}
+\RequirePackage{truncate}            % running header: long chapter titles
 \RequirePackage{titlesec}
 \RequirePackage{needspace}
 \RequirePackage{tikz}
@@ -199,7 +200,9 @@
   \renewcommand{\headrulewidth}{0.3pt}
 \else
   \fancyhead[L]{\small\sffamily\color{sgnavy}\textbf{\sgsubject}\ \sgcode}
-  \fancyhead[R]{\small\sffamily\color{sgslate}\nouppercase{\leftmark}}
+  % the right header gets only the width the subject and code leave (long chapter titles end in an ellipsis)
+  \fancyhead[R]{\small\sffamily\color{sgslate}\settowidth{\dimen@}{\small\sffamily\textbf{\sgsubject}\ \sgcode}%
+    \truncate{\dimexpr\headwidth-\dimen@-1.5em\relax}{\nouppercase{\leftmark}}}
   \fancyfoot[C]{\small\sffamily\thepage}
   \fancyfoot[R]{\scriptsize\sffamily\color{muted}\sgscope}
   \renewcommand{\headrulewidth}{0.4pt}
