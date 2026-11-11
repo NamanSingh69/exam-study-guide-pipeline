@@ -213,6 +213,22 @@ def all_sources(work: Path):
     return srcs
 
 
+def receipts_missing(rdir: Path, qs, rjson) -> list:
+    """Bank questions without a receipt image. receipts.json names the file (a sub-part id with brackets is saved
+    under a file-safe name, MS2022-2b(i) -> receipts/MS2022-2b_i_.png); otherwise receipts/<qid>.png. "file": null
+    means receipts.py found no crop."""
+    miss = []
+    for q in qs:
+        entry = rjson.get(q["id"]) if isinstance(rjson, dict) else None
+        if isinstance(entry, dict) and "file" in entry:
+            ok = entry["file"] is not None and (rdir.parent / entry["file"]).exists()
+        else:
+            ok = (rdir / f"{q['id']}.png").exists()
+        if not ok:
+            miss.append(q["id"])
+    return miss
+
+
 def compute(subject: str, scope: str, gate_fn=None, checks_fn=None):
     """All metrics as a dict (lists where the detail matters). gate_fn/checks_fn are injectable for tests."""
     subj, shared, work = resolve(subject, scope)
@@ -360,9 +376,7 @@ def compute(subject: str, scope: str, gate_fn=None, checks_fn=None):
                                      and q["id"] not in names and (q.get("cluster") or "") not in names]
     rdir = work / "receipts"
     rjson = build.load_json(rdir / "receipts.json")
-    miss = {q["id"] for q in qs if not (rdir / f"{q['id']}.png").exists()
-            or (q["id"] in rjson and isinstance(rjson[q["id"]], dict) and rjson[q["id"]].get("file", "x") is None)}
-    m["missing_receipts"] = sorted(miss | set(log_receipts))
+    m["missing_receipts"] = sorted(set(receipts_missing(rdir, qs, rjson)) | set(log_receipts))
     m["ingest_errors"] = ingest_errors(shared)
 
     # ---- source-derived
