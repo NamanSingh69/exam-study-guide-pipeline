@@ -1437,13 +1437,16 @@ def sizes_box(ctx, out):
     body = [rf"\textbf{{Past papers used:}} {win}" +
             {"default": r" (default rule)", "pyq_windows.json": r" (suggested per-subject window)"}.get(w.get("source"), "") +
             rf". {tex(w.get('why', ''))}.\par",
-            rf"\textbf{{Important questions:}} {T['iq_clusters']['count']} ideas: {tex(T['iq_clusters']['why'])}.\par",
-            rf"\textbf{{Notes:}} about {fmt(round(tot))} pages ({units}). Each unit gets lectures $\times$ "
-            r"(1 + its share of the past-paper marks over the average unit's share, between 1 and 2) + 1 pages, so "
-            r"units that carry more marks get more room.\par",
-            rf"\textbf{{Cheatsheet:}} {T['cheatsheet_pages']['pages']} landscape pages: "
-            rf"{tex(T['cheatsheet_pages']['why'])}.\par",
-            rf"\textbf{{Q1 drill:}} {T['q1_drill']['count']} items: {tex(T['q1_drill']['why'])}."]
+            rf"\textbf{{Important questions:}} {T['iq_clusters']['count']} ideas, the ones the 12-hour plan "
+            r"covers; the rest get a one-line entry in the index.\par",
+            rf"\textbf{{Notes:}} about {fmt(round(tot))} pages ({units}). Units that carry more of the past-paper "
+            r"marks get more room.\par",
+            rf"\textbf{{Cheatsheet:}} {T['cheatsheet_pages']['pages']} landscape pages, plus the night-before "
+            r"sheet.\par",
+            rf"\textbf{{Q1 drill:}} {T['q1_drill']['count']} one-mark items"
+            + (rf" ({len(T['q1_drill']['question_ids'])} past questions, the rest predicted)."
+               if T["q1_drill"].get("question_ids") else " (predicted; no one-mark past question in the window).")]
+    # the targets' "why" formulas stay in important_questions.json for the writer packs; they are not printed
     # a studyguide box environment (not a raw \fbox{\parbox}): print, phone and web.py all render it
     return ["", r"\begin{keyconceptbox}[How big this guide is, and why]\small", *body, r"\end{keyconceptbox}", ""]
 
