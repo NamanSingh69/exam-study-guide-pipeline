@@ -12,9 +12,14 @@ Errors
                      ("command already defined"; also breaks the web edition); \\providecommand / \\renewcommand never count
   long_cell_word     a word with no break opportunity wider than its fixed-width column on the PHONE page
   banned             [H] float placement and \\tiny (writer contract)
-Warning
+  safe_name_label    \\label{q:..}/\\pyqsolved{..} with a receipt file-safe id (MS2023B-2b_i_): links dangle
+Warnings
+  web_trap           {\\small\\begin{multicols}..} or \\begingroup: web.py renders paragraphs one by one and may fail
+                     (AI T45) or fall back to an image (most night-before sheets and drills); prefer the plain form
   printed_id         raw convention-style id (\\texttt{ack\\_number}, conv\\_..) in running text; the metrics
                      internal_leaks gate is the authority, this only warns early
+  unsupported_stat   "every year since", "of the last N papers", "N% of the total marks" outside the generated
+                     chapters 05_how_to_use and 20_exam_radar
 
 long_cell_word model (PRINT edition only; the phone edition is dropped): A4 text width ~160 mm, 11 pt body. L{w}
 and p/m/b{w} columns keep their written width; l/c/r/X/Y columns are never checked. A cell is the text with math,
@@ -39,7 +44,10 @@ TOL_JOINED = 1.2    # slugs with '/', ':', '_', digits: no break opportunity, 0.
 TOL_PLAIN = 1.6     # plain alphabetic words: 0.5 em/char overestimates (~0.43 em) and hand-tuned columns hold them
 FONT_PT = {"scriptsize": 8.0, "footnotesize": 9.0, "small": 10.0, "normalsize": 11.0}   # 11 pt class
 UNIT_PT = {"mm": 2.8453, "cm": 28.453, "pt": 1.0, "in": 72.27, "em": 10.5, "ex": 4.5}
-ERRORS = {"answer_in_caption", "dup_newcommand", "long_cell_word", "banned"}
+ERRORS = {"answer_in_caption", "dup_newcommand", "long_cell_word", "banned", "safe_name_label"}
+GENERATED = {"05_how_to_use", "20_exam_radar"}      # score.py output: statistics there are computed from the bank
+STAT = re.compile(r"every\s+year\s+since|\bof\s+the\s+last\s+\d+\s+(?:papers|years|exams)"
+                  r"|\d+\s*\\?%\s+of\s+the\s+(?:total\s+)?(?:marks|paper)", re.I)
 
 
 def _mask_comments(s):
@@ -127,6 +135,43 @@ def _words(cell):
             yield w
 
 
+class _Sep:
+    def __init__(self, a, b, tok):
+        self._a, self._b, self._t = a, b, tok
+
+    def start(self):
+        return self._a
+
+    def end(self):
+        return self._b
+
+    def group(self, _=0):
+        return self._t
+
+
+def _separators(body):
+    """Cell (&) and row (\\\\) separators at brace depth 0: a \\\\ inside \\thead{..} or \\makecell{..} is a line
+    break within the cell, not a row end (CN T05, HPC T14 header cells were misread as narrow first columns)."""
+    depth, k, n = 0, 0, len(body)
+    while k < n:
+        c = body[k]
+        if c == "\\":
+            if body.startswith("\\\\", k):
+                if depth == 0:
+                    yield _Sep(k, k + 2, "\\\\")
+                k += 2
+                continue
+            k += 2                       # an escaped char such as \& \{ \} or the first letter of a macro
+            continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth = max(0, depth - 1)
+        elif c == "&" and depth == 0:
+            yield _Sep(k, k + 1, "&")
+        k += 1
+
+
 def _check_tables(src, path, out):
     for m in re.finditer(r"\\begin\{(tabularx|tabular|xltabular|longtable)\*?\}", src):
         env, i = m.group(1), m.end()
@@ -154,7 +199,7 @@ def _check_tables(src, path, out):
         raw = src[i + 1:j - 1].strip()
         edge = [raw.startswith("@{}"), raw.endswith("@{}")]
         pos, col = j, 0
-        for sm in re.finditer(r"(?<!\\)&|\\\\", src[j:body_end] + r"\\\\"):
+        for sm in _separators(src[j:body_end] + r"\\"):
             seg_end = j + sm.start()
             seg = src[pos:seg_end]
             if col < len(cols) and cols[col] is not None and "\\multicolumn" not in seg:
@@ -197,6 +242,21 @@ def _check_ids(src, path, out):
                     "raw convention-style id in running text (internal_leaks gate will fail if printed)"))
 
 
+def _check_review_traps(src, path, out):
+    for m in re.finditer(r"\{\s*\\(?:small|footnotesize|scriptsize|normalsize)\s*\\begin\{multicols\}", src):
+        out.append((path, _line(src, m.start()), "web_trap",
+                    "multicols wrapped in braces: write \\begin{multicols}{2}\\small ... \\end{multicols}"))
+    for m in re.finditer(r"\\begingroup(?![A-Za-z])", src):
+        out.append((path, _line(src, m.start()), "web_trap", "\\begingroup breaks the web edition: drop the group"))
+    for m in re.finditer(r"(?:\\label\{q:|\\pyqsolved\{)[^{}]*_[ivxIVX]+_\}", src):
+        out.append((path, _line(src, m.start()), "safe_name_label",
+                    "use the bank id (MS2022-2b(i)); only \\receipt{} takes the file-safe name"))
+    if Path(path).stem not in GENERATED:
+        for m in STAT.finditer(src):
+            out.append((path, _line(src, m.start()), "unsupported_stat",
+                        f"examiner statistic '{m.group(0)}': print only counts computed from pyq_bank.json"))
+
+
 def lint_files(paths):
     """Lint .tex files. Returns [(path, line, code, msg)] sorted by path and line."""
     out, defs = [], {}
@@ -211,6 +271,7 @@ def lint_files(paths):
         _check_banned(src, p, out)
         _check_tables(src, p, out)
         _check_ids(src, p, out)
+        _check_review_traps(src, p, out)
         for m in re.finditer(r"\\newcommand\*?\s*\{?\s*(\\[A-Za-z@]+)", src):
             defs.setdefault(m.group(1), []).append((p, _line(src, m.start())))
     for name, locs in defs.items():

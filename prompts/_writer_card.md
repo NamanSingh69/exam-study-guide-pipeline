@@ -41,7 +41,9 @@ only if you own it (pack lists yours); otherwise `\ref{fig:..}`.
 
 **Build and web traps.** No `\answer{}` in a `\caption`; atom macros use `\providecommand`; no `multicols` or
 `\columnbreak` inside boxes (two `minipage`s); no `\textcolor` in TikZ node text (`text=<colour>`); split long
-inline maths or add `\allowbreak`. There is no phone edition (dropped 2026-11-10): build and check print only.
+inline maths or add `\allowbreak`; no `\begingroup` and no `{\small\begin{multicols}..}` (write
+`\begin{multicols}{2}\small ..`). Labels and links use the bank id exactly (`q:MS2022-2b(i)`,
+`\pyqsolved{MS2022-2b(i)}`); only `\receipt{MS2022-2b_i_}` takes the file-safe name. There is no phone edition (dropped 2026-11-10): build and check print only.
 
 **Recall.** Every topic atom ends with 2–5 `\flashcard`s (back ≤ 25 words, no figures or refs).
 

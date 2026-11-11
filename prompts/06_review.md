@@ -30,7 +30,12 @@ pedagogy.** Mention a mechanical defect only if you trip over it, under `notes`.
 2. **Unbacked numbers:** the last line of `metrics.jsonl` → `numbers_without_checks` locations. No script backs
    these, so re-solve every one.
 3. **Tier A/B clusters** (`important_questions.json`): every numerical and every answer box in their solve atoms.
-4. **The rest:** re-solve at least 1 in 3 of the remaining numericals (every solve atom gets at least one).
+4. **Recall pages, read in full:** `chapters/cheatsheet.tex`, `atoms/recall/night_before.tex` and
+   `chapters/65_q1_drill.tex`; cross-check each formula and short answer with the topic atom it summarises
+   (students revise from these, and planted errors there were missed). Then the first 10 lines of every topic
+   atom (unsupported statistics or examiner claims) and every TikZ node label you pass (garbled labels are the
+   most-missed defect).
+5. **The rest:** re-solve at least 1 in 3 of the remaining numericals (every solve atom gets at least one).
    Say in `notes` how many you re-solved out of how many.
 Open files one at a time and only the parts you need. Read a page image only when the OCR is POOR or a doubt
 names it.

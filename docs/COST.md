@@ -37,4 +37,13 @@ Per subject (rough, excluding tool development): **~250–350 M input-side token
 ## Runs after the refactor
 | date | subject/scope | agents | main turns | input-side total | writers' mean context | images | notes |
 |---|---|---|---|---|---|---|---|
-| | | | | | | | |
+| 2026-11-10/11 | IPA endsem | 7 (4 writers, 1 review, 1 fix, 1 other) | shared | 91 M | ~13 M per writer | 70 | first subject under the 100 M target; Sonnet writers, packs, print only |
+| 2026-11-10/11 | DOS endsem | 7 (4 writers, 1 review, 1 fix, 1 other) | shared | 171 M | ~32 M per writer | 106 | fix round added 36 checks |
+| 2026-11-10/11 | AI endsem | 11 (5 writers, 1 review, 1 fix, 4 other) | shared | 178 M | ~25 M per writer | 263 | biggest bank (284 question blocks) |
+| 2026-11-10/11 | DMDW endsem | 9 (5 writers, 1 review, 1 fix, 2 other) | shared | 221 M | ~33 M per writer | 189 | one writer re-reported repeatedly (stopped) |
+| 2026-11-10/11 | ML endsem (review + fix only) | 2 | shared | 49 M | | 81 | writers ran before the window |
+| 2026-11-10/11 | whole window (3 sessions) | 66 subagents | 1,167 | 340 M main + 1,149 M agents | | 1,482 | includes A/B test, 3 Sonnet tool builders, rebuild of all 12 guides |
+
+Measured with `usage_report.py --since 2026-11-10 --top 400` (input-side = input + cache read + cache creation).
+Per subject the refactor cut ~250–350 M to ~90–220 M; the main session is now the largest single line (340 M over
+1,167 turns): orchestration turns re-read a long context, so fewer, batched main turns are the next lever.
