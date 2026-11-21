@@ -26,6 +26,12 @@ rule, bot protection in challenge mode, Vercel Authentication on every non-produ
 such as `curl` get a 429 challenge; browsers load normally. If a link preview fails on some platform, that
 platform's fetcher is being challenged: check the firewall log before loosening anything.
 
+One exception, added 2026-11-21: a bypass rule, placed after the rate limit, lets a `GET` of `/` and `/og.png`
+through when the user agent contains `WhatsApp`, because WhatsApp fetches link previews from the sender's phone
+and cannot pass a challenge. Checked with that user agent: `/` and `/og.png` answer 200, `/app.js` and a `POST`
+still get 429. The user agent can be spoofed, so the rule covers only those two cached files and the per-IP
+limit still applies. Delete the rule if the firewall log shows it being abused.
+
 ## First-time setup on Vercel (project root = `site/`)
 1. Import the GitHub repository, set **Root Directory** to `site`, framework preset **Other**, no build command.
 2. Firewall, before the first production deploy: one per-IP rate-limit rule, bot protection on, a saved
