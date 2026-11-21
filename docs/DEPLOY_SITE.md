@@ -27,8 +27,9 @@ such as `curl` get a 429 challenge; browsers load normally. If a link preview fa
 platform's fetcher is being challenged: check the firewall log before loosening anything.
 
 One exception, added 2026-11-21: a bypass rule, placed after the rate limit, lets a `GET` of `/` and `/og.png`
-through when the user agent contains `WhatsApp`, because WhatsApp fetches link previews from the sender's phone
-and cannot pass a challenge. Checked with that user agent: `/` and `/og.png` answer 200, `/app.js` and a `POST`
+through when the user agent matches a link-preview fetcher (WhatsApp, LinkedInBot, facebookexternalhit,
+Twitterbot, Slackbot, TelegramBot, Discordbot), because these cannot pass a challenge. LinkedIn's "add a link"
+failed to load a preview before the rule and loaded the title and image after it. Checked with that user agent: `/` and `/og.png` answer 200, `/app.js` and a `POST`
 still get 429. The user agent can be spoofed, so the rule covers only those two cached files and the per-IP
 limit still applies. Delete the rule if the firewall log shows it being abused.
 
