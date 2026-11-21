@@ -33,6 +33,11 @@ failed to load a preview before the rule and loaded the title and image after it
 still get 429. The user agent can be spoofed, so the rule covers only those two cached files and the per-IP
 limit still applies. Delete the rule if the firewall log shows it being abused.
 
+Usage alerts (checked 2026-11-21): the team is on Hobby, which has no usage-alert or spend-management setting
+(Spend Management is Pro only), and the team's notification page has no usage category to switch on. The
+watch is manual: Team > Usage. On 2026-11-21 the whole team had used about 1,400 CDN requests and 105 MB of
+transfer in the previous 30 days, against 1,000,000 requests and 100 GB.
+
 ## First-time setup on Vercel (project root = `site/`)
 1. Import the GitHub repository, set **Root Directory** to `site`, framework preset **Other**, no build command.
 2. Firewall, before the first production deploy: one per-IP rate-limit rule, bot protection on, a saved
