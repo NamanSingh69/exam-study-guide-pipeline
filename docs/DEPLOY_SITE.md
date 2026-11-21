@@ -21,6 +21,11 @@ vercel deploy --prod
 ```
 Deploy from a copy so the CLI's `.vercel/` folder never lands in `site/`.
 
+**Bump the asset version on every change to `styles.css`, `theme.js` or `app.js`.** Those files are cached
+for a day plus 7 days stale-while-revalidate, so a returning browser keeps running the old script under the
+new page (seen on the 2026-11-21 redeploy: new HTML, old gate demo). `index.html` and `404.html` load them as
+`name?v=<date><letter>` (now `20261121b`); change that string in both files before deploying.
+
 Current protection (set 2026-11-21, read back from the firewall API): a 300 requests/minute per-IP rate-limit
 rule, bot protection in challenge mode, Vercel Authentication on every non-production URL. Command-line clients
 such as `curl` get a 429 challenge; browsers load normally. If a link preview fails on some platform, that
