@@ -30,7 +30,8 @@ question idea solved once, then cross-linked), important questions ranked by a b
 flashcards and a static web edition with a self-test mode.
 
 > Unofficial student project; not affiliated with or endorsed by any university. The course material and the
-> generated guides are not in this repository: it holds only the tools, prompts, LaTeX style and tests.
+> generated guides are not in this repository: it holds only the tools, prompts, LaTeX style and tests, plus
+> seven sample pages of generated notes in `site/img/` (no exam paper is reproduced).
 > The test fixtures are synthetic.
 
 **Start here:** [`RUNBOOK.md`](RUNBOOK.md) (how to run a subject at the lowest usage cost) · [`docs/COST.md`](docs/COST.md)

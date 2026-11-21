@@ -67,6 +67,8 @@ css = (SITE / "styles.css").read_text("utf-8")
 css_bad = [u for u in re.findall(r"url\(([^)]+)\)", css)
            if not u.strip("'\"").startswith("data:") and not (SITE / u.strip("'\"").lstrip("/")).is_file()]
 check("styles.css: url() targets exist and are local", not css_bad, str(css_bad))
+first_view |= {SITE / u.strip("'\"").lstrip("/") for u in re.findall(r"url\(([^)]+)\)", css)
+               if (SITE / u.strip("'\"").lstrip("/")).is_file()}          # web fonts are part of a cold page view
 
 # vercel.json: headers
 vj = json.loads((SITE / "vercel.json").read_text("utf-8"))

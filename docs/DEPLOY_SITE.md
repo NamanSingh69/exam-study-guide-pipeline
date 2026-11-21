@@ -1,0 +1,29 @@
+# Deploying the showcase site (`site/`)
+
+The site is static: no build step, no functions, no third-party requests. Any static host works.
+It has not been deployed yet; a deploy publishes it, so it waits for the owner's yes.
+
+## Before every deploy
+```
+py tests/test_site.py        # must print RESULT PASS
+```
+The gate checks links, the self-only CSP and security headers in `site/vercel.json`, size budgets, and a leak
+scan of every served file, and prints the request count of one cold page view (currently 20 requests, 447 kB;
+at the Hobby cap of 1,000,000 edge requests a month that is about 50,000 cold page views).
+
+## Vercel (project root = `site/`)
+1. Import the GitHub repository, set **Root Directory** to `site`, framework preset **Other**, no build command.
+2. Firewall, before the first production deploy: one per-IP rate-limit rule, bot protection on, a saved
+   deny-all rule kept ready as the kill switch.
+3. Deployment Protection (Vercel Authentication) on preview deployments.
+4. After the deploy: open the usage dashboard, confirm the headers with `curl -I`, and turn usage alerts on.
+5. Then set the repository's homepage to the production URL and add it to the README.
+
+## Also fine
+GitHub Pages or Cloudflare Pages serve the same folder. `vercel.json` headers do not apply there: Cloudflare
+Pages needs the same rules in a `_headers` file, and GitHub Pages cannot set a CSP header at all.
+
+## What is public in `site/img/`
+Seven page images of generated notes from one guide. No exam paper, receipt, instructor name or shared-drive
+link is in them (checked against the local redaction list by the gate). The fonts in `site/fonts/` are subsets
+of Latin Modern under the GUST Font License.

@@ -5,268 +5,240 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Exam Study-Guide Pipeline: gated multi-agent LLM system</title>
 <meta name="description" content="A multi-agent pipeline (Claude Code, Python, LaTeX) that turns course notes and past exam papers into verified study guides. 12 courses, 3,045 pages, 2,310 past-paper questions gated against their source.">
-<meta name="theme-color" content="#faf7f0">
+<meta name="theme-color" content="#fbfaf6">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Exam Study-Guide Pipeline">
 <meta property="og:description" content="Study guides that are not allowed to make things up: a gated multi-agent LLM pipeline. 12 courses, 3,045 pages, 2,310 verified past-paper questions.">
 <meta property="og:image" content="og.png">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preload" href="fonts/lmr10.woff" as="font" type="font/woff" crossorigin>
+<link rel="preload" href="fonts/lmr17.woff" as="font" type="font/woff" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <script src="theme.js"></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
-<header class="nav" id="top">
-  <a class="brand" href="#top" aria-label="Exam Study-Guide Pipeline, top of page">
-    <svg viewBox="0 0 32 32" width="26" height="26" aria-hidden="true"><rect x="5" y="3" width="20" height="26" rx="3" class="lg-page"/><path d="M10 11h10M10 16h10M10 21h5" class="lg-line"/><circle cx="23" cy="23" r="6.5" class="lg-seal"/><path d="M20 23l2.2 2.2 4-4.4" class="lg-tick"/></svg>
-    <span>Study-Guide Pipeline</span>
-  </a>
+<header class="runhead" id="top">
+  <a class="rh-title" href="#top">Singh <span aria-hidden="true">·</span> Study-Guide Pipeline</a>
   <nav aria-label="Sections">
-    <a href="#pipeline">Pipeline</a>
-    <a href="#gate">Live gate</a>
-    <a href="#guide">Output</a>
-    <a href="#evidence">Evidence</a>
-    <a href="#roadmap">Roadmap</a>
+    <a href="#problem"><i>1</i> Problem</a>
+    <a href="#method"><i>2</i> Method</a>
+    <a href="#gate"><i>3</i> Gate</a>
+    <a href="#planner"><i>4</i> Planner</a>
+    <a href="#output"><i>5</i> Output</a>
+    <a href="#evidence"><i>6</i> Evidence</a>
+    <a href="#practice"><i>7</i> Practice</a>
+    <a href="#future"><i>8</i> Future</a>
   </nav>
-  <div class="nav-end">
-    <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch colour theme">
-      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path class="i-sun" d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.7-5.7 1.4-1.4M4.9 19.1l1.4-1.4m0-11.4L4.9 4.9m14.2 14.2-1.4-1.4M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z"/><path class="i-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z"/></svg>
-    </button>
-    <a class="btn btn-small" href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">GitHub</a>
+  <div class="rh-end">
+    <button id="themeToggle" type="button" aria-label="Switch between light and dark"><span class="t-dark">Dark</span><span class="t-light">Light</span></button>
+    <a href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">Source <span aria-hidden="true">→</span></a>
   </div>
 </header>
 
 <main id="main">
 
-<section class="hero">
-  <div class="hero-copy">
-    <p class="eyebrow">Case study · multi-agent LLM pipeline</p>
+<section class="title-block">
+  <div class="tb-copy">
+    <p class="kicker">Case study <span aria-hidden="true">·</span> November 2026</p>
     <h1>Study guides that are <em>not allowed</em> to make things up.</h1>
-    <p class="lede">An agent pipeline built on Claude Code, Python and LaTeX. It turns a course's lecture notes and past exam papers into a print-ready guide, and every stage has to pass a gate before the next one runs.</p>
-    <div class="cta">
+    <p class="byline">Naman Singh <span aria-hidden="true">·</span> an unofficial student project</p>
+    <p class="abstract"><b>Abstract.</b> A pipeline of language-model agents, Python tools and one LaTeX style turns a course's lecture notes and past exam papers into a print-ready study guide. The model is treated as untrusted: every stage has to pass a check that the writer cannot influence before the next one runs. It has produced guides for 12 courses.</p>
+    <p class="actions">
       <a class="btn" href="#gate">Try the gate</a>
-      <a class="btn btn-ghost" href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">Read the code</a>
-    </div>
-    <p class="hero-note">Built and run by Naman Singh for one semester of B.Tech CSE courses. Unofficial student project.</p>
+      <a class="link" href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">Read the source <span aria-hidden="true">→</span></a>
+    </p>
   </div>
-  <div class="hero-art" aria-hidden="true">
+  <div class="desk" aria-hidden="true">
     <img class="sheet s1" src="img/thumb-radar.webp" alt="" width="496" height="702">
     <img class="sheet s2" src="img/thumb-tcp-congestion.webp" alt="" width="496" height="702">
     <img class="sheet s3" src="img/thumb-gbn-storyboard.webp" alt="" width="496" height="702">
-    <span class="stamp">RESULT PASS</span>
+    <span class="stamp pass">Result pass</span>
   </div>
 </section>
 
-<section class="stats" aria-label="Project numbers">
-  <dl>
-    <div><dt>courses</dt><dd data-count="12">12</dd></div>
-    <div><dt>guide pages</dt><dd data-count="3045">3,045</dd></div>
-    <div><dt>past papers transcribed</dt><dd data-count="132">132</dd></div>
-    <div><dt>questions gated against their paper</dt><dd data-count="2310">2,310</dd></div>
-    <div><dt>answer checks run per build</dt><dd data-count="2039">2,039</dd></div>
-    <div><dt>journaled changes, test first</dt><dd data-count="34">34</dd></div>
-  </dl>
+<section class="cover" aria-label="The project in numbers">
+  <table>
+    <caption><b>Table 1.</b> The project in numbers, end-semester scope.</caption>
+    <thead><tr><th scope="col">Courses</th><th scope="col">Guide pages</th><th scope="col">Past papers transcribed</th><th scope="col">Questions gated against their paper</th><th scope="col">Answer checks per build</th><th scope="col">Journaled changes, test first</th></tr></thead>
+    <tbody><tr><td data-count="12">12</td><td data-count="3045">3,045</td><td data-count="132">132</td><td data-count="2310">2,310</td><td data-count="2039">2,039</td><td data-count="34">34</td></tr></tbody>
+  </table>
 </section>
 
-<section class="block" id="problem">
-  <div class="split">
-    <div>
-      <p class="eyebrow">Why it exists</p>
-      <h2>Version 1 wrote a convincing 2024 paper. None of it was real.</h2>
-      <p>The first version was one long prompt. Its guides looked finished, and its "2024 past paper" chapter read like the real thing. An audit against the scanned paper found that <strong>0 of its 13 questions</strong> appeared in the actual exam.</p>
-      <p>A student who trusts a made-up paper studies the wrong things. So version 2 was rebuilt around one rule: a stage counts as done only when a check that the writer cannot influence says so.</p>
-      <ul class="ticks">
+<section class="sec" id="problem">
+  <h2><span class="num">1</span>Version 1 wrote a convincing 2024 paper. None of it was real.</h2>
+  <div class="cols">
+    <div class="prose">
+      <p class="lead-fig"><span class="zero">0<small>/13</small></span><span>questions in the first version's &ldquo;2024 past paper&rdquo; that appear in the real exam.</span></p>
+      <p>The first version was one long prompt. Its guides looked finished, and that chapter read like the real thing until it was checked against the scanned paper.</p>
+      <p>A student who trusts an invented paper studies the wrong things. So the second version was rebuilt around one rule: a stage counts as done only when a check that the writer cannot influence says so.</p>
+      <ol class="rules">
         <li>Past-paper questions come only from a bank transcribed from page images.</li>
-        <li>Each printed question carries a cropped image of the original, a "receipt".</li>
+        <li>Each printed question carries a cropped image of the original, its <em>receipt</em>.</li>
         <li>Every numerical answer has a Python check that runs on each build.</li>
-      </ul>
+      </ol>
     </div>
-    <figure class="score-card">
-      <figcaption>
-        <span class="mono">Fresh-reviewer rubric, 7 dimensions, 0–5 each</span>
-        <div class="score-totals"><span class="tot tot-old"><b>16</b>/35 <i>single prompt</i></span><span class="arrow" aria-hidden="true">→</span><span class="tot tot-new"><b>30</b>/35 <i>gated pipeline</i></span></div>
-      </figcaption>
-      <div id="rubric" class="rubric" role="img" aria-label="Scores per dimension. Fidelity 0 to 5, correctness 3 to 4, coverage 1 to 5, usefulness 1 to 4, visuals 3 to 4, layout 4 to 4, concision 4 to 4."></div>
-      <p class="fine">Same test bed (one course, midsem scope), graded by a reviewer agent that did not write either version.</p>
+    <figure class="fig">
+      <div class="fig-body">
+        <div class="totals"><span><b>16</b><small>/35</small><i>single prompt</i></span><span class="to" aria-hidden="true">→</span><span class="new"><b>30</b><small>/35</small><i>gated pipeline</i></span></div>
+        <div id="rubric" class="rubric" role="img" aria-label="Scores per dimension. Fidelity 0 to 5, correctness 3 to 4, coverage 1 to 5, usefulness 1 to 4, visuals 3 to 4, layout 4 to 4, concision 4 to 4."></div>
+      </div>
+      <figcaption><b>Figure 1.</b> Scores from a reviewer agent that wrote neither version, on the same test bed. Seven dimensions, 0 to 5 each. Grey: single prompt. Ink: this pipeline.</figcaption>
     </figure>
   </div>
 </section>
 
-<section class="block" id="pipeline">
-  <p class="eyebrow">How it works</p>
-  <h2>Nine stages, and a gate between each.</h2>
-  <p class="section-lede">Select a stage. Amber stages are hard gates: a failure stops the run and nothing downstream is written.</p>
-  <div class="flow">
-    <div class="flow-steps" id="flowSteps" role="tablist" aria-label="Pipeline stages"></div>
-    <div class="flow-panel" id="flowPanel" role="tabpanel" tabindex="0"></div>
-  </div>
+<section class="sec" id="method">
+  <h2><span class="num">2</span>Nine stages, and a gate between them.</h2>
+  <p class="intro">Select a stage. Those marked <span class="gate-mark">gate</span> stop the run on failure, and nothing downstream is written.</p>
+  <figure class="fig fig-wide">
+    <div class="flow">
+      <div class="flow-steps" id="flowSteps" role="tablist" aria-label="Pipeline stages" aria-orientation="vertical"></div>
+      <div class="flow-panel" id="flowPanel" role="tabpanel" tabindex="0"></div>
+    </div>
+    <figcaption><b>Figure 2.</b> The pipeline. Each stage reads and writes plain files, so a run that stops can resume, and any coding agent can run it.</figcaption>
+  </figure>
 </section>
 
-<section class="block block-tint" id="gate">
-  <p class="eyebrow">Try it</p>
-  <h2>The verbatim gate, running in your browser.</h2>
-  <p class="section-lede">The left side is what the scanned paper says. The right side is what an agent transcribed. Edit the transcription, or use a tamper button, and see whether it would be allowed into a guide.</p>
-  <div class="gate">
-    <div class="gate-col">
-      <h3 class="mono">paper · OCR of the page image</h3>
-      <p class="paper" id="gateSource"></p>
-    </div>
-    <div class="gate-col">
-      <h3 class="mono"><label for="gateInput">transcription · editable</label></h3>
-      <textarea id="gateInput" rows="6" spellcheck="false"></textarea>
-      <div class="chips" role="group" aria-label="Tamper with the transcription">
-        <button type="button" data-tamper="number">Change a number</button>
-        <button type="button" data-tamper="paraphrase">Paraphrase it</button>
-        <button type="button" data-tamper="invent">Invent a sub-part</button>
-        <button type="button" data-tamper="ocr">OCR look-alike</button>
-        <button type="button" data-tamper="reset" class="chip-plain">Reset</button>
+<section class="sec" id="gate">
+  <h2><span class="num">3</span>The verbatim gate, running in your browser.</h2>
+  <p class="intro">On the left, what the scanned paper says. On the right, what an agent transcribed. Edit the transcription, or tamper with it, and see whether it would be allowed into a guide.</p>
+  <figure class="fig fig-wide">
+    <div class="gate">
+      <div class="receipt">
+        <h3>The paper <span>OCR of the page image</span></h3>
+        <p id="gateSource"></p>
+      </div>
+      <div class="transcript">
+        <h3><label for="gateInput">The transcription</label> <span>editable</span></h3>
+        <textarea id="gateInput" rows="6" spellcheck="false"></textarea>
+        <p class="tamper">Tamper:
+          <button type="button" data-tamper="number">change a number</button>
+          <button type="button" data-tamper="paraphrase">paraphrase it</button>
+          <button type="button" data-tamper="invent">invent a sub-part</button>
+          <button type="button" data-tamper="ocr">OCR look-alike</button>
+          <button type="button" data-tamper="reset" class="reset">reset</button>
+        </p>
+      </div>
+      <div class="ruling" aria-live="polite">
+        <div class="stamp-wrap"><span class="stamp" id="gateVerdict"></span></div>
+        <div>
+          <p class="diff" id="gateDiff"></p>
+          <ul class="reasons" id="gateReasons"></ul>
+        </div>
       </div>
     </div>
-    <div class="gate-out" aria-live="polite">
-      <div class="verdict" id="gateVerdict"></div>
-      <p class="diff" id="gateDiff"></p>
-      <ul class="reasons" id="gateReasons"></ul>
-    </div>
-  </div>
-  <p class="fine">A simplified port of <code>tools/verify_pyqs.py</code>, with a made-up question. The real gate also handles either-or pairs, internal choice, marks totals and nested sub-parts. Its attack suite blocks 77 of 77 tampered banks; the gate it replaced failed 39 of the first 43 attack tests.</p>
+    <figcaption><b>Figure 3.</b> A simplified port of <code>tools/verify_pyqs.py</code>, with a made-up question. The real gate also handles either-or pairs, internal choice, marks totals and nested sub-parts. Its attack suite blocks 77 of 77 tampered banks; the gate it replaced failed 39 of the first 43 attack tests.</figcaption>
+  </figure>
 </section>
 
-<section class="block" id="planner">
-  <div class="split split-rev">
-    <div>
-      <p class="eyebrow">Planning</p>
-      <h2>What to study when there are only a few hours left.</h2>
-      <p>The planner turns the verified bank into a marks model per topic, simulates papers under the exam's choice rules, and picks the set of question ideas that covers the most expected marks for a 3, 6 or 12-hour budget. Those plans set the study order of the whole guide.</p>
-      <p>Move the slider. The plan is nested, so a longer plan only adds to a shorter one.</p>
-      <p class="fine">Illustrative topics and numbers. The real planner is <code>tools/score.py</code>, and it is backtested on held-out papers with <code>tools/backtest.py</code>.</p>
+<section class="sec" id="planner">
+  <h2><span class="num">4</span>What to study when only a few hours are left.</h2>
+  <div class="cols">
+    <div class="prose">
+      <p>The planner turns the verified bank into a marks model per topic, simulates papers under the exam's choice rules, and picks the question ideas that cover the most expected marks for a 3, 6 or 12-hour budget. Those plans set the study order of the whole guide.</p>
+      <p>The plans are nested: a longer plan only adds to a shorter one, so the guide can print one list with cut-off lines. Move the line.</p>
     </div>
-    <div class="planner">
-      <label for="hours" class="mono">study budget: <output id="hoursOut">6</output> hours</label>
-      <input type="range" id="hours" min="1" max="12" step="1" value="6">
-      <div class="meter" role="img" id="planMeter" aria-label="Expected marks covered">
-        <span id="planBar"></span>
+    <figure class="fig">
+      <div class="fig-body planner">
+        <label for="hours">Study budget <output id="hoursOut">6</output> hours</label>
+        <input type="range" id="hours" min="1" max="12" step="1" value="6">
+        <div class="ticks" aria-hidden="true"><span class="t3">3 h</span><span class="t6">6 h</span><span class="t12">12 h</span></div>
+        <ol class="toc" id="planTopics"></ol>
       </div>
-      <p class="meter-label"><b id="planMarks">0</b> of 50 expected marks covered · <span id="planCount">0</span> topics</p>
-      <ul class="topics" id="planTopics"></ul>
-    </div>
+      <figcaption><b>Figure 4.</b> Illustrative topics and numbers. The real planner is <code>tools/score.py</code>, backtested on held-out papers by <code>tools/backtest.py</code>.</figcaption>
+    </figure>
   </div>
 </section>
 
-<section class="block" id="guide">
-  <p class="eyebrow">Output</p>
-  <h2>Inside a guide.</h2>
-  <p class="section-lede">Real pages from the Computer Networks guide (281 pages). Select a page to read it. Notes pages and planner pages only: no exam paper is reproduced here.</p>
-  <div class="gallery" id="gallery">
-    <button type="button" data-page="radar" data-w="993" data-h="1404"><img src="img/thumb-radar.webp" alt="Exam radar page: a heat table of topics against past papers with expected marks" width="496" height="702" loading="lazy"><span><b>Exam radar</b>Marks per topic across the papers in the window.</span></button>
-    <button type="button" data-page="plans" data-w="993" data-h="1404"><img src="img/thumb-plans.webp" alt="Study plans page listing topics for 3, 6 and 12 hours" width="496" height="702" loading="lazy"><span><b>Study plans</b>Nested 3, 6 and 12-hour plans in syllabus order.</span></button>
-    <button type="button" data-page="gbn-notes" data-w="993" data-h="1404"><img src="img/thumb-gbn-notes.webp" alt="Notes page on the Go-Back-N protocol with intuition, definition and window diagrams" width="496" height="702" loading="lazy"><span><b>Topic notes</b>Intuition, definition, how it works, then figures.</span></button>
-    <button type="button" data-page="gbn-storyboard" data-w="993" data-h="1404"><img src="img/thumb-gbn-storyboard.webp" alt="Storyboard figure showing Go-Back-N frame by frame with a timeline" width="496" height="702" loading="lazy"><span><b>Storyboards</b>One TikZ source: frames in print, an animation on screen.</span></button>
-    <button type="button" data-page="tcp-congestion" data-w="993" data-h="1404"><img src="img/thumb-tcp-congestion.webp" alt="Notes page on TCP congestion control with past-paper badges and a window plot" width="496" height="702" loading="lazy"><span><b>Asked-in badges</b>Generated from the bank, never typed by hand.</span></button>
-    <button type="button" data-page="cidr-worked" data-w="993" data-h="1404"><img src="img/thumb-cidr-worked.webp" alt="Worked subnetting examples with boxed answers" width="496" height="702" loading="lazy"><span><b>Worked examples</b>Each boxed answer is backed by a check script.</span></button>
-    <button type="button" data-page="night-before" data-w="1404" data-h="993" class="wide"><img src="img/thumb-night-before.webp" alt="Landscape night-before sheet of short questions by unit" width="702" height="496" loading="lazy"><span><b>Night-before sheet</b>Short recall questions, by unit, after the cheatsheet.</span></button>
+<section class="sec" id="output">
+  <h2><span class="num">5</span>Inside a guide.</h2>
+  <p class="intro">Pages from the Computer Networks guide, 281 pages. Select one to read it. These are notes and planner pages; no exam paper is reproduced here.</p>
+  <div class="plates" id="gallery">
+    <button type="button" data-page="radar" data-w="993" data-h="1404"><img src="img/thumb-radar.webp" alt="Exam radar page: a heat table of topics against past papers with expected marks" width="496" height="702" loading="lazy"><span><b>Plate 1.</b> Exam radar: marks per topic across the papers in the window.</span></button>
+    <button type="button" data-page="plans" data-w="993" data-h="1404"><img src="img/thumb-plans.webp" alt="Study plans page listing topics for 3, 6 and 12 hours" width="496" height="702" loading="lazy"><span><b>Plate 2.</b> Nested 3, 6 and 12-hour plans in syllabus order.</span></button>
+    <button type="button" data-page="gbn-notes" data-w="993" data-h="1404"><img src="img/thumb-gbn-notes.webp" alt="Notes page on the Go-Back-N protocol with intuition, definition and window diagrams" width="496" height="702" loading="lazy"><span><b>Plate 3.</b> Topic notes: intuition, definition, how it works, figures.</span></button>
+    <button type="button" data-page="gbn-storyboard" data-w="993" data-h="1404"><img src="img/thumb-gbn-storyboard.webp" alt="Storyboard figure showing Go-Back-N frame by frame with a timeline" width="496" height="702" loading="lazy"><span><b>Plate 4.</b> A storyboard. One TikZ source: frames in print, an animation on screen.</span></button>
+    <button type="button" data-page="tcp-congestion" data-w="993" data-h="1404"><img src="img/thumb-tcp-congestion.webp" alt="Notes page on TCP congestion control with past-paper badges and a window plot" width="496" height="702" loading="lazy"><span><b>Plate 5.</b> &ldquo;Asked in&rdquo; badges, generated from the bank and never typed by hand.</span></button>
+    <button type="button" data-page="cidr-worked" data-w="993" data-h="1404"><img src="img/thumb-cidr-worked.webp" alt="Worked subnetting examples with boxed answers" width="496" height="702" loading="lazy"><span><b>Plate 6.</b> Worked examples. Each boxed answer is backed by a check script.</span></button>
+    <button type="button" data-page="night-before" data-w="1404" data-h="993" class="wide"><img src="img/thumb-night-before.webp" alt="Landscape night-before sheet of short questions by unit" width="702" height="496" loading="lazy"><span><b>Plate 7.</b> The night-before sheet: short recall questions by unit.</span></button>
   </div>
   <dialog id="lightbox" aria-label="Guide page">
-    <button type="button" class="icon-btn lb-close" aria-label="Close">✕</button>
+    <button type="button" class="lb-close" aria-label="Close">Close</button>
     <img id="lbImg" src="img/thumb-radar.webp" alt="" width="993" height="1404">
   </dialog>
-  <div class="contents">
-    <h3>Every guide holds</h3>
-    <ul>
-      <li>Unit notes with step-by-step storyboard figures</li>
-      <li>Every in-window past paper, solved, each idea solved once and cross-linked</li>
-      <li>Important questions in study order (tiers A to D)</li>
-      <li>A short-answer drill and a mock paper</li>
-      <li>A cheatsheet and a night-before sheet</li>
-      <li>Anki flashcards and a static web edition with a self-test mode</li>
-    </ul>
-  </div>
+  <p class="holds"><b>Every guide holds</b> unit notes with step-by-step storyboards; every past paper in the window, solved, with each idea solved once and cross-linked; important questions in study order; a short-answer drill and a mock paper; a cheatsheet and a night-before sheet; Anki flashcards and a static web edition with a self-test mode.</p>
 </section>
 
-<section class="block block-tint" id="evidence">
-  <p class="eyebrow">Evidence</p>
-  <h2>Measured, including the parts that did not work.</h2>
-  <div class="cards">
-    <article class="card">
-      <p class="big">77<small>/77</small></p>
-      <h3>tampered banks blocked</h3>
-      <p>Changed numbers, invented questions, empty banks and paraphrases are all refused by the verbatim gate.</p>
-      <p class="src mono">tests/test_verify.py</p>
-    </article>
-    <article class="card">
-      <p class="big">94.5<small>%</small></p>
-      <h3>answerable on a held-out paper</h3>
-      <p>An agent given only the guide answered 13 of 14 parts of an unseen paper in full. The partial one was fixed.</p>
-      <p class="src mono">prompts/08_answerability.md</p>
-    </article>
-    <article class="card">
-      <p class="big">0</p>
-      <h3>hard-gate defects at release</h3>
-      <p>Across all 12 guides: no TeX errors, undefined references, missing receipts, failed checks or stale PDFs.</p>
-      <p class="src mono">tools/metrics.py</p>
-    </article>
-    <article class="card">
-      <p class="big">3–5<small>/5</small></p>
-      <h3>planted defects caught</h3>
-      <p>Reviewers get a copy with five planted errors, so their recall is measured instead of assumed.</p>
-      <p class="src mono">tools/plant_defects.py</p>
-    </article>
+<section class="sec" id="evidence">
+  <h2><span class="num">6</span>Measured, including the parts that did not work.</h2>
+  <div class="keyfigs">
+    <p><b>77<small>/77</small></b>tampered banks blocked by the verbatim gate</p>
+    <p><b>94.5<small>%</small></b>of a held-out paper answerable from the guide alone</p>
+    <p><b>0</b>hard-gate defects across the 12 released guides</p>
+    <p><b>3&ndash;5<small>/5</small></b>planted defects caught by each reviewer</p>
   </div>
-
-  <div class="split split-even">
-    <figure class="chart">
-      <figcaption><h3>Token cost per course, before and after the refactor</h3><span class="mono">million input-side tokens, measured from transcripts</span></figcaption>
-      <div id="costChart" class="bars" role="img" aria-label="Baseline 250 to 350 million tokens per course. After the refactor: image processing 91, distributed operating systems 171, artificial intelligence 178, data mining 221 million."></div>
-      <p class="fine">An automatic layout check replaced about 2,000 page-image reads, each writer got one capped context pack, and gated mechanical work moved to a cheaper model after a blind A/B (4 wins, 1 loss, 1 tie).</p>
+  <div class="cols cols-top">
+    <figure class="fig">
+      <table class="book">
+        <caption><b>Table 2.</b> Results and where each number comes from.</caption>
+        <thead><tr><th scope="col">Measure</th><th scope="col">Result</th><th scope="col">Source</th></tr></thead>
+        <tbody>
+          <tr><td>Reviewer rubric, same test bed</td><td>16 → 30 of 35</td><td><code>AUTORESEARCH_<wbr>LOG.md</code></td></tr>
+          <tr><td>Old gate against the attack suite</td><td>failed 39 of 43</td><td><code>tests/<wbr>test_<wbr>verify.py</code></td></tr>
+          <tr><td>Held-out paper, parts answered in full</td><td>13 of 14</td><td><code>prompts/<wbr>08_<wbr>answerability.md</code></td></tr>
+          <tr><td>Slide decks recovered by the ingest gate</td><td>8 → 16 of 16</td><td><code>tests/<wbr>test_<wbr>ingest.py</code></td></tr>
+          <tr><td>Pages an agent still has to look at</td><td>about 9%</td><td><code>tools/<wbr>layout_<wbr>check.py</code></td></tr>
+          <tr><td>Cheaper writer model in a blind A/B</td><td>4 wins, 1 loss, 1 tie</td><td><code>docs/<wbr>COST.md</code></td></tr>
+        </tbody>
+      </table>
     </figure>
-    <div class="honest">
-      <h3>What the numbers do not show yet</h3>
-      <p>The planner's 6-hour plan covered <b>0.41</b> of the marks on held-out papers, against <b>0.36</b> for picking ideas at random. With four folds that gap is not conclusive, and per-idea probabilities are no better than a flat base rate.</p>
-      <p>So the guides print likelihood as a band or "rough estimate", never as a precise chance, and the wording is enforced in the planner's output.</p>
-      <p>One course had no past papers at all. The pipeline runs it in a labelled weak-input mode instead of pretending.</p>
-    </div>
+    <figure class="fig">
+      <div class="fig-body">
+        <div id="costChart" class="bars" role="img" aria-label="Baseline 250 to 350 million tokens per course. After the refactor: image processing 91, distributed operating systems 171, artificial intelligence 178, data mining 221 million."></div>
+      </div>
+      <figcaption><b>Figure 5.</b> Input-side tokens per course, in millions, measured from agent transcripts. Hatched: the range before the cost refactor. An automatic layout check replaced about 2,000 page-image reads, and each writer got one capped context pack.</figcaption>
+    </figure>
   </div>
+  <aside class="remark">
+    <p><b>Remark</b> <i>(what the numbers do not show yet).</i> The planner's 6-hour plan covered 0.41 of the marks on held-out papers, against 0.36 for picking ideas at random. With four folds that gap is not conclusive, and per-idea probabilities are no better than a flat base rate. So the guides print likelihood as a band or a &ldquo;rough estimate&rdquo;, never as a precise chance, and tests enforce that wording. One course had no past papers at all; the pipeline runs it in a labelled weak-input mode instead of pretending.</p>
+  </aside>
 </section>
 
-<section class="block" id="engineering">
-  <p class="eyebrow">Engineering practice</p>
-  <h2>Built like software, not like a prompt.</h2>
-  <div class="grid3">
-    <article><h3>Test first, journaled</h3><p>Each of the 34 changes started with a failing test and is recorded with its scores in an append-only journal. Reverts are recorded too.</p></article>
-    <article><h3>Regression suite on synthetic fixtures</h3><p>28 test files (about 5,700 lines) cover 11,600 lines of tools. Every bug found on real data became a test.</p></article>
-    <article><h3>Resumable by design</h3><p>A ledger records each finished step, so a run that stops at a usage limit continues where it left off.</p></article>
-    <article><h3>Parallel agents that cannot collide</h3><p>Writers own named files and compile only their own pieces against one shared LaTeX style.</p></article>
-    <article><h3>Model tiering by evidence</h3><p>Cheap models run checks, mid-tier models write under gates, and the top model keeps the judgment calls.</p></article>
-    <article><h3>Local CI</h3><p>The whole gate runs on a laptop with one command. Hosted CI is manual and only smoke-tests a fresh clone.</p></article>
-  </div>
-  <div class="stack mono" aria-label="Technology used">
-    <span>Claude Code agents</span><span>Python 3.12</span><span>LaTeX · TikZ</span><span>PyMuPDF</span><span>Tesseract OCR</span><span>Monte-Carlo planner</span><span>Static web export</span>
-  </div>
+<section class="sec" id="practice">
+  <h2><span class="num">7</span>Built like software, not like a prompt.</h2>
+  <dl class="paras">
+    <div><dt>Test first, journaled.</dt><dd>Each of the 34 changes started with a failing test and is recorded with its scores in an append-only journal. Reverts are recorded too.</dd></div>
+    <div><dt>A regression suite on synthetic fixtures.</dt><dd>28 test files, about 5,700 lines, cover 11,600 lines of tools. Every bug found on real material became a test.</dd></div>
+    <div><dt>Resumable by design.</dt><dd>A ledger records each finished step, so a run that stops at a usage limit continues where it left off.</dd></div>
+    <div><dt>Parallel agents that cannot collide.</dt><dd>Writers own named files and compile only their own pieces against one shared LaTeX style.</dd></div>
+    <div><dt>Model tiers chosen by evidence.</dt><dd>Cheap models run checks, mid-tier models write under gates, and the top model keeps the judgment calls.</dd></div>
+    <div><dt>Local CI.</dt><dd>The whole gate runs on a laptop with one command. Hosted CI is manual and only smoke-tests a fresh clone.</dd></div>
+  </dl>
+  <p class="built"><b>Built with</b> Claude Code agents, Python 3.12, LaTeX and TikZ, PyMuPDF, Tesseract OCR, a Monte-Carlo coverage planner and a static web export.</p>
 </section>
 
-<section class="block block-tint" id="roadmap">
-  <p class="eyebrow">Future work</p>
-  <h2>What comes next.</h2>
-  <ol class="roadmap">
-    <li><span class="tag">Next</span><h3>Score the planner after each real exam</h3><p>Bank the new paper, run the post-exam scorer, and publish predicted against actual coverage per course. This is the data the planner needs to be calibrated.</p></li>
-    <li><span class="tag">Next</span><h3>A convention-consistency checker</h3><p>Most real review findings were one fact stated two ways. Decide conventions before writing and check every boxed answer against them automatically.</p></li>
-    <li><span class="tag">Next</span><h3>A fully public sample guide</h3><p>Run the pipeline on openly licensed course material so a complete guide, with its web edition, can be published without anyone's exam papers.</p></li>
-    <li><span class="tag tag-later">Later</span><h3>A planner that beats the base rate</h3><p>Pool evidence across courses with a hierarchical model and report calibration, not only coverage.</p></li>
-    <li><span class="tag tag-later">Later</span><h3>Cheaper orchestration</h3><p>The orchestrating session is now the largest cost line. Batch its turns and move phases into single commands.</p></li>
-    <li><span class="tag tag-later">Later</span><h3>Other universities and other agent runners</h3><p>The pipeline is plain files. Package the subject template and test it under a second coding agent.</p></li>
-    <li><span class="tag tag-later">Later</span><h3>Close the loop with readers</h3><p>An error-report form whose confirmed reports become regression tests, and spaced repetition in the web edition.</p></li>
+<section class="sec" id="future">
+  <h2><span class="num">8</span>Future work.</h2>
+  <ol class="refs">
+    <li class="next"><b>Score the planner after each real exam.</b> Bank the new paper, run the post-exam scorer, and publish predicted against actual coverage per course. This is the data the planner needs to be calibrated.</li>
+    <li class="next"><b>A convention-consistency checker.</b> Most real review findings were one fact stated two ways. Decide conventions before writing and check every boxed answer against them.</li>
+    <li class="next"><b>A fully public sample guide.</b> Run the pipeline on openly licensed course material, so a complete guide and its web edition can be published without anyone's exam papers.</li>
+    <li><b>A planner that beats the base rate.</b> Pool evidence across courses with a hierarchical model, and report calibration as well as coverage.</li>
+    <li><b>Cheaper orchestration.</b> The orchestrating session is now the largest cost line. Batch its turns and move whole phases into single commands.</li>
+    <li><b>Other universities, other agent runners.</b> The pipeline is plain files. Package the subject template and run it under a second coding agent.</li>
+    <li><b>Close the loop with readers.</b> An error-report form whose confirmed reports become regression tests, and spaced repetition in the web edition.</li>
   </ol>
+  <p class="refs-key"><span class="next-mark" aria-hidden="true"></span> marks what is next. The full list, with how each item will be judged done, is in <a href="https://github.com/NamanSingh69/exam-study-guide-pipeline/blob/main/docs/ROADMAP.md" target="_blank" rel="noopener">docs/ROADMAP.md</a>.</p>
 </section>
 
 </main>
 
-<footer class="foot">
-  <div>
-    <p><b>Exam Study-Guide Pipeline</b> · by Naman Singh · code under the MIT licence</p>
-    <p class="fine">Unofficial student project, not affiliated with or endorsed by any university or instructor. Course material and the generated guides are not distributed here. Figures on this page come from the project's own logs and tests as of November 2026.</p>
-  </div>
-  <a class="btn btn-ghost" href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">Repository</a>
+<footer class="colophon">
+  <p><b>Colophon.</b> Set in Latin Modern, the typeface of the guides themselves. One page, no trackers, and nothing loaded from another origin. Figures come from the project's own logs and tests as of November 2026.</p>
+  <p>Unofficial student project, not affiliated with or endorsed by any university or instructor. Course material and the generated guides are not distributed here. Code under the MIT licence. <a href="https://github.com/NamanSingh69/exam-study-guide-pipeline" target="_blank" rel="noopener">github.com/NamanSingh69/exam-study-guide-pipeline</a></p>
 </footer>
 
 <script src="app.js" defer></script>

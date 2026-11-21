@@ -18,24 +18,25 @@
     try { localStorage.setItem("theme", next); } catch (e) {}
   });
 
-  /* count-up numbers */
-  $$("[data-count]").forEach(function (dd) {
-    var target = +dd.getAttribute("data-count");
-    whenSeen(dd, function () {
+  /* Table 1: numbers count up once, and carry their column label for the narrow layout */
+  var heads = $$(".cover th").map(function (th) { return th.textContent; });
+  $$(".cover td").forEach(function (td, i) {
+    td.setAttribute("data-label", heads[i] || "");
+    var target = +td.getAttribute("data-count");
+    whenSeen(td, function () {
       if (calm) return;
-      var t0 = null, dur = 1100;
+      var t0 = null, dur = 900;
       var step = function (t) {
         if (t0 === null) t0 = t;
         var k = Math.min(1, (t - t0) / dur), eased = 1 - Math.pow(1 - k, 3);
-        dd.textContent = Math.round(target * eased).toLocaleString("en-US");
+        td.textContent = Math.round(target * eased).toLocaleString("en-US");
         if (k < 1) requestAnimationFrame(step);
       };
-      dd.textContent = "0";
       requestAnimationFrame(step);
     });
   });
 
-  /* rubric: single prompt vs gated pipeline */
+  /* Figure 1: single prompt vs gated pipeline */
   var RUBRIC = [["Fidelity", 0, 5], ["Correctness", 3, 4], ["Coverage", 1, 5], ["Usefulness", 1, 4], ["Visuals", 3, 4], ["Layout", 4, 4], ["Concision", 4, 4]];
   var rub = $("#rubric");
   RUBRIC.forEach(function (r) {
@@ -46,7 +47,7 @@
     whenSeen(rub, function () { a.style.width = (r[1] / 5 * 100) + "%"; b.style.width = (r[2] / 5 * 100) + "%"; });
   });
 
-  /* pipeline explorer */
+  /* Figure 2: pipeline explorer */
   var STAGES = [
     { n: "Ingest", tool: "tools/ingest.py", gate: true,
       what: "Slides, documents and scanned papers become a page-tagged text corpus with OCR, page images and extracted figures.",
@@ -57,7 +58,7 @@
       check: "Its output is not trusted. It only counts once the next stage passes.",
       proof: "132 papers and 2,310 question blocks across 11 courses." },
     { n: "Receipts and the verbatim gate", tool: "tools/receipts.py · tools/verify_pyqs.py", gate: true,
-      what: "Each banked question is aligned against its own paper and cropped from the page as a receipt that is printed under it in the guide.",
+      what: "Each banked question is aligned against its own paper and cropped from the page as a receipt, which is printed under it in the guide.",
       check: "Numbers and acronyms must match exactly, marks must add up, and the run stops unless it prints RESULT PASS.",
       proof: "The attack suite blocks 77 of 77 tampered banks." },
     { n: "Plan by expected marks", tool: "tools/score.py · tools/backtest.py", gate: false,
@@ -78,7 +79,7 @@
       proof: "Agents now look at about 9% of pages instead of reading every page image." },
     { n: "Metrics", tool: "tools/metrics.py", gate: true,
       what: "Objective counts for the finished guide: references, floats, chapters, receipts, check results, PDF freshness and leaked internal ids.",
-      check: "Ten hard gates must all be zero, and the PYQ gate must be 1, before a PDF is copied out.",
+      check: "Ten hard gates must all be zero, and the past-paper gate must have passed, before a PDF is copied out.",
       proof: "All 12 released guides: zero on every hard gate." },
     { n: "Independent review", tool: "prompts/06 · tools/plant_defects.py", gate: true,
       what: "Two fresh reviewer agents re-solve the numericals and grade correctness and teaching quality. A third answers a held-out paper from the guide alone.",
@@ -90,21 +91,23 @@
     var s = STAGES[i];
     $$("button", steps).forEach(function (b, k) { b.setAttribute("aria-selected", k === i ? "true" : "false"); b.tabIndex = k === i ? 0 : -1; if (k === i && focus) b.focus(); });
     panel.textContent = "";
-    var box = el("div", "fade");
-    box.appendChild(el("p", "eyebrow", "Stage " + (i + 1) + " of " + STAGES.length + (s.gate ? " · hard gate" : "")));
+    var box = el("div", "swap"), where = el("p", "where", "Stage " + (i + 1) + " of " + STAGES.length);
+    if (s.gate) { where.appendChild(document.createTextNode(" · ")); where.appendChild(el("em", "", "hard gate")); }
+    box.appendChild(where);
     box.appendChild(el("h3", "", s.n));
-    var tool = el("code", "tool", s.tool); box.appendChild(tool);
+    box.appendChild(el("code", "tool", s.tool));
     box.appendChild(el("p", "", s.what));
     var dl = el("dl");
-    var d1 = el("div", s.gate ? "gate-line" : ""); d1.appendChild(el("dt", "", s.gate ? "Gate" : "Control")); d1.appendChild(el("dd", "", s.check));
-    var d2 = el("div"); d2.appendChild(el("dt", "", "Evidence")); d2.appendChild(el("dd", "", s.proof));
-    dl.appendChild(d1); dl.appendChild(d2); box.appendChild(dl);
+    dl.appendChild(el("dt", s.gate ? "is-gate" : "", s.gate ? "Gate" : "Control")); dl.appendChild(el("dd", "", s.check));
+    dl.appendChild(el("dt", "", "Evidence")); dl.appendChild(el("dd", "", s.proof));
+    box.appendChild(dl);
     panel.appendChild(box);
   };
   STAGES.forEach(function (s, i) {
-    var b = el("button", s.gate ? "is-gate" : "", s.n);
+    var b = el("button");
     b.type = "button"; b.setAttribute("role", "tab");
-    if (s.gate) b.appendChild(el("span", "gate-tag", "GATE"));
+    b.appendChild(el("span", "", s.n));
+    if (s.gate) b.appendChild(el("span", "g", "gate"));
     b.addEventListener("click", function () { show(i); });
     b.addEventListener("keydown", function (e) {
       var d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0;
@@ -114,7 +117,7 @@
   });
   show(2);
 
-  /* verbatim gate demo (simplified port of tools/verify_pyqs.py; the question is made up) */
+  /* Figure 3: verbatim gate (simplified port of tools/verify_pyqs.py; the question is made up) */
   var SOURCE = "Q3 (a) A Go-Back-N sender uses 3-bit sequence numbers and a send window of 7 frames. The RTT is 40 ms. " +
                "Frames 0 to 6 are sent and the ACK for frame 2 is lost. Which frames does the sender retransmit after the timeout, and why? [5 marks]";
   var TAMPER = {
@@ -147,7 +150,7 @@
     while (j < m) out.push(["+", b[j++]]);
     return out;
   };
-  var input = $("#gateInput"), verdict = $("#gateVerdict"), diffBox = $("#gateDiff"), reasons = $("#gateReasons");
+  var input = $("#gateInput"), verdict = $("#gateVerdict"), diffBox = $("#gateDiff"), reasons = $("#gateReasons"), last = null;
   var nums = function (ws) { return ws.filter(function (w) { return /^\d+(\.\d+)?$/.test(w); }); };
   var acr = function (ws) { return ws.filter(function (w) { return /^[A-Z]{2,}$/.test(w); }); };
   var judge = function () {
@@ -165,8 +168,10 @@
       [marksOk, marksOk ? "Marks match and add up" : "Marks do not match the paper"]
     ];
     var pass = checks.every(function (c) { return c[0]; });
-    verdict.textContent = pass ? "RESULT PASS" : "RESULT BLOCK";
-    verdict.className = "verdict " + (pass ? "pass" : "blocked");
+    verdict.textContent = pass ? "Result pass" : "Result block";
+    verdict.className = "stamp" + (pass ? " pass" : "");
+    if (last !== null && last !== pass && !calm) { void verdict.offsetWidth; verdict.classList.add("hit"); }
+    last = pass;
     diffBox.textContent = "";
     d.forEach(function (x) {
       diffBox.appendChild(x[0] === " " ? document.createTextNode(x[1]) : el(x[0] === "-" ? "del" : "ins", "", x[1]));
@@ -185,43 +190,46 @@
   });
   judge();
 
-  /* planner demo (illustrative numbers): nested plans by marks per hour */
+  /* Figure 4: planner (illustrative numbers): one list in yield order, with a cut-off line that moves */
   var TOPICS = [["IPv4 fragmentation", 4, 0.5], ["Subnetting and CIDR", 7, 1], ["TCP congestion control", 6, 1], ["Sliding-window protocols", 8, 1.5],
     ["Error detection: CRC", 5, 1], ["Routing algorithms", 6, 1.5], ["DNS and HTTP", 4, 1], ["TCP connection management", 3, 1],
     ["Medium access: ALOHA, CSMA", 4, 1.5], ["Switching and delay", 2, 1], ["Line coding", 1, 1]];
-  var list = $("#planTopics"), hours = $("#hours");
-  var items = TOPICS.map(function (t) { var li = el("li", "", t[0]); li.appendChild(el("small", "", t[1] + "m · " + t[2] + "h")); list.appendChild(li); return li; });
+  var list = $("#planTopics"), hours = $("#hours"), cut = el("li", "cut");
+  var items = TOPICS.map(function (t) {
+    var li = el("li");
+    li.appendChild(el("span", "", t[0])); li.appendChild(el("span", "dots")); li.appendChild(el("span", "m", t[1] + (t[1] === 1 ? " mark" : " marks"))); li.appendChild(el("span", "h", t[2] + " h"));
+    list.appendChild(li); return li;
+  });
+  cut.setAttribute("aria-live", "polite");
   var plan = function () {
     var budget = +hours.value, used = 0, marks = 0, count = 0;
     TOPICS.forEach(function (t, i) {
-      var take = used + t[2] <= budget;
+      var take = count === i && used + t[2] <= budget;
       if (take) { used += t[2]; marks += t[1]; count++; }
       items[i].classList.toggle("in", take);
     });
     $("#hoursOut").textContent = budget;
-    $("#planMarks").textContent = marks;
-    $("#planCount").textContent = count;
-    $("#planBar").style.width = (marks / 50 * 100) + "%";
-    $("#planMeter").setAttribute("aria-label", marks + " of 50 expected marks covered with " + budget + " hours");
+    cut.textContent = budget + "-hour line: " + marks + " of 50 expected marks";
+    list.insertBefore(cut, items[count] || null);
   };
   hours.addEventListener("input", plan);
   plan();
 
-  /* cost chart */
-  var COST = [["Before (typical)", 250, 350, "250–350 M"], ["Data mining", 0, 221, "221 M"], ["AI", 0, 178, "178 M"], ["Distributed OS", 0, 171, "171 M"], ["Image processing", 0, 91, "91 M"]];
+  /* Figure 5: cost per course */
+  var COST = [["Before (typical)", 250, 350, "250–350"], ["Data mining", 0, 221, "221"], ["AI", 0, 178, "178"], ["Distributed OS", 0, 171, "171"], ["Image processing", 0, 91, "91"]];
   var chart = $("#costChart");
   COST.forEach(function (c) {
-    var row = el("div", "bar-row"), track = el("div", "bar-track"), solid = el("span", c[1] ? "base" : ""), label = el("em", "", c[3]);
-    track.appendChild(solid); track.appendChild(label);
+    var row = el("div", "bar-row"), track = el("div", "bar-track"), bar = el("span", c[1] ? "base" : ""), label = el("em", "", c[3]);
+    track.appendChild(bar); track.appendChild(label);
     row.appendChild(el("span", "", c[0])); row.appendChild(track); chart.appendChild(row);
     whenSeen(chart, function () {
-      solid.style.left = (c[1] / 400 * 100) + "%";
-      solid.style.width = ((c[2] - c[1]) / 400 * 100) + "%";
-      label.style.left = (c[2] / 400 * 100) + "%";
+      bar.style.left = (c[1] / 350 * 100) + "%";
+      bar.style.width = ((c[2] - c[1]) / 350 * 100) + "%";
+      label.style.left = (c[2] / 350 * 100) + "%";
     });
   });
 
-  /* gallery lightbox */
+  /* plates: lightbox */
   var lb = $("#lightbox"), lbImg = $("#lbImg");
   $$("#gallery button").forEach(function (b) {
     b.addEventListener("click", function () {
@@ -233,11 +241,9 @@
   });
   lb.addEventListener("click", function (e) { if (e.target === lb || e.target.closest(".lb-close")) lb.close(); });
 
-  /* reveal on scroll + active nav link */
-  if (!calm && "IntersectionObserver" in window) {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("seen"); io.unobserve(e.target); } }); }, { threshold: 0.08 });
-    $$(".block > *, .stats dl").forEach(function (n) { n.classList.add("reveal"); io.observe(n); });
-    var links = $$(".nav nav a"), spy = new IntersectionObserver(function (es) {
+  /* running head: mark the section being read */
+  if ("IntersectionObserver" in window) {
+    var links = $$(".runhead nav a"), spy = new IntersectionObserver(function (es) {
       es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (a) { a.classList.toggle("on", a.getAttribute("href") === "#" + e.target.id); }); });
     }, { rootMargin: "-40% 0px -55% 0px" });
     $$("main section[id]").forEach(function (s) { spy.observe(s); });
