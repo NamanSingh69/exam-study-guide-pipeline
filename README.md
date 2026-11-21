@@ -5,17 +5,24 @@ papers (PYQs) into an exam-ready study guide. It never invents a past-paper ques
 from the page image, verified by a gate against its own paper, and printed with a cropped image of the original
 ("receipt").
 
-**Results so far (one semester, 7 courses, end-semester scope):**
+<p align="center"><img src="site/og.png" width="720" alt="Study guides that are not allowed to make things up: 12 courses, 3,045 pages, 2,310 past-paper questions gated against their source"></p>
 
-| course | print guide | phone edition |
-|---|---|---|
-| Computer Networks | 282 pp | 519 pp |
-| Design & Analysis of Algorithms | 285 pp | 526 pp |
-| Computational Intelligence | 322 pp | 582 pp |
-| Engineering Economics | 199 pp | 358 pp |
-| High Performance Computing | 202 pp | 371 pp |
-| Software Engineering | 218 pp | 407 pp |
-| Speech & Video Processing | 171 pp | 324 pp |
+**Case study:** [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) · **Showcase site (interactive gate demo):**
+[`site/`](site/index.html) · **Future work:** [`docs/ROADMAP.md`](docs/ROADMAP.md)
+
+**Results (one semester, 12 courses, end-semester scope):**
+
+| | |
+|---|---|
+| Guides built | 12 courses, 3,045 pages (171 to 358 pages each) |
+| Past papers transcribed and gated | 132 papers, 2,310 questions, each printed with its receipt |
+| Executable answer checks | about 2,000, run on every full build |
+| Hard-gate defects in the released guides | 0 |
+| Verbatim gate against tampered banks | 77 of 77 blocked |
+| Reviewer rubric, single prompt vs this pipeline | 16/35 to 30/35 on the same test bed |
+| Token cost per course | about 250–350 M before the cost refactor, 91–221 M after |
+
+Per-course numbers and what did not work are in the case study.
 
 Each guide holds: unit notes with step-by-step storyboard figures, every in-window past paper solved (each
 question idea solved once, then cross-linked), important questions ranked by a backtested coverage planner
@@ -31,7 +38,7 @@ flashcards and a static web edition with a self-test mode.
 
 **Engineering notes:**
 - **Hard gates:** a stage counts as done only when its gate passes; `metrics.py` blocks a release on any of
-  11 defects.
+  10 hard-gate defects, and the PYQ gate must have passed.
 - **AIDE² change journal** (`docs/aide2_tree.jsonl`): every change starts with a failing test; reverts are
   recorded too.
 - **Cost:** measured from transcripts. An automatic layout check (`layout_check.py`) replaced reading page
@@ -128,6 +135,10 @@ _pipeline/
   tools/web.py, tools/flashcards.py
   latex/studyguide.sty, latex/visual_cookbook.tex
   tests/run_all.py     every regression test
+  tests/test_site.py   pre-deploy gate of the showcase site (links, CSP, leaks, size, request projection)
+  site/                static showcase: case study, live gate demo, sample pages (no build step, no functions)
+  docs/CASE_STUDY.md   the project as a case study: problem, design, results, what failed
+  docs/ROADMAP.md      future work, each item with its evidence of success
 ```
 
 ## Commands (from the `Study Prep` folder, Windows `py`)

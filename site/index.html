@@ -66,7 +66,7 @@
     <div><dt>past papers transcribed</dt><dd data-count="132">132</dd></div>
     <div><dt>questions gated against their paper</dt><dd data-count="2310">2,310</dd></div>
     <div><dt>answer checks run per build</dt><dd data-count="2039">2,039</dd></div>
-    <div><dt>journaled changes, test first</dt><dd data-count="33">33</dd></div>
+    <div><dt>journaled changes, test first</dt><dd data-count="34">34</dd></div>
   </dl>
 </section>
 
@@ -233,8 +233,8 @@
   <p class="eyebrow">Engineering practice</p>
   <h2>Built like software, not like a prompt.</h2>
   <div class="grid3">
-    <article><h3>Test first, journaled</h3><p>Each of the 33 changes started with a failing test and is recorded with its scores in an append-only journal. Reverts are recorded too.</p></article>
-    <article><h3>Regression suite on synthetic fixtures</h3><p>32 test files (about 6,000 lines) cover 11,600 lines of tools. Every bug found on real data became a test.</p></article>
+    <article><h3>Test first, journaled</h3><p>Each of the 34 changes started with a failing test and is recorded with its scores in an append-only journal. Reverts are recorded too.</p></article>
+    <article><h3>Regression suite on synthetic fixtures</h3><p>28 test files (about 5,700 lines) cover 11,600 lines of tools. Every bug found on real data became a test.</p></article>
     <article><h3>Resumable by design</h3><p>A ledger records each finished step, so a run that stops at a usage limit continues where it left off.</p></article>
     <article><h3>Parallel agents that cannot collide</h3><p>Writers own named files and compile only their own pieces against one shared LaTeX style.</p></article>
     <article><h3>Model tiering by evidence</h3><p>Cheap models run checks, mid-tier models write under gates, and the top model keeps the judgment calls.</p></article>
