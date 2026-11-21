@@ -89,7 +89,7 @@
         <div class="totals"><span><b>16</b><small>/35</small><i>single prompt</i></span><span class="to" aria-hidden="true">→</span><span class="new"><b>30</b><small>/35</small><i>gated pipeline</i></span></div>
         <div id="rubric" class="rubric" role="img" aria-label="Scores per dimension. Fidelity 0 to 5, correctness 3 to 4, coverage 1 to 5, usefulness 1 to 4, visuals 3 to 4, layout 4 to 4, concision 4 to 4."></div>
       </div>
-      <figcaption><b>Figure 1.</b> Scores from a reviewer agent that wrote neither version, on the same test bed. Seven dimensions, 0 to 5 each. Grey: single prompt. Ink: this pipeline.</figcaption>
+      <figcaption><b>Figure 1.</b> Scores from fresh reviewer agents that wrote neither version, on the same Computer Networks mid-semester test bed. Seven dimensions, 0 to 5 each; scores vary by about 2 points between reviewers. Grey: single prompt. Ink: this pipeline.</figcaption>
     </figure>
   </div>
 </section>
@@ -117,7 +117,7 @@
       </div>
       <div class="transcript">
         <h3><label for="gateInput">The transcription</label> <span>editable</span></h3>
-        <textarea id="gateInput" rows="6" spellcheck="false"></textarea>
+        <textarea id="gateInput" rows="6" maxlength="2000" spellcheck="false"></textarea>
         <p class="tamper">Tamper:
           <button type="button" data-tamper="number">change a number</button>
           <button type="button" data-tamper="paraphrase">paraphrase it</button>
@@ -159,7 +159,7 @@
 
 <section class="sec" id="output">
   <h2><span class="num">5</span>Inside a guide.</h2>
-  <p class="intro">Pages from the Computer Networks guide, 281 pages. Select one to read it. These are notes and planner pages; no exam paper is reproduced here.</p>
+  <p class="intro">Pages from the Computer Networks guide, 281 pages. Select one to read it. These are notes and planner pages; no exam paper is reproduced here, though Plate 6 works an example on a past question's numbers.</p>
   <div class="plates" id="gallery">
     <button type="button" data-page="radar" data-w="993" data-h="1404"><img src="img/thumb-radar.webp" alt="Exam radar page: a heat table of topics against past papers with expected marks" width="496" height="702" loading="lazy"><span><b>Plate 1.</b> Exam radar: marks per topic across the papers in the window.</span></button>
     <button type="button" data-page="plans" data-w="993" data-h="1404"><img src="img/thumb-plans.webp" alt="Study plans page listing topics for 3, 6 and 12 hours" width="496" height="702" loading="lazy"><span><b>Plate 2.</b> Nested 3, 6 and 12-hour plans in syllabus order.</span></button>
@@ -180,9 +180,9 @@
   <h2><span class="num">6</span>Measured, including the parts that did not work.</h2>
   <div class="keyfigs">
     <p><b>77<small>/77</small></b>tampered banks blocked by the verbatim gate</p>
-    <p><b>94.5<small>%</small></b>of a held-out paper answerable from the guide alone</p>
+    <p><b>94.5<small>%</small></b>of a held-out paper answerable from the guide alone (trial run)</p>
     <p><b>0</b>hard-gate defects across the 12 released guides</p>
-    <p><b>3&ndash;5<small>/5</small></b>planted defects caught by each reviewer</p>
+    <p><b>3&ndash;5<small>/5</small></b>planted defects caught by each reviewer (trial runs)</p>
   </div>
   <div class="cols cols-top">
     <figure class="fig">
@@ -191,10 +191,10 @@
         <thead><tr><th scope="col">Measure</th><th scope="col">Result</th><th scope="col">Source</th></tr></thead>
         <tbody>
           <tr><td>Reviewer rubric, same test bed</td><td>16 → 30 of 35</td><td><code>AUTORESEARCH_<wbr>LOG.md</code></td></tr>
-          <tr><td>Old gate against the attack suite</td><td>failed 39 of 43</td><td><code>tests/<wbr>test_<wbr>verify.py</code></td></tr>
-          <tr><td>Held-out paper, parts answered in full</td><td>13 of 14</td><td><code>prompts/<wbr>08_<wbr>answerability.md</code></td></tr>
-          <tr><td>Slide decks recovered by the ingest gate</td><td>8 → 16 of 16</td><td><code>tests/<wbr>test_<wbr>ingest.py</code></td></tr>
-          <tr><td>Pages an agent still has to look at</td><td>about 9%</td><td><code>tools/<wbr>layout_<wbr>check.py</code></td></tr>
+          <tr><td>Old gate against the attack suite</td><td>failed 39 of 43</td><td><code>AUTORESEARCH_<wbr>LOG.md</code>, round 4</td></tr>
+          <tr><td>Held-out paper, parts answered in full (trial)</td><td>13 of 14</td><td><code>AUTORESEARCH_<wbr>LOG.md</code>, round 4</td></tr>
+          <tr><td>Slide decks recovered by the ingest gate</td><td>8 → 16 of 16</td><td><code>AUTORESEARCH_<wbr>LOG.md</code>, round 4</td></tr>
+          <tr><td>Pages the layout check flags for a look</td><td>430 of 4,766 (9%)</td><td><code>docs/<wbr>COST.md</code></td></tr>
           <tr><td>Cheaper writer model in a blind A/B</td><td>4 wins, 1 loss, 1 tie</td><td><code>docs/<wbr>COST.md</code></td></tr>
         </tbody>
       </table>
@@ -203,19 +203,19 @@
       <div class="fig-body">
         <div id="costChart" class="bars" role="img" aria-label="Baseline 250 to 350 million tokens per course. After the refactor: image processing 91, distributed operating systems 171, artificial intelligence 178, data mining 221 million."></div>
       </div>
-      <figcaption><b>Figure 5.</b> Input-side tokens per course, in millions, measured from agent transcripts. Hatched: the range before the cost refactor. An automatic layout check replaced about 2,000 page-image reads, and each writer got one capped context pack.</figcaption>
+      <figcaption><b>Figure 5.</b> Input-side tokens per course, in millions, measured from the course agents' transcripts (the orchestrating session, shared across courses, is not included). Hatched: the range before the cost refactor. An automatic layout check replaced about 2,000 page-image reads, and each writer got one capped context pack.</figcaption>
     </figure>
   </div>
   <aside class="remark">
-    <p><b>Remark</b> <i>(what the numbers do not show yet).</i> The planner's 6-hour plan covered 0.41 of the marks on held-out papers, against 0.36 for picking ideas at random. With four folds that gap is not conclusive, and per-idea probabilities are no better than a flat base rate. So the guides print likelihood as a band or a &ldquo;rough estimate&rdquo;, never as a precise chance, and tests enforce that wording. One course had no past papers at all; the pipeline runs it in a labelled weak-input mode instead of pretending.</p>
+    <p><b>Remark</b> <i>(what the numbers do not show yet).</i> The planner's 6-hour plan covered 0.41 of the marks on held-out papers, against 0.36 for picking ideas at random. With four folds that gap is not conclusive, and per-idea probabilities are no better than a flat base rate. So the study plans rank ideas by the marks they cover, the guides show likelihood only as a band when a course has fewer than four papers, and the percentages they print otherwise should be read as rough. One course had no past papers at all; the pipeline runs it in a labelled weak-input mode instead of pretending.</p>
   </aside>
 </section>
 
 <section class="sec" id="practice">
   <h2><span class="num">7</span>Built like software, not like a prompt.</h2>
   <dl class="paras">
-    <div><dt>Test first, journaled.</dt><dd>Each of the 34 changes started with a failing test and is recorded with its scores in an append-only journal. Reverts are recorded too.</dd></div>
-    <div><dt>A regression suite on synthetic fixtures.</dt><dd>28 test files, about 5,700 lines, cover 11,600 lines of tools. Every bug found on real material became a test.</dd></div>
+    <div><dt>Test first, journaled.</dt><dd>Each of the 34 changes started from a failing test or check and is recorded with its scores in an append-only journal; a revert would be recorded the same way, and none has been needed yet.</dd></div>
+    <div><dt>A regression suite on synthetic fixtures.</dt><dd>28 test files, about 5,700 lines, alongside 11,600 lines of tools. Every bug found on real material became a test.</dd></div>
     <div><dt>Resumable by design.</dt><dd>A ledger records each finished step, so a run that stops at a usage limit continues where it left off.</dd></div>
     <div><dt>Parallel agents that cannot collide.</dt><dd>Writers own named files and compile only their own pieces against one shared LaTeX style.</dd></div>
     <div><dt>Model tiers chosen by evidence.</dt><dd>Cheap models run checks, mid-tier models write under gates, and the top model keeps the judgment calls.</dd></div>

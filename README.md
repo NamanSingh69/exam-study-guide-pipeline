@@ -19,8 +19,8 @@ from the page image, verified by a gate against its own paper, and printed with 
 | Executable answer checks | about 2,000, run on every full build |
 | Hard-gate defects in the released guides | 0 |
 | Verbatim gate against tampered banks | 77 of 77 blocked |
-| Reviewer rubric, single prompt vs this pipeline | 16/35 to 30/35 on the same test bed |
-| Token cost per course | about 250–350 M before the cost refactor, 91–221 M after |
+| Reviewer rubric, single prompt vs this pipeline | 16/35 to 30/35 on the same trial test bed |
+| Token cost per course | about 250–350 M before the cost refactor, 91–221 M after (agents only; see the case study) |
 
 Per-course numbers and what did not work are in the case study.
 
@@ -40,8 +40,8 @@ flashcards and a static web edition with a self-test mode.
 **Engineering notes:**
 - **Hard gates:** a stage counts as done only when its gate passes; `metrics.py` blocks a release on any of
   10 hard-gate defects, and the PYQ gate must have passed.
-- **AIDE² change journal** (`docs/aide2_tree.jsonl`): every change starts with a failing test; reverts are
-  recorded too.
+- **AIDE² change journal** (`docs/aide2_tree.jsonl`): every change starts from a failing test or check; a
+  revert would be recorded the same way (none so far).
 - **Cost:** measured from transcripts. An automatic layout check (`layout_check.py`) replaced reading page
   images, and each writer gets one context pack.
 

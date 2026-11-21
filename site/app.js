@@ -84,7 +84,7 @@
     { n: "Independent review", tool: "prompts/06 · tools/plant_defects.py", gate: true,
       what: "Two fresh reviewer agents re-solve the numericals and grade correctness and teaching quality. A third answers a held-out paper from the guide alone.",
       check: "Each reviewer gets a copy with five planted defects, so recall is measured. At most two fix rounds.",
-      proof: "Reviewers caught 3 to 5 of 5 planted defects; 94.5% answerability on a held-out paper." }
+      proof: "In the trial reviews, reviewers caught 3 to 5 of 5 planted defects, and 94.5% of a held-out Computer Networks paper was answerable from the guide." }
   ];
   var steps = $("#flowSteps"), panel = $("#flowPanel");
   var show = function (i, focus) {
@@ -127,7 +127,7 @@
     ocr: function (t) { return t.replace("Frames 0 to 6", "Frarnes 0 to 6").replace("Go-Back-N", "Go‐Back‐N"); },
     reset: function () { return SOURCE; }
   };
-  var fold = function (w) { return w.toLowerCase().replace(/[‐-―]/g, "-").replace(/[‘’]/g, "'").replace(/rn/g, "m"); };
+  var fold = function (w) { return w.toLowerCase().replace(/[‐-―]/g, "-").replace(/[‘’]/g, "'").replace(/rn/g, "m").replace(/^marks$/, "mark"); };
   var words = function (t) { return (t.match(/[A-Za-z0-9][A-Za-z0-9.\-‐-―']*[A-Za-z0-9]|[A-Za-z0-9]/g) || []); };
   var bag = function (list) { var m = {}; list.forEach(function (x) { m[x] = (m[x] || 0) + 1; }); return m; };
   var bagDiff = function (a, b) {
@@ -158,14 +158,15 @@
     var gone = d.filter(function (x) { return x[0] === "-"; }).length, added = d.filter(function (x) { return x[0] === "+"; }).length;
     var folded = d.filter(function (x) { return x[0] === " " && x[2]; }).length;
     var nd = bagDiff(nums(a), nums(b)), ad = bagDiff(acr(a), acr(b));
-    var marks = function (t) { return (t.match(/\[(\d+)\s*marks?\]/gi) || []).join(" "); };
+    // "[5 Marks]", "[5  marks]" and "[5 mark]" are the same mark: compare the numbers, in order.
+    var marks = function (t) { return (t.match(/\[\s*\d+\s*marks?\s*\]/gi) || []).map(function (m) { return m.replace(/\D/g, ""); }).join(" "); };
     var marksOk = marks(SOURCE) === marks(input.value);
     var checks = [
       [nd.length === 0, nd.length ? "Numbers differ from the paper: " + nd.join(", ") : "Every number matches the paper exactly"],
       [ad.length === 0, ad.length ? "Acronyms differ: " + ad.join(", ") : "Every acronym matches"],
       [gone === 0, gone ? gone + " word" + (gone > 1 ? "s" : "") + " on the paper " + (gone > 1 ? "are" : "is") + " missing from the transcription" : "No word of the paper is missing"],
       [added === 0, added ? added + " word" + (added > 1 ? "s" : "") + " in the transcription " + (added > 1 ? "are" : "is") + " not on the paper" : "Nothing was added"],
-      [marksOk, marksOk ? "Marks match and add up" : "Marks do not match the paper"]
+      [marksOk, marksOk ? "Marks match the paper" : "Marks do not match the paper"]
     ];
     var pass = checks.every(function (c) { return c[0]; });
     verdict.textContent = pass ? "Result pass" : "Result block";
@@ -179,12 +180,13 @@
     });
     reasons.textContent = "";
     checks.forEach(function (c) { reasons.appendChild(el("li", c[0] ? "ok" : "no", c[1])); });
-    if (folded) reasons.appendChild(el("li", "ok", folded + " OCR look-alike" + (folded > 1 ? "s" : "") + " folded (rn read as m, hyphen variants, letter case): still the same words"));
+    if (folded) reasons.appendChild(el("li", "ok", folded + " OCR look-alike" + (folded > 1 ? "s" : "") + " folded (rn read as m, hyphen variants, letter case, mark/marks): still the same words"));
     if (!pass) reasons.appendChild(el("li", "no", "Stopped here. Nothing is written from this bank until it passes."));
   };
   $("#gateSource").textContent = SOURCE;
   input.value = SOURCE;
-  input.addEventListener("input", judge);
+  var pending = 0;                       // judge at most once per 120 ms of typing; the diff is quadratic in words
+  input.addEventListener("input", function () { clearTimeout(pending); pending = setTimeout(judge, 120); });
   $$("[data-tamper]").forEach(function (b) {
     b.addEventListener("click", function () { input.value = TAMPER[b.getAttribute("data-tamper")](input.value); judge(); });
   });

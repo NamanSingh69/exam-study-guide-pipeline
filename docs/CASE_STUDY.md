@@ -53,13 +53,13 @@ Design decisions that mattered:
 
 | measure | result | source |
 |---|---|---|
-| Reviewer rubric, same test bed | 16/35 (single prompt) to 30/35 (pipeline, round 1) | `AUTORESEARCH_LOG.md` |
-| Verbatim gate against tampered banks | 77 of 77 blocked; the gate it replaced failed 39 of the first 43 attack tests | `tests/test_verify.py` |
-| Answerability on a held-out paper | 94.5%: 13 of 14 parts in full | `prompts/08_answerability.md` |
-| Reviewer recall on planted defects | 3 to 5 of 5 | `tools/plant_defects.py` |
+| Reviewer rubric, same test bed (Computer Networks mid-semester trial; fresh reviewers vary by about ±2) | 16/35 (single prompt) to 30/35 (pipeline, round 1) | `AUTORESEARCH_LOG.md` |
+| Verbatim gate against tampered banks | 77 of 77 blocked; the gate it replaced failed 39 of the first 43 attack tests | `AUTORESEARCH_LOG.md`, round 4 (suite: `tests/test_verify.py`) |
+| Answerability on a held-out paper (trial) | 94.5%: 13 of 14 parts in full | `AUTORESEARCH_LOG.md`, round 4 |
+| Reviewer recall on planted defects (trial reviews) | 3 to 5 of 5 | `AUTORESEARCH_LOG.md`, round 4 |
 | Hard-gate defects in the 12 released guides | 0 | `tools/metrics.py` |
-| Ingest health gate | one course had silently lost 8 of 16 slide decks; now 16 of 16 | `tests/test_ingest.py` |
-| Token cost per course | about 250–350 M input-side tokens before, 91–221 M after | `docs/COST.md` |
+| Ingest health gate | one course had silently lost 8 of 16 slide decks; now 16 of 16 | `AUTORESEARCH_LOG.md`, round 4 |
+| Token cost per course | about 250–350 M input-side tokens before, 91–221 M after; the after figures leave out the orchestrating session, which was shared across courses, so the like-for-like cut is smaller | `docs/COST.md` |
 | Writer model tier | a blind A/B preferred the cheaper model 4–1 with 1 tie, so writers moved down a tier | `docs/COST.md` |
 
 Per course (end-semester guides):
@@ -83,8 +83,9 @@ Per course (end-semester guides):
 
 - **The probability model.** The planner's 6-hour plan covered 0.41 of the marks on held-out papers, against
   0.36 for random ideas and 0.36 for lecture time alone. With four folds this is not conclusive, and per-idea
-  Brier scores are no better than a flat base rate. The guides therefore print likelihood as a band or a "rough
-  estimate", and that wording is enforced by tests.
+  Brier scores are no better than a flat base rate. The study plans therefore rank ideas by covered
+  marks; the guides show likelihood as a band only when a course has fewer than four papers, and print a
+  percentage otherwise, which should be read as rough. Next step: the same band wording everywhere (roadmap).
 - **Unit tests on fixtures.** Every first run on real material found bugs the fixtures had missed: OCR'd
   superscripts, sub-part letters past (h), either-or pairs, two-page booklet spreads. Each became a regression
   test.
