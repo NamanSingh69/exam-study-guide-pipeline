@@ -7,8 +7,8 @@ from the page image, verified by a gate against its own paper, and printed with 
 
 <p align="center"><img src="site/og.png" width="720" alt="Study guides that are not allowed to make things up: 12 courses, 3,045 pages, 2,310 past-paper questions gated against their source"></p>
 
-**Case study:** [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) · **Showcase site (interactive gate demo):**
-[`site/`](site/index.html) · **Future work:** [`docs/ROADMAP.md`](docs/ROADMAP.md)
+**Case study:** [`docs/CASE_STUDY.md`](docs/CASE_STUDY.md) · **Live showcase (interactive gate demo):**
+[study-guide-pipeline.vercel.app](https://study-guide-pipeline.vercel.app) · **Future work:** [`docs/ROADMAP.md`](docs/ROADMAP.md)
 
 **Results (one semester, 12 courses, end-semester scope):**
 

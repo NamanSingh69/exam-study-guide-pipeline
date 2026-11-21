@@ -1,7 +1,8 @@
 # Deploying the showcase site (`site/`)
 
 The site is static: no build step, no functions, no third-party requests. Any static host works.
-It has not been deployed yet; a deploy publishes it, so it waits for the owner's yes.
+Live at https://study-guide-pipeline.vercel.app (Vercel project `study-guide-pipeline`, first deployed 2026-11-21).
+The project is not linked to Git: nothing deploys on push. Each deploy is a manual CLI run, after the owner's yes.
 
 ## Before every deploy
 ```
@@ -11,7 +12,21 @@ The gate checks links, the self-only CSP and security headers in `site/vercel.js
 scan of every served file, and prints the request count of one cold page view (currently 20 requests, 447 kB;
 at the Hobby cap of 1,000,000 edge requests a month that is about 50,000 cold page views).
 
-## Vercel (project root = `site/`)
+## Redeploy (manual)
+```
+py tests/test_site.py                                   # RESULT PASS first
+cp -r site <temp>/study-guide-pipeline && cd <temp>/study-guide-pipeline
+vercel link --yes --project study-guide-pipeline
+vercel deploy --prod
+```
+Deploy from a copy so the CLI's `.vercel/` folder never lands in `site/`.
+
+Current protection (set 2026-11-21, read back from the firewall API): a 300 requests/minute per-IP rate-limit
+rule, bot protection in challenge mode, Vercel Authentication on every non-production URL. Command-line clients
+such as `curl` get a 429 challenge; browsers load normally. If a link preview fails on some platform, that
+platform's fetcher is being challenged: check the firewall log before loosening anything.
+
+## First-time setup on Vercel (project root = `site/`)
 1. Import the GitHub repository, set **Root Directory** to `site`, framework preset **Other**, no build command.
 2. Firewall, before the first production deploy: one per-IP rate-limit rule, bot protection on, a saved
    deny-all rule kept ready as the kill switch.
