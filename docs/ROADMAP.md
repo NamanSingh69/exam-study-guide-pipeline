@@ -20,6 +20,9 @@ of success, so it can be closed by a test or a number instead of an opinion.
    `score.py` should emit the tier skeleton and writers should own one file per idea, so a re-plan never needs
    a manual regroup.
    *Done when:* moving an idea between tiers changes no hand-written file.
+5a. **One likelihood wording everywhere.** The guides print a band only for courses with fewer than four
+   papers and a percentage otherwise; the planner does not beat the base rate (see the case study), so print a
+   band for every course. *Done when:* a lint rule finds no printed per-idea percentage in any guide.
 
 ## Later
 
