@@ -45,6 +45,44 @@ flashcards and a static web edition with a self-test mode.
 - **Cost:** measured from transcripts. An automatic layout check (`layout_check.py`) replaced reading page
   images, and each writer gets one context pack.
 
+## Run it on your own course
+
+Read this before you start: the pipeline is a developer tool, not an app. It runs inside Claude Code on your own
+machine and spends a lot of model usage.
+
+**What you need**
+
+| | |
+|---|---|
+| Material | For one course: the syllabus, the instructor's notes (PDF, PPTX or DOCX) and scanned past papers. Three or more papers give a useful ranking; with none, the guide is built in weak-input mode with no past-paper chapters. |
+| Machine | Windows with Python 3.12 (`py`), MiKTeX, poppler and Tesseract (exact packages under Requirements at the end). Linux runs only the TeX-free tools and tests today. |
+| Model access | Claude Code on a paid plan with subagents. The gates are plain Python and need no model. |
+| Skills | Comfortable in a terminal, and able to read a LaTeX error when a build fails. |
+
+**What it costs** (measured, [`docs/COST.md`](docs/COST.md))
+
+- One course at end-semester scope took **91–221 million input-side tokens** across about 6 to 11 agents after
+  the cost work (250–350 million before it). That is several usage windows on a subscription plan, so expect
+  the run to stop at a usage limit and resume later. The ledger (`tools/state.py`) picks up at the exact step.
+- Your own time: collecting and naming the inputs, and reading the review at the end. The gates catch invented
+  questions and wrong arithmetic; they do not replace reading the guide before you share it.
+
+**Steps**
+
+1. Put this repository in a working folder as `_pipeline/`, and copy `agents/*.md` into the folder's
+   `.claude/agents/`.
+2. Next to it, make one folder per course (a short code such as `CN`) holding `Syllabus/`, `Notes/`,
+   `Midsem PYQs/` and `Endsem PYQs/`.
+3. Check the toolchain first: `py _pipeline/tests/run_all.py` must end in `ALL PASS`.
+4. Open Claude Code in the working folder and say: *"Read `_pipeline/RUNBOOK.md`, then generate the endsem
+   notes for CN."* The runbook is the whole procedure, one gate at a time.
+5. Start with **one** course and compare a few past-paper questions in the PDF against their receipts before
+   you trust the rest.
+
+Past papers and notes belong to the people who wrote them. Share what you generate only where that is allowed,
+and keep the "unofficial" notice on it. If something breaks or a gate is wrong, open an
+[issue](https://github.com/NamanSingh69/exam-study-guide-pipeline/issues).
+
 ## Outputs
 
 The pipeline turns a subject folder (`Syllabus/`, `Notes/`, `Midsem PYQs/`, `Endsem PYQs/`) into these
